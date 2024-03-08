@@ -1,0 +1,34 @@
+{
+    "expo": {
+      "name": "jsonfrontend",
+      "slug": "jsonfrontend",
+      "version": "1.0.0",
+      "orientation": "default",
+      "icon": "./assets/coffee.png",
+      "userInterfaceStyle": "light",
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff"
+      },
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "supportsTablet": true
+      },
+      "android": {
+        "adaptiveIcon": {
+          "foregroundImage": "./assets/adaptive-icon.png",
+          "backgroundColor": "#ffffff"
+        }
+      },
+      "web": {
+        "favicon": "./assets/kape-icon.png"
+      },
+      "plugins": [
+        "expo-build-properties"
+      ]
+    }
+  }
+  

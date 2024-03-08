@@ -1,0 +1,7 @@
+interface PreventScrollOptions {
+    /** Whether the scroll lock is disabled. */
+    isDisabled?: boolean;
+}
+export declare const usePreventScroll: (_options?: PreventScrollOptions) => void;
+export {};
+//# sourceMappingURL=usePreventScroll.d.ts.map

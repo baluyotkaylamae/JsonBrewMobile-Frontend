@@ -1,0 +1,11 @@
+import { RefObject } from 'react';
+export declare const onCloseMap: WeakMap<HTMLElement, () => void>;
+interface CloseOnScrollOptions {
+    triggerRef: RefObject<HTMLElement>;
+    isOpen?: boolean;
+    onClose?: () => void;
+}
+/** @private */
+export declare function useCloseOnScroll(opts: CloseOnScrollOptions): void;
+export {};
+//# sourceMappingURL=useCloseOnScroll.d.ts.map
