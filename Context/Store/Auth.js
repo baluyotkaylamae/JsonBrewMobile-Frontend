@@ -17,15 +17,15 @@ const Auth = props => {
 
     useEffect(() => {
         setShowChild(true);
-        if (AsyncStorage.jwt) {
-            const decoded = AsyncStorage.jwt ? AsyncStorage.jwt : "";
-            if (setShowChild) {
-                dispatch(setCurrentUser(jwtDecode(decoded)))
+        const loadUser = async () => {
+            const token = await AsyncStorage.getItem('jwt');
+            if (token) {
+                const decoded = jwtDecode(token);
+                dispatch(setCurrentUser(decoded));
             }
-        }
-        return () => setShowChild(false);
-    }, [])
-
+        };
+        loadUser();
+    }, []);
 
     if (!showChild) {
         return null;
