@@ -5,7 +5,7 @@ const LandingPage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to JsonBrew cafe</Text>
-      <Text style={styles.subtitle}>Taste the heaven in our cafe..eme</Text>
+      <Text style={styles.subtitle}>Taste the heaven in our cafe.</Text>
      
     </View>
   );

@@ -20,6 +20,18 @@ var { width } = Dimensions.get("window")
 const SearchedProduct = (props) => {
     const { productsFiltered } = props;
     const navigation = useNavigation()
+
+     // Check if productsFiltered is undefined before accessing its length
+     if (!productsFiltered) {
+        return (
+            <View style={styles.center}>
+                <Text style={{ alignSelf: 'center' }}>
+                    Loading...
+                </Text>
+            </View>
+        );
+    }
+    
     return (
 
         <Container style={{ width: width }}>
@@ -85,7 +97,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "flex-start",
         flexWrap: "wrap",
-        backgroundColor: "gainsboro",
+        // backgroundColor: "gainsboro",
+        backgroundColor: "white",
     },
 })
 

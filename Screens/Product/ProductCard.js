@@ -35,9 +35,17 @@ const ProductCard = (props) => {
                 </TouchableOpacity>
             </View>
             <Text style={styles.title}>{name.length > 15 ? name.substring(0, 15 - 3) + '...' : name}</Text>
-            <Text style={styles.price}>₱{price}</Text>
             <Text style={styles.description}>{description}</Text>
             <Text style={styles.rating}>Rating: {productRating}</Text>
+            <Text style={styles.price}>₱{price}</Text>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={() => console.log("Add to Cart pressed")}>
+                    <Text style={styles.buttonText}>Add to Cart</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={() => console.log("Order Now pressed")}>
+                    <Text style={styles.buttonText}>Order Now</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -46,11 +54,11 @@ const styles = StyleSheet.create({
     container: {
         width: width / 2 - 20,
         borderRadius: 10,
-        marginTop: 20,
+        marginTop: 15,
         marginLeft: 10,
         alignItems: 'center',
-        backgroundColor: '#FFF8E1',
-        shadowColor: '#000',
+        backgroundColor: '#fff',
+        shadowColor: '#fff',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -73,8 +81,8 @@ const styles = StyleSheet.create({
     },
     heartIcon: {
         position: 'absolute',
-        top: 5,
-        right: 5,
+        top: 7,
+        right: 7,
         zIndex: 1,
     },
     title: {
@@ -82,21 +90,23 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'left',
         marginBottom: 5,
-        marginLeft: 5,
-        color: '#4E342E',
+        marginLeft: -80,
+        color: '#B99960',
     },
     price: {
         fontSize: 18,
         color: '#BF360C',
         textAlign: 'right',
-        marginRight: 5,
+        // marginRight: 5,
+        marginLeft: -60,
         marginBottom: 5,
     },
     description: {
         fontSize: 14,
         textAlign: 'left',
-        marginHorizontal: 5,
+        // marginHorizontal: 5,
         marginBottom: 5,
+        marginLeft: -60,
         color: '#616161',
     },
     rating: {
@@ -104,7 +114,30 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginHorizontal: 5,
         marginBottom: 10,
+        marginLeft: -60,
         color: '#616161',
+    },
+    buttonContainer: {
+        // flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginTop: 0,
+    },
+    button: {
+        borderRadius: 30,
+        paddingVertical: 5,
+        paddingHorizontal: 3,
+        backgroundColor: '#664229',
+        marginBottom: 5,
+        minWidth: 100,
+    },
+    orderButton: {
+        backgroundColor: '#B99960',
+    },
+    buttonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
 });
 

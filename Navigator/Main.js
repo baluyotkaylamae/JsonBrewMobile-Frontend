@@ -15,24 +15,24 @@ const Main = () => {
     const context = useContext(AuthGlobal)
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="HomeNav"
             screenOptions={{
                 tabBarHideOnKeyboard: true,
-                tabBarShowLabel: false,
-                tabBarActiveTintColor: '#e91e63'
+                tabBarShowLabel: true,
+                tabBarActiveTintColor: '#B99960'
             }}
         >
             <Tab.Screen
                 name="Home"
                 component={HomeNavigator}
                 options={{
+                    tabBarShowLabel: true,
                     tabBarIcon: ({ color }) => {
                         return <Icon
                             name="home"
                             style={{ position: "relative" }}
                             color={color}
                             size={30}
-
                         />
                     }
                 }}

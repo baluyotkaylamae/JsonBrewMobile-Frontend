@@ -71,6 +71,7 @@ function MyStack() {
                 component={ProductContainer}
                 options={{
                     headerShown: false,
+                    cardStyle: { marginTop: 5 },
                 }}
             />
             <Stack.Screen 
@@ -80,7 +81,6 @@ function MyStack() {
                 //     headerShown: false,
                 // }}
             />
-
         </Stack.Navigator>
     )
 }
