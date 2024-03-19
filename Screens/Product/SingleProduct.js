@@ -3,6 +3,9 @@ import { Image, View, StyleSheet, Text, ScrollView, TouchableOpacity } from "rea
 import { Heading, Center } from 'native-base';
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
 import TrafficLight from '../../Shared/StyledComponents/TrafficLight';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Actions/cartActions';
+import Toast from 'react-native-toast-message';
 
 const SingleProduct = ({ route }) => {
     const [item, setItem] = useState(route.params.item);
@@ -10,6 +13,7 @@ const SingleProduct = ({ route }) => {
     const [availabilityText, setAvailabilityText] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [selectedSugarLevel, setSelectedSugarLevel] = useState(null);
+    const [selectedCupSize, setSelectedCupSize] = useState(null); // State for selected cup size
     const [selectedAddons, setSelectedAddons] = useState([]);
 
     useEffect(() => {
@@ -33,6 +37,18 @@ const SingleProduct = ({ route }) => {
         }
     }, []);
 
+    const dispatch = useDispatch();
+
+    const handleAddToCart = () => {
+        dispatch(addToCart({ ...item, quantity: quantity }));
+        Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: `${item.name} added to Cart`,
+            text2: "Go to your cart to complete the order"
+        });
+    };
+
     const increaseQuantity = () => {
         setQuantity(quantity + 1);
     };
@@ -45,6 +61,10 @@ const SingleProduct = ({ route }) => {
 
     const handleSugarLevelSelection = (level) => {
         setSelectedSugarLevel(level);
+    };
+
+    const handleCupSizeSelection = (size) => { // Function to handle cup size selection
+        setSelectedCupSize(size);
     };
 
     const handleAddonsSelection = (addon) => {
@@ -74,6 +94,9 @@ const SingleProduct = ({ route }) => {
                 <View style={styles.contentContainer}>
                     <Heading style={styles.contentHeader} size='xl'>{item.name}</Heading>
                     <Text style={styles.brandText}>{item.brand}</Text>
+                    {selectedCupSize && ( // Check if cup size is selected before rendering
+                        <Text style={styles.sizeText}>Size: <Text>{selectedCupSize}</Text></Text>
+                    )}
                 </View>
                 <View style={styles.infoContainer}>
                     <View style={styles.availability}>
@@ -104,11 +127,29 @@ const SingleProduct = ({ route }) => {
                                 key={level}
                                 style={[
                                     styles.option,
+
                                     selectedSugarLevel === level && styles.selectedOption
                                 ]}
                                 onPress={() => handleSugarLevelSelection(level)}
                             >
                                 <Text style={styles.optionText}>{level}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </View>
+                <View style={styles.controlContainer}>
+                    <Text style={styles.label}>Select Cup Size:</Text>
+                    <View style={styles.optionsContainer}>
+                        {['Small', 'Medium', 'Large'].map(size => (
+                            <TouchableOpacity
+                                key={size}
+                                style={[
+                                    styles.option,
+                                    selectedCupSize === size && styles.selectedOption
+                                ]}
+                                onPress={() => handleCupSizeSelection(size)}
+                            >
+                                <Text style={styles.optionText}>{size}</Text>
                             </TouchableOpacity>
                         ))}
                     </View>
@@ -130,13 +171,15 @@ const SingleProduct = ({ route }) => {
                         ))}
                     </View>
                 </View>
-                <EasyButton primary medium>
-                    <Text style={styles.buttonText}>Add to Cart</Text>
-                </EasyButton>
+                <View style={styles.addToCartContainer}>
+                    <EasyButton primary medium onPress={handleAddToCart}>
+                        <Text style={styles.buttonText}>Add to Cart</Text>
+                    </EasyButton>
+                </View>
             </ScrollView>
         </Center>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -155,7 +198,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 300,
         // Ensure any additional styles needed for the Image component
-    },               
+    },
     contentContainer: {
         width: '100%',
         alignItems: 'center',
@@ -167,6 +210,10 @@ const styles = StyleSheet.create({
         color: '#4a3f35',
     },
     brandText: {
+        fontSize: 16,
+        color: '#6b5b4d',
+    },
+    sizeText: {
         fontSize: 16,
         color: '#6b5b4d',
     },
@@ -226,6 +273,16 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#fff",
     },
+    sizeText: {
+        fontSize: 16,
+        color: '#6b5b4d',
+    },
+
+    addToCartContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+   
 });
 
 export default SingleProduct;
