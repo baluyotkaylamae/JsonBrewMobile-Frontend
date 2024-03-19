@@ -7,7 +7,7 @@
       "icon": "./assets/coffee.png",
       "userInterfaceStyle": "light",
       "splash": {
-        "image": "./assets/splash.png",
+        "image": "./assets/kohi.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
       },
@@ -19,7 +19,7 @@
       },
       "android": {
         "adaptiveIcon": {
-          "foregroundImage": "./assets/adaptive-icon.png",
+          "foregroundImage": "./assets/kohi.png",
           "backgroundColor": "#ffffff"
         }
       },
