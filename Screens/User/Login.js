@@ -66,16 +66,18 @@ const Login = (props) => {
           large
           primary
           onPress={() => handleSubmit()}
+          style={styles.loginButton}
         ><Text style={{ color: "white" }}>Login</Text>
         </EasyButton>
       </View>
       <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
-        <Text style={styles.middleText}>Dont' Have an Account yet?</Text>
+        <Text style={styles.middleText}>Don't Have an Account yet?</Text>
         {/* <Button variant={"ghost"} onPress={() => navigation.navigate("Register")} > Register</Button> */}
         <EasyButton
           large
           secondary
           onPress={() => navigation.navigate("Register")}
+          style={styles.registerButton}
         >
           <Text style={{ color: "white" }}>Register</Text>
         </EasyButton>
@@ -91,6 +93,12 @@ const styles = StyleSheet.create({
   middleText: {
     marginBottom: 20,
     alignSelf: "center",
+  },
+  loginButton: {
+    backgroundColor: "#664229", // Change the background color of the login button
+  },
+  registerButton: {
+    backgroundColor: "#B99960", // Change the background color of the register button
   },
 });
 export default Login;

@@ -71,7 +71,7 @@ function MyStack() {
                 component={ProductContainer}
                 options={{
                     headerShown: false,
-                    cardStyle: { marginTop: 5 },
+                    cardStyle: { marginTop: 0 },
                 }}
             />
             <Stack.Screen 

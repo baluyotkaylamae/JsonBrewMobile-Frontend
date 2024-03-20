@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     text: {
-        color: 'white', // Adjusted text color to brown
+        color: 'white', 
         fontSize: 16,
         fontWeight: 'bold'
     },
     active: {
-        backgroundColor: '#FFA000',
+        backgroundColor: '#664229',
     },
     inactive: {
         backgroundColor: '#D2B48C', 
