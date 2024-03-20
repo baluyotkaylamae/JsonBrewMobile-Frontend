@@ -127,7 +127,7 @@ const ProductContainer = () => {
 
     return (
 
-        <Center>
+        <Center style={styles.pageBackground}>
             <VStack w="60%" space={5} alignSelf="center">
                 <Input
                     onFocus={openList}
@@ -192,7 +192,7 @@ const ProductContainer = () => {
 const styles = StyleSheet.create({
     container: {
         flexWrap: "wrap",
-        backgroundColor: "#f7ede2",
+        backgroundColor: "#fff",
     },
     listContainer: {
         height: height,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
 });
 
 export default ProductContainer;

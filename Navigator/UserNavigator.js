@@ -14,7 +14,7 @@ const UserNavigator = (props) => {
                 name="Login"
                 component={Login}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
 
@@ -22,7 +22,7 @@ const UserNavigator = (props) => {
                 name="Register"
                 component={Register}
                 options={{
-                    headerShown: false
+                    headerShown: false,
                 }}
             />
 
