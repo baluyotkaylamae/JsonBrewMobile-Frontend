@@ -19,14 +19,14 @@
 //   Divider,
 //   Icon,
 // } from "native-base";
-// // import ProductContainer from "../Screens/Product/ProductContainer";
-// import 'react-native-gesture-handler';
-// // import Login from "../Screens/User/Login";
-// import Main from "./Main";
-// // import Cart from "../Screens/Cart/Cart";
-// // import Products from "../Screens/Admin/Products";
-// // import AdminNavigator from "./AdminNavigator";
-// // import ProductList from "../Screens/Product/ProductList";
+// import ProductContainer from "../Screens/Product/ProductContainer";
+
+// import Login from "../Screens/User/Login";
+// // import Main from "./Main";
+// import Cart from "../Screens/Cart/cart";
+// import Products from "../Screens/Admin/Products";
+// import AdminNavigator from "./AdminNavigator";
+// import ProductList from "../Screens/Product/ProductList";
 // global.__reanimatedWorkletInit = () => { };
 // const Drawer = createDrawerNavigator();
 
@@ -158,17 +158,17 @@
 //             drawerLabel: 'Home',
 //             title: 'Home Screen',
 //           }}
-//           component={UserProfile}
+//           component={Main}
 //         />
-//          {/* <Drawer.Screen name="drawer" component={Main} /> */}
+//         {/* <Drawer.Screen name="drawer" component={Main} /> */}
 //         {/* <Drawer.Screen name="Products" component={ProductContainer}   />
 //         <Drawer.Screen name="Login" component={Login}  />
 //         <Drawer.Screen name="Cart" component={Cart} />
 //         <Drawer.Screen name="Product List" component={ProductList} /> */}
-//         {/* <Drawer.Screen name="Products" component={Main} initialParams={{ screen: 'Products' }} /> */}
+//         <Drawer.Screen name="Products" component={Main} initialParams={{ screen: 'Products' }} />
 //         <Drawer.Screen name="Login" component={Main} initialParams={{ screen: 'User' }} />
-//          {/* <Drawer.Screen name="Cart" component={Main} initialParams={{ screen: 'Cart' }} />
-//         <Drawer.Screen name="Product List" component={Main}  initialParams={{ screen: 'Admin' }}/> */}
+//          <Drawer.Screen name="Cart" component={Main} initialParams={{ screen: 'Cart' }} />
+//         <Drawer.Screen name="Product List" component={Main}  initialParams={{ screen: 'Admin' }}/>
 
 //       </Drawer.Navigator>
 //     </Box>

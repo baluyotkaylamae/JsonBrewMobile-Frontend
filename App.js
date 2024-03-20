@@ -13,7 +13,8 @@ import { Provider } from "react-redux";
 import store from "./Redux/store";
 import Toast from "react-native-toast-message";
 import Auth from './Context/Store/Auth';
-// import DrawerNavigation from './Navigator/DrawerNavigator';
+import DrawerNavigation from './Navigator/DrawerNavigator';
+import DrawerNavigator from './Navigator/DrawerNav';
 import SearchedProduct from "./Screens/Product/SearchedProduct";
 
 const theme = extendTheme({ colors: newColorTheme });
