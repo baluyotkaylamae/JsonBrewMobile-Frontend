@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HomeNavigator from "./HomeNavigator";
-import Cart from "../Screens/Cart/Cart";
+import Cart from "../Screens/Cart/cart";
 import CartIcon from "../Shared/CartIcon";
 import CartNavigator from "./CartNavigator";
 import UserNavigator from "./UserNavigator";

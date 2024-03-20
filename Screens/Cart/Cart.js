@@ -9,46 +9,103 @@ import { removeFromCart, clearCart } from '../../Redux/Actions/cartActions'
 var { height, width } = Dimensions.get("window");
 import EasyButton from "../../Shared/StyledComponents/EasyButton"
 const Cart = () => {
-    const navigation = useNavigation()
-    dispatch = useDispatch()
-    const cartItems = useSelector(state => state.cartItems)
-    var total = 0;
-    cartItems.forEach(cart => {
-        return (total += cart.price)
-    });
-    const renderItem = ({ item, index }) =>
-        <TouchableHighlight
-            _dark={{
-                bg: 'coolGray.800'
-            }}
-            _light={{
-                bg: 'white'
-            }}
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cartItems);
 
-        >
-            <Box pl="4" pr="5" py="2" bg="white" keyExtractor={item => item.id}>
-                <HStack alignItems="center" space={3}>
-                    <Avatar size="48px" source={{
-                        uri: item.image ?
-                            item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
-                    }} />
-                    <VStack>
-                        <Text color="coolGray.800" _dark={{
+    // Function to calculate total price for each item
+    const calculateTotalPrice = (item) => {
+        let totalItemPrice = item.price || 0; // Base price of the product
+        
+        // Calculate addon prices
+        let addonPrice = item.addons ? item.addons.length * 5 : 0;
+        totalItemPrice += addonPrice;
+        
+        // Calculate cup size price
+        if (item.cupSize === "Medium") {
+            totalItemPrice += 10;
+        } else if (item.cupSize === "Large") {
+            totalItemPrice += 20;
+        }
+        
+        // Calculate sugar level price
+        if (item.sugarLevel !== "Medium") {
+            totalItemPrice += 5;
+        }
+        
+        return totalItemPrice * item.quantity;
+    };
+
+    // Calculate total price for all items in the cart
+    const total = cartItems.reduce((acc, item) => acc + calculateTotalPrice(item), 0);
+
+
+    const renderItem = ({ item, index }) => {
+        // Calculate total price for the current item
+        const totalItemPrice = calculateTotalPrice(item);
+    
+        return (
+            <TouchableHighlight
+                _dark={{
+                    bg: 'coolGray.800'
+                }}
+                _light={{
+                    bg: 'white'
+                }}
+            >
+                <Box pl="4" pr="5" py="2" bg="white" keyExtractor={item => item.id}>
+                    <HStack alignItems="center" space={3}>
+                        <Avatar size="48px" source={{
+                            uri: item.image ?
+                                item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
+                        }} />
+                        <VStack>
+                            <Text color="coolGray.800" _dark={{
+                                color: 'warmGray.50'
+                            }} bold>
+                                {item.name}
+                            </Text>
+                            {item.quantity && (
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }}>
+                                   Quantity: {item.quantity}
+                                </Text>
+                            )}
+                            {item.cupSize && (
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }}>
+                                    Cup Size: {item.cupSize}
+                                </Text>
+                            )}
+                            {item.sugarLevel && (
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }}>
+                                    Sugar Level: {item.sugarLevel}
+                                </Text>
+                            )}
+                            {item.addons && (
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }}>
+                                    Addons: {item.addons.join(", ")}
+                                </Text>
+                            )}
+                        </VStack>
+                        <Spacer />
+                        <Text fontSize="xs" color="coolGray.800" _dark={{
                             color: 'warmGray.50'
-                        }} bold>
-                            {item.name}
+                        }} alignSelf="flex-start">
+                            $ {totalItemPrice.toFixed(2)}
                         </Text>
-                    </VStack>
-                    <Spacer />
-                    <Text fontSize="xs" color="coolGray.800" _dark={{
-                        color: 'warmGray.50'
-                    }} alignSelf="flex-start">
-                        $ {item.price}
-                    </Text>
-                </HStack>
-            </Box>
-        </TouchableHighlight>;
-
+                    </HStack>
+                </Box>
+            </TouchableHighlight>
+        );
+    };
+    
     const renderHiddenItem = (cartItems) =>
         <TouchableOpacity
             onPress={() => dispatch(removeFromCart(cartItems.item))}
@@ -153,4 +210,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Cart
+export default Cart;

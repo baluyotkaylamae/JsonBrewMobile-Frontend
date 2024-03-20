@@ -12,8 +12,8 @@ const SingleProduct = ({ route }) => {
     const [availability, setAvailability] = useState('');
     const [availabilityText, setAvailabilityText] = useState("");
     const [quantity, setQuantity] = useState(1);
-    const [selectedSugarLevel, setSelectedSugarLevel] = useState(null);
-    const [selectedCupSize, setSelectedCupSize] = useState(null); // State for selected cup size
+    const [selectedSugarLevel, setSelectedSugarLevel] = useState("Medium"); // Set default sugar level
+    const [selectedCupSize, setSelectedCupSize] = useState("Small"); // Set default cup size
     const [selectedAddons, setSelectedAddons] = useState([]);
 
     useEffect(() => {
@@ -40,7 +40,35 @@ const SingleProduct = ({ route }) => {
     const dispatch = useDispatch();
 
     const handleAddToCart = () => {
-        dispatch(addToCart({ ...item, quantity: quantity }));
+        // Calculate addon prices
+        let addonPrice = selectedAddons.length * 5;
+
+        // Calculate cup size price
+        let cupSizePrice = 0;
+        if (selectedCupSize === "Medium") {
+            cupSizePrice = 10;
+        } else if (selectedCupSize === "Large") {
+            cupSizePrice = 20;
+        }
+
+        // Calculate sugar level price
+        let sugarLevelPrice = 0;
+        if (selectedSugarLevel !== "Medium") {
+            sugarLevelPrice = 5;
+        }
+
+        // Calculate total price with quantity
+        const totalPrice = ((item.price + cupSizePrice + sugarLevelPrice + addonPrice) * quantity).toFixed(2);
+
+        dispatch(addToCart({
+            ...item,
+            quantity: quantity,
+            cupSize: selectedCupSize,
+            sugarLevel: selectedSugarLevel,
+            addons: selectedAddons,
+            totalPrice: totalPrice
+        }));
+
         Toast.show({
             topOffset: 60,
             type: "success",
@@ -77,6 +105,7 @@ const SingleProduct = ({ route }) => {
         }
         setSelectedAddons(newSelectedAddons);
     };
+    const totalPrice = ((item.price + (selectedCupSize === "Medium" ? 10 : (selectedCupSize === "Large" ? 20 : 0)) + (selectedSugarLevel !== "Medium" ? 5 : 0) + (selectedAddons.length * 5)) * quantity).toFixed(2);
 
     return (
         <Center flexGrow={1}>
@@ -157,7 +186,7 @@ const SingleProduct = ({ route }) => {
                 <View style={styles.controlContainer}>
                     <Text style={styles.label}>Select Addons:</Text>
                     <View style={styles.optionsContainer}>
-                        {['Milk', 'Sugar', 'Cream'].map(addon => (
+                        {['Milk', 'Honey', 'Cream'].map(addon => (
                             <TouchableOpacity
                                 key={addon}
                                 style={[
@@ -172,12 +201,13 @@ const SingleProduct = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.addToCartContainer}>
+                    <Text style={styles.label}>Total Price: ${totalPrice}</Text>
                     <EasyButton primary medium onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>Add to Cart</Text>
                     </EasyButton>
                 </View>
             </ScrollView>
-        </Center>
+        </Center >
     );
 };
 
@@ -282,7 +312,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
     },
-   
 });
 
 export default SingleProduct;
