@@ -6,6 +6,7 @@ import {
     ActivityIndicator,
     StyleSheet,
     Dimensions,
+    RefreshControl,
 
 } from "react-native";
 import { Input, VStack, Heading, Box } from "native-base"
@@ -14,7 +15,7 @@ import { useFocusEffect } from "@react-navigation/native"
 import { Searchbar } from 'react-native-paper';
 import ListItem from "./ListItem"
 
-import axios from "axios"     
+import axios from "axios"
 import baseURL from "../../assets/common/baseurl"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 var { height, width } = Dimensions.get("window")
@@ -27,6 +28,7 @@ const Products = (props) => {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState();
     const navigation = useNavigation()
+    const [refreshing, setRefreshing] = useState(false);
     const ListHeader = () => {
         return (
             <View
@@ -71,6 +73,21 @@ const Products = (props) => {
             })
             .catch((error) => console.log(error));
     }
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            axios
+                .get(`${baseURL}products`)
+                .then((res) => {
+                    // console.log(res.data)
+                    setProductList(res.data);
+                    setProductFilter(res.data);
+                    setLoading(false);
+                })
+            setRefreshing(false);
+        }, 2000);
+    }, []);
     useFocusEffect(
         useCallback(
             () => {
@@ -101,14 +118,14 @@ const Products = (props) => {
     return (
         <Box flex={1}>
             <View style={styles.buttonContainer}>
-                {/* <EasyButton
+                <EasyButton
                     secondary
                     medium
                     onPress={() => navigation.navigate("Orders")}
                 >
                     <Icon name="shopping-bag" size={18} color="white" />
                     <Text style={styles.buttonText}>Orders</Text>
-                </EasyButton> */}
+                </EasyButton>
                 <EasyButton
                     secondary
                     medium
@@ -136,6 +153,9 @@ const Products = (props) => {
                     <ActivityIndicator size="large" color="red" />
                 </View>
             ) : (<FlatList
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
                 ListHeaderComponent={ListHeader}
                 data={productFilter}
                 renderItem={({ item, index }) => (
