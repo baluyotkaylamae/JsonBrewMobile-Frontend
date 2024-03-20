@@ -12,19 +12,24 @@ import Main from './Navigator/Main'
 import { Provider } from "react-redux";
 import store from "./Redux/store";
 import Toast from "react-native-toast-message";
+import Greeting from "./Shared/Greeting";
 import Auth from './Context/Store/Auth';
 import DrawerNavigation from './Navigator/DrawerNavigator';
 import DrawerNavigator from './Navigator/DrawerNav';
 import SearchedProduct from "./Screens/Product/SearchedProduct";
 
-const theme = extendTheme({ colors: newColorTheme });
-const newColorTheme = {
-  brand: {
-    900: "#8287af",
-    800: "#7c83db",
-    700: "#b3bef6",
+const theme = extendTheme({
+  colors: {
+    primary: {
+      500: "teal", // Background color
+    },
+    // Add more color overrides as needed
+    brand: {
+      500: "forestgreen", // Text color
+    },
   },
-};
+});
+
 
 
 export default function App() {
@@ -33,8 +38,8 @@ export default function App() {
       <Provider store={store}>
         <NativeBaseProvider theme={theme}>
           <NavigationContainer>
-            <Header />
-            <Greeting />
+            {/* <Header /> */}
+            {/* <Greeting /> */}
             {/* <DrawerNavigation /> */}
             <Main />
             <Toast />
@@ -52,37 +57,5 @@ const styles = StyleSheet.create({
     alignItems: 'left',
     justifyContent: 'left',
   },
-  greetingContainer: {
-    alignItems: 'left',
-    paddingVertical: 0,
-    marginTop: -10,
-    marginLeft: 20,
-    backgroundColor: '#fff',
-  },
-  enjoyText: {
-    color: '#000000',
-    fontSize: 30,
-    // fontFamily: 'Arial',
-    fontWeight: 'normal',
-  },
-  drinksText: {
-    color: '#B99960',
-    fontSize: 35,
-    // fontFamily: 'Arial',
-    fontWeight: 'bold',
-  },
 });
-
-const Greeting = () => {
-  return (
-    <View style={styles.greetingContainer}>
-      <Text>
-        <Text style={styles.enjoyText}>Enjoy Our</Text>
-        {'\n'}
-        <Text style={styles.drinksText}>Delicious Drinks</Text>
-      </Text>
-    </View>
-  );
-};
-
 
