@@ -3,16 +3,17 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HomeNavigator from "./HomeNavigator";
-import Cart from "../Screens/Cart/cart";
+import Cart from "../Screens/Cart/Cart"; // Adjusted import statement
 import CartIcon from "../Shared/CartIcon";
 import CartNavigator from "./CartNavigator";
 import UserNavigator from "./UserNavigator";
 import AdminNavigator from "./AdminNavigator";
 import AuthGlobal from "../Context/Store/AuthGlobal";
+
 const Tab = createBottomTabNavigator();
 
 const Main = () => {
-    const context = useContext(AuthGlobal)
+    const context = useContext(AuthGlobal);
     return (
         <Tab.Navigator
             initialRouteName="HomeNav"
@@ -40,19 +41,18 @@ const Main = () => {
 
             <Tab.Screen
                 name="Cart"
-                component={CartNavigator}
+                component={Cart} // Updated component
                 options={{
                     tabBarIcon: ({ color }) => {
-                        return <><Icon
-                            name="shopping-cart"
-                            style={{ position: "relative" }}
-                            color={color}
-                            size={30}
-
-                        />
+                        return <>
+                            <Icon
+                                name="shopping-cart"
+                                style={{ position: "relative" }}
+                                color={color}
+                                size={30}
+                            />
                             <CartIcon />
                         </>
-
                     }
                 }}
             />
@@ -72,7 +72,7 @@ const Main = () => {
                     }}
                 />
             )}
-            
+
             <Tab.Screen
                 name="User"
                 component={UserNavigator}
@@ -91,4 +91,4 @@ const Main = () => {
         </Tab.Navigator>
     )
 }
-export default Main
+export default Main;
