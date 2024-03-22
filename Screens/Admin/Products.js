@@ -118,30 +118,42 @@ const Products = (props) => {
     return (
         <Box flex={1}>
             <View style={styles.buttonContainer}>
-                <EasyButton
-                    secondary
-                    medium
-                    onPress={() => navigation.navigate("Orders")}
-                >
-                    <Icon name="shopping-bag" size={18} color="white" />
-                    <Text style={styles.buttonText}>Orders</Text>
-                </EasyButton>
-                <EasyButton
-                    secondary
-                    medium
-                    onPress={() => navigation.navigate("ProductForm")}
-                >
-                    <Icon name="plus" size={18} color="white" />
-                    <Text style={styles.buttonText}>Products</Text>
-                </EasyButton>
-                <EasyButton
-                    secondary
-                    medium
-                    onPress={() => navigation.navigate("Categories")}
-                >
-                    <Icon name="plus" size={18} color="white" />
-                    <Text style={styles.buttonText}>Categories</Text>
-                </EasyButton>
+                <View style={styles.row}>
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("Orders")}
+                    >
+                        <Icon name="shopping-bag" size={18} color="white" />
+                        <Text style={styles.buttonText}>Orders</Text>
+                    </EasyButton>
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("ProductForm")}
+                    >
+                        <Icon name="plus" size={18} color="white" />
+                        <Text style={styles.buttonText}>Products</Text>
+                    </EasyButton>
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("Categories")}
+                    >
+                        <Icon name="plus" size={18} color="white" />
+                        <Text style={styles.buttonText}>Categories</Text>
+                    </EasyButton>
+                </View>
+                <View style={styles.row}>
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("Charts")}
+                    >
+                        <Icon name="bar-chart" size={18} color="white" />
+                        <Text style={styles.buttonText}>Charts</Text>
+                    </EasyButton>
+                </View>
             </View>
             <Searchbar width="80%"
                 placeholder="Search"
@@ -189,19 +201,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    container: {
-        marginBottom: 160,
-        backgroundColor: 'white'
-    },
     buttonContainer: {
-        margin: 20,
-        alignSelf: 'center',
-        flexDirection: 'row'
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     buttonText: {
-        marginLeft: 4,
-        color: 'white'
-    }
+        color: 'white',
+        marginLeft: 5, 
+    },
 })
 
 export default Products;
