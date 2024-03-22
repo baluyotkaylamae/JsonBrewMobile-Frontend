@@ -129,7 +129,7 @@ const ProductContainer = () => {
                         <View>
                             {/* <Banner /> */}
                         </View>
-                        <View>
+                        <View style={{ backgroundColor: theme.colors.primary[500] }}>
                             <CategoryFilter
                                 categories={categories}
                                 categoryFilter={changeCtg}
@@ -166,7 +166,7 @@ const ProductContainer = () => {
 
 const styles = StyleSheet.create({
     pageBackground: {
-        backgroundColor: theme.colors.primary[500], // Assuming you have defined primary color in your theme
+        backgroundColor: theme.colors.primary[500], 
     },
     container: {
         flexWrap: "wrap",

@@ -16,7 +16,7 @@ const Main = () => {
     const context = useContext(AuthGlobal);
     return (
         <Tab.Navigator
-            initialRouteName="Home"
+            initialRouteName="Homepage"
             screenOptions={{
                 tabBarHideOnKeyboard: true,
                 tabBarShowLabel: true,

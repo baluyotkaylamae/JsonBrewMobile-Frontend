@@ -12,16 +12,17 @@ import baseURL from "../assets/common/baseurl";
 import { useNavigation } from '@react-navigation/native'
 
 const codes = [
-  { name: "pending", code: "3" },
-  { name: "shipped", code: "2" },
-  { name: "delivered", code: "1" },
+  { name: "Pending", code: "3", color: "#FFA500" },
+  { name: "Shipped", code: "2", color: "#008000" },
+  { name: "Delivered", code: "1", color: "#0000FF" },
 ];
+
 const OrderCard = ({ item, select }) => {
   const [orderStatus, setOrderStatus] = useState('');
   const [statusText, setStatusText] = useState('');
   const [statusChange, setStatusChange] = useState('');
   const [token, setToken] = useState('');
-  const [cardColor, setCardColor] = useState('');
+  const [cardColor, setCardColor] = useState('#FFFFFF');
   const navigation = useNavigation()
 
   const updateOrder = () => {
@@ -73,41 +74,59 @@ const OrderCard = ({ item, select }) => {
         });
       });
   }
-  useEffect(() => {
-    if (item.status == "3") {
-      setOrderStatus(<TrafficLight unavailable></TrafficLight>);
-      setStatusText("pending");
-      setCardColor("#E74C3C");
-    } else if (item.status == "2") {
-      setOrderStatus(<TrafficLight limited></TrafficLight>);
-      setStatusText("shipped");
-      setCardColor("#F1C40F");
-    } else {
-      setOrderStatus(<TrafficLight available></TrafficLight>);
-      setStatusText("delivered");
-      setCardColor("#2ECC71");
-    }
 
+  useEffect(() => {
+    let statusComponent;
+    let statusTextValue;
+    let colorValue;
+  
+    switch (item.status) {
+      case "3":
+        statusComponent = <TrafficLight unavailable></TrafficLight>;
+        statusTextValue = "Pending";
+        colorValue = "#FFA500"; // Orange color for Pending
+        break;
+      case "2":
+        statusComponent = <TrafficLight limited></TrafficLight>;
+        statusTextValue = "Shipped";
+        colorValue = "#008000"; // Green color for Shipped
+        break;
+      case "1":
+        statusComponent = <TrafficLight available></TrafficLight>;
+        statusTextValue = "Delivered";
+        colorValue = "#0000FF"; // Blue color for Delivered
+        break;
+      default:
+        statusComponent = null;
+        statusTextValue = "";
+        colorValue = "#FFFFFF"; // Default color
+        break;
+    }
+  
+    setOrderStatus(statusComponent);
+    setStatusText(statusTextValue);
+    setCardColor(colorValue);
+  
     return () => {
-      setOrderStatus();
-      setStatusText();
-      setCardColor();
+      setOrderStatus(null);
+      setStatusText("");
+      setCardColor("#FFFFFF");
     };
   }, []);
 
   return (
-    // <View style={[{ backgroundColor: cardColor }, styles.container]}>
-    //   <View style={styles.container}>
-    //     <Text>Order Number: #{item.id}</Text>
-    //   </View>
-    // </View>
-    <View style={[{ backgroundColor: cardColor }, styles.container]}>
+    <View style={[styles.container, { backgroundColor: '#FFFFFF', shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }]}>
+      <View style={styles.statusCard}>
+        <View style={[styles.statusTextContainer, { backgroundColor: cardColor }]}>
+          <Text style={styles.statusText}>{statusText}</Text>
+        </View>
+      </View>
       <View style={styles.container}>
         <Text>Order Number: #{item.id}</Text>
       </View>
       <View style={{ marginTop: 10 }}>
         <Text>
-          Status: {statusText} {orderStatus}
+          Status: {statusText}
         </Text>
         <Text>
           Address: {item.shippingAddress1} {item.shippingAddress2}
@@ -119,43 +138,39 @@ const OrderCard = ({ item, select }) => {
           <Text>Price: </Text>
           <Text style={styles.price}>$ {item.totalPrice}</Text>
         </View>
-        {/* {item.editMode ? ( */}
-        <View>
-{select ? null :  <><Select
-            width="80%"
-            iosIcon={<Icon name="arrow-down" color={"#007aff"} />}
-            style={{ width: undefined }}
-            selectedValue={statusChange}
-            color="white"
-            placeholder="Change Status"
-            placeholderTextColor="white"
-            placeholderStyle={{ color: '#FFFFFF' }}
-            placeholderIconColor="#007aff"
-            onValueChange={(e) => setStatusChange(e)}
-          >
-            {codes.map((c) => {
-              return <Select.Item
-                key={c.code}
-                label={c.name}
-                value={c.code}
-              />
-            })}
-          </Select><EasyButton
-            secondary
-            large
-            onPress={() => updateOrder()}
-          >
-            <Text style={{ color: "white" }}>Update</Text>
-          </EasyButton></> }
-         
-
-          
-        </View>
-        {/* //   ) : null} */}
+        {!select &&
+          <View>
+            <Select
+              width="80%"
+              iosIcon={<Icon name="arrow-down" color={"#007aff"} />}
+              style={{ width: undefined }}
+              selectedValue={statusChange}
+              color="white"
+              placeholder="Change Status"
+              placeholderTextColor="black"
+              placeholderStyle={{ color: '#FFFFFF' }}
+              placeholderIconColor="#007aff"
+              onValueChange={(e) => setStatusChange(e)}
+            >
+              {codes.map((c) => {
+                return <Select.Item
+                  key={c.code}
+                  label={c.name}
+                  value={c.code}
+                />
+              })}
+            </Select>
+            <EasyButton
+              secondary
+              large
+              onPress={() => updateOrder()}
+            >
+              <Text style={{ color: "black" }}>Update</Text>
+            </EasyButton>
+          </View>
+        }
       </View>
     </View>
-
-
   );
 }
 
@@ -165,9 +180,22 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
   },
-  title: {
-    backgroundColor: "#62B1F6",
+  statusCard: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
     padding: 5,
+    borderRadius: 5,
+    // elevation: 1,
+    zIndex: 1,
+  },
+  statusTextContainer: {
+    padding: 5,
+    borderRadius: 5,
+  },
+  statusText: {
+    fontWeight: 'bold',
+    color: '#FFFFFF', // Color of the status text
   },
   priceContainer: {
     marginTop: 10,
@@ -175,7 +203,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   price: {
-    color: "white",
+    color: "black",
     fontWeight: "bold",
   },
 });

@@ -14,23 +14,19 @@ import store from "./Redux/store";
 import Toast from "react-native-toast-message";
 import Greeting from "./Shared/Greeting";
 import Auth from './Context/Store/Auth';
-import DrawerNavigation from './Navigator/DrawerNavigator';
-import DrawerNavigator from './Navigator/DrawerNav';
+import DrawerNavigator from './Navigator/DrawerNavigator';
 import SearchedProduct from "./Screens/Product/SearchedProduct";
 
 const theme = extendTheme({
   colors: {
     primary: {
-      500: "teal", // Background color
+      500: "white", 
     },
-    // Add more color overrides as needed
     brand: {
-      500: "forestgreen", // Text color
+      500: "forestgreen", 
     },
   },
 });
-
-
 
 export default function App() {
   return (
@@ -40,8 +36,10 @@ export default function App() {
           <NavigationContainer>
             {/* <Header /> */}
             {/* <Greeting /> */}
-            {/* <DrawerNavigation /> */}
+            {/* <DrawerNavigator /> */}
+
             <Main />
+            
             <Toast />
           </NavigationContainer>
         </NativeBaseProvider>
