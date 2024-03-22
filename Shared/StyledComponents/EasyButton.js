@@ -30,6 +30,13 @@ const EasyButton = styled.TouchableOpacity`
     }
 
     ${(props) => 
+        props.order &&
+        css`
+            background: #B99960;
+        `
+    }
+
+    ${(props) => 
         props.large &&
         css`
             width: 135px;
@@ -42,6 +49,8 @@ const EasyButton = styled.TouchableOpacity`
             width: 100px;
         `
     }
+
+    
 
     ${(props) => 
         props.small &&

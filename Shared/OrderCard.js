@@ -79,34 +79,34 @@ const OrderCard = ({ item, select }) => {
     let statusComponent;
     let statusTextValue;
     let colorValue;
-  
+
     switch (item.status) {
       case "3":
         statusComponent = <TrafficLight unavailable></TrafficLight>;
         statusTextValue = "Pending";
-        colorValue = "#FFA500"; // Orange color for Pending
+        colorValue = "#E74C3C";
         break;
       case "2":
         statusComponent = <TrafficLight limited></TrafficLight>;
         statusTextValue = "Shipped";
-        colorValue = "#008000"; // Green color for Shipped
+        colorValue = "#F1C40F";
         break;
       case "1":
         statusComponent = <TrafficLight available></TrafficLight>;
         statusTextValue = "Delivered";
-        colorValue = "#0000FF"; // Blue color for Delivered
+        colorValue = "#2ECC71";
         break;
       default:
         statusComponent = null;
         statusTextValue = "";
-        colorValue = "#FFFFFF"; // Default color
+        colorValue = "#FFFFFF";
         break;
     }
-  
+
     setOrderStatus(statusComponent);
     setStatusText(statusTextValue);
     setCardColor(colorValue);
-  
+
     return () => {
       setOrderStatus(null);
       setStatusText("");
@@ -122,18 +122,24 @@ const OrderCard = ({ item, select }) => {
         </View>
       </View>
       <View style={styles.container}>
-        <Text>Order Number: #{item.id}</Text>
+        <Text><Text style={{ fontWeight: 'bold' }}>Order Number:</Text> #{item.id}</Text>
       </View>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 5 }}>
         <Text>
-          Status: {statusText}
+          <Text style={{ fontWeight: 'bold' }}>Status:</Text> {statusText}
         </Text>
         <Text>
-          Address: {item.shippingAddress1} {item.shippingAddress2}
+          <Text style={{ fontWeight: 'bold' }}>Address:</Text> {item.shippingAddress1} {item.shippingAddress2}
         </Text>
-        <Text>City: {item.city}</Text>
-        <Text>Country: {item.country}</Text>
-        <Text>Date Ordered: {item.dateOrdered.split("T")[0]}</Text>
+        <Text>
+          <Text style={{ fontWeight: 'bold' }}>City:</Text> {item.city}
+        </Text>
+        <Text>
+          <Text style={{ fontWeight: 'bold' }}>Country:</Text> {item.country}
+        </Text>
+        <Text>
+          <Text style={{ fontWeight: 'bold' }}>Date Ordered:</Text> {item.dateOrdered.split("T")[0]}
+        </Text>
         <View style={styles.priceContainer}>
           <Text>Price: </Text>
           <Text style={styles.price}>$ {item.totalPrice}</Text>
@@ -141,14 +147,14 @@ const OrderCard = ({ item, select }) => {
         {!select &&
           <View>
             <Select
-              width="80%"
+              width="60%"
               iosIcon={<Icon name="arrow-down" color={"#007aff"} />}
               style={{ width: undefined }}
               selectedValue={statusChange}
-              color="white"
+              color="#664229"
               placeholder="Change Status"
               placeholderTextColor="black"
-              placeholderStyle={{ color: '#FFFFFF' }}
+              placeholderStyle={{ color: '#664229' }}
               placeholderIconColor="#007aff"
               onValueChange={(e) => setStatusChange(e)}
             >
@@ -161,11 +167,11 @@ const OrderCard = ({ item, select }) => {
               })}
             </Select>
             <EasyButton
-              secondary
+              order
               large
               onPress={() => updateOrder()}
             >
-              <Text style={{ color: "black" }}>Update</Text>
+              <Text style={{ color: "white" }}>Update</Text>
             </EasyButton>
           </View>
         }
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     margin: 10,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   statusCard: {
     position: 'absolute',
@@ -195,15 +201,16 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontWeight: 'bold',
-    color: '#FFFFFF', // Color of the status text
+    color: '#FFFFFF', 
   },
   priceContainer: {
-    marginTop: 10,
+    marginTop: 15,
+    marginBottom: 15,
     alignSelf: "flex-end",
     flexDirection: "row",
   },
   price: {
-    color: "black",
+    color: "red",
     fontWeight: "bold",
   },
 });
