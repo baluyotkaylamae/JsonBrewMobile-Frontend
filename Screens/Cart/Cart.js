@@ -8,6 +8,8 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { removeFromCart, clearCart } from '../../Redux/Actions/cartActions'
 var { height, width } = Dimensions.get("window");
 import EasyButton from "../../Shared/StyledComponents/EasyButton"
+import Checkout from "./Checkout/Checkout";
+
 const Cart = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
