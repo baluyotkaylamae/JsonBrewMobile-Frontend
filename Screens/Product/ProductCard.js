@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        paddingBottom: 5,
     },
     imageContainer: {
         position: 'relative',
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         // flexDirection: 'row',
         justifyContent: 'space-around',
-        width: '100%',
+        width: '90%',
         marginTop: 0,
     },
     button: {
