@@ -61,8 +61,8 @@ const UserProfile = (props) => {
         const handleUserOrdersPress = () => {
             navigation.navigate('My Orders', { orders });
         };
-
         
+
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
@@ -83,7 +83,7 @@ const UserProfile = (props) => {
                             placeholder="Enter your name"
                             leftIcon={<View style={styles.nameIcon} />}
                             onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.name : ''} 
+                            value={userProfile ? userProfile.name : ''}
                             inputStyle={styles.nameText}
                         />
                     </View>
