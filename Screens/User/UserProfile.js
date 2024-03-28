@@ -61,8 +61,8 @@ const UserProfile = (props) => {
         const handleUserOrdersPress = () => {
             navigation.navigate('My Orders', { orders });
         };
-        
 
+        
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
@@ -135,7 +135,13 @@ const UserProfile = (props) => {
                 <TouchableOpacity style={styles.updateProfileButton}>
                     <Text style={styles.updateProfileText}>Edit Profile</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.logoutContainer}>
+                <TouchableOpacity
+                    style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
+                    onPress={() => {
+                        AsyncStorage.removeItem("jwt");
+                        logoutUser(context.dispatch);
+                    }}
+                >
                     <Text style={styles.logoutText}>Logout</Text>
                 </TouchableOpacity>
             </View>

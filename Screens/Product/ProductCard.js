@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Dimensions, Image, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../Redux/Actions/cartActions';
+import { useNavigation } from '@react-navigation/native'; 
 
 const { width } = Dimensions.get('window');
 
@@ -8,18 +11,38 @@ const ProductCard = (props) => {
     const { name, price, image, description, rating } = props;
     const [isLiked, setIsLiked] = useState(false);
     const [productRating, setProductRating] = useState(rating);
+    const dispatch = useDispatch();
+    const navigation = useNavigation(); 
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
-        // Update the ratings of the product
         if (!isLiked) {
-            setProductRating(productRating + 1); // Increase the rating by 1
-            // Here, you can implement the logic to update the ratings in the backend as well
+            setProductRating(productRating + 1); 
+           
         } else {
-            setProductRating(productRating - 1); // Decrease the rating by 1
-            // Similarly, update the ratings in the backend
+            setProductRating(productRating - 1); 
+          
         }
     };
+
+    const handleAddToCart = () => {
+        dispatch(addToCart({
+            name: name,
+            price: price,
+            image: image,
+            description: description,
+            rating: rating,
+            quantity: 1, 
+            cupSize: 'Small', 
+            sugarLevel: 'Medium', 
+            addons: [], 
+            totalPrice: price 
+        }));
+    };
+    const handleOrderNow = () => {
+        navigation.navigate('Checkout');
+    };
+
 
     return (
         <View style={styles.container}>
@@ -29,7 +52,6 @@ const ProductCard = (props) => {
                     resizeMode="cover"
                     source={{ uri: image ? image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png' }}
                 />
-                {/* Responsive heart icon button */}
                 <TouchableOpacity style={styles.heartIcon} onPress={toggleLike}>
                     <FontAwesome name={isLiked ? 'heart' : 'heart-o'} size={24} color={isLiked ? 'red' : 'black'} />
                 </TouchableOpacity>
@@ -39,10 +61,10 @@ const ProductCard = (props) => {
             <Text style={styles.rating}>Rating: {productRating}</Text>
             <Text style={styles.price}>₱{price}</Text>
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => console.log("Add to Cart pressed")}>
+                     <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
                     <Text style={styles.buttonText}>Add to Cart</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={() => console.log("Order Now pressed")}>
+                <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={handleOrderNow}>
                     <Text style={styles.buttonText}>Order Now</Text>
                 </TouchableOpacity>
             </View>

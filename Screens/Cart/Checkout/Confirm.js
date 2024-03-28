@@ -1,74 +1,87 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, ScrollView, Button } from "react-native";
 import { Text, HStack, VStack, Avatar, Spacer, Center } from "native-base";
-
 import { clearCart } from "../../../Redux/Actions/cartActions";
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Toast from "react-native-toast-message";
 import axios from "axios";
 import baseURL from "../../../assets/common/baseurl";
 import { useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux'
-import AsyncStorage from "@react-native-async-storage/async-storage"
-
+import { useSelector, useDispatch } from 'react-redux';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 var { width, height } = Dimensions.get("window");
 
 const Confirm = (props) => {
-    const [token, setToken] = useState();
-    // const confirm = props.route.params;
     const finalOrder = props.route.params;
-    console.log("order", finalOrder)
-    const dispatch = useDispatch()
-    let navigation = useNavigation()
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
 
-    const confirmOrder = () => {
-        const order = finalOrder.order.order;
-        
-        const totalPrice = finalOrder.order.order.orderItems.reduce((total, item) => {
-            return total + parseFloat(item.totalPrice);
-        }, 0);
-     // Add total price to the order data
-     order.totalPrice = totalPrice;
-     
-        AsyncStorage.getItem("jwt")
-            .then((res) => {
-                setToken(res)
-            })
-            .catch((error) => console.log(error))
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        axios
-            .post(`${baseURL}orders`, order, config)
-            .then((res) => {
-                if (res.status == 200 || res.status == 201) {
-                    Toast.show({
-                        topOffset: 60,
-                        type: "success",
-                        text1: "Order Completed",
-                        text2: "",
-                    });
-                    // dispatch(actions.clearCart())
-                    // props.navigation.navigate("Cart")
+    const confirmOrder = async () => {
+        try {
+            const orderItems = finalOrder.order.order.orderItems.map(item => ({
+                product: item.id, 
+                quantity: item.quantity
+            }));
 
-                    setTimeout(() => {
-                        dispatch(clearCart())
-                        navigation.navigate("Cart");
-                    }, 500);
-                }
-            })
-            .catch((error) => {
+            const order = {
+                orderItems: orderItems,
+                shippingAddress1: finalOrder.order.order.shippingAddress1,
+                shippingAddress2: finalOrder.order.order.shippingAddress2,
+                city: finalOrder.order.order.city,
+                zip: finalOrder.order.order.zip,
+                country: finalOrder.order.order.country,
+                phone: finalOrder.order.order.phone,
+                status: '3', 
+                user: finalOrder.order.order.user
+            };
+
+            // Calculate total price
+            const totalPrice = finalOrder.order.order.orderItems.reduce((total, item) => {
+                return total + parseFloat(item.totalPrice);
+            }, 0);
+
+            // Add total price to the order data
+            order.totalPrice = totalPrice;
+
+            // Get JWT token from AsyncStorage
+            const token = await AsyncStorage.getItem('jwt');
+
+            // Set authorization header
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+
+            // Send POST request to backend
+            const response = await axios.post(`${baseURL}orders`, order, config);
+
+            if (response.status === 200 || response.status === 201) {
                 Toast.show({
                     topOffset: 60,
-                    type: "error",
-                    text1: "Something went wrong",
-                    text2: "Please try again",
+                    type: 'success',
+                    text1: 'Order Completed',
+                    text2: '',
                 });
+
+                setTimeout(() => {
+                    dispatch(clearCart());
+                    navigation.navigate('Cart');
+                }, 500);
+            }
+        } catch (error) {
+            console.error('Error sending request:', error);
+
+            Toast.show({
+                topOffset: 60,
+                type: 'error',
+                text1: 'Something went wrong',
+                text2: 'Please try again',
             });
-    }
+        }
+    };
+
     return (
         <Center>
             <ScrollView contentContainerStyle={styles.container}>
@@ -83,7 +96,6 @@ const Confirm = (props) => {
                                 <Text>City: {finalOrder.order.order.city}</Text>
                                 <Text>Zip Code: {finalOrder.order.order.zip}</Text>
                                 <Text>Country: {finalOrder.order.order.country}</Text>
-
                             </View>
                             <Text style={styles.title}>Items</Text>
                             {finalOrder.order.order.orderItems.map((item) => {
@@ -152,4 +164,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
 });
+
 export default Confirm;
