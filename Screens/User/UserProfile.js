@@ -1,89 +1,152 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { LineChart } from "react-native-chart-kit";
-import axios from "axios";
-import baseURL from "../../assets/common/baseurl";
+import React, { useContext, useState, useCallback } from 'react';
+import { View, Text, ScrollView, Button, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Container } from "native-base"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
+import Input from "../../Shared/Form/Input";
+import InputPrfl from "../../Shared/Form/InputPrfl";
+import UserOrders from "./UserOrders";
 
-const Chart = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get(`${baseURL}orders`)
-      .then((res) => {
-        setOrders(res.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Error loading orders", error);
-        setLoading(false);
-      });
-  }, []);
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-  if (loading) {
+import axios from "axios"
+import baseURL from "../../assets/common/baseurl"
+
+import AuthGlobal from "../../Context/Store/AuthGlobal"
+import { logoutUser } from "../../Context/Actions/Auth.actions"
+
+const UserProfile = (props) => {
+    const context = useContext(AuthGlobal)
+    const [userProfile, setUserProfile] = useState('')
+    const [orders, setOrders] = useState([])
+    const navigation = useNavigation()
+
+    useFocusEffect(
+        useCallback(() => {
+            if (
+                context.stateUser.isAuthenticated === false ||
+                context.stateUser.isAuthenticated === null
+            ) {
+                navigation.navigate("Login")
+            }
+            AsyncStorage.getItem("jwt")
+                .then((res) => {
+                    axios
+                        .get(`${baseURL}users/${context.stateUser.user.userId}`, {
+                            headers: { Authorization: `Bearer ${res}` },
+                        })
+                        .then((user) => setUserProfile(user.data))
+                })
+                .catch((error) => console.log(error))
+            axios
+                .get(`${baseURL}orders`)
+                .then((x) => {
+                    const data = x.data;
+                    console.log(data)
+                    const userOrders = data.filter(
+                        (order) =>
+                            // console.log(order)
+                            order.user ? (order.user._id === context.stateUser.user.userId) : false
+
+                    );
+                    setOrders(userOrders);
+                })
+                .catch((error) => console.log(error))
+            return () => {
+                setUserProfile();
+            }
+
+        }, [context.stateUser.isAuthenticated]))
+
+        const handleUserOrdersPress = () => {
+            navigation.navigate('My Orders', { orders });
+        };
+        
+
     return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
+        <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                <Image
+                    source={{ uri: 'https://via.placeholder.com/139x139' }}
+                    style={styles.profileImage}
+                />
+                <TouchableOpacity style={styles.UserOrdersButton} onPress={handleUserOrdersPress}>
+                    <Text style={styles.UserOrdersButtonText}>My Orders</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Name</Text>
+                    <View style={[styles.inputContainer, { marginTop: 0 }]}>
+                        <InputPrfl
+                            placeholder="Enter your name"
+                            leftIcon={<View style={styles.nameIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.name : ''}
+                            inputStyle={styles.nameText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Email</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your email"
+                            leftIcon={<View style={styles.emailIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.email : ''}
+                            inputStyle={styles.emailText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Phone Number</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your number"
+                            leftIcon={<View style={styles.phoneIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.phone : ''}
+                            inputStyle={styles.phoneText}
+                        />
+                    </View>
+                </View>
+
+                {/* <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Password</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your password"
+                            leftIcon={<View style={styles.lockIcon} />}
+                            onChangeText={(text) => {  }}
+                            value={''}
+                            inputStyle={styles.passwordText}
+                        />
+                    </View>
+                </View> */}
+            </View>
+
+            <View style={styles.actionContainer}>
+            </View>
+            <View style={styles.actionContainer}>
+                <TouchableOpacity style={styles.updateProfileButton}>
+                    <Text style={styles.updateProfileText}>Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
+                    onPress={() => {
+                        AsyncStorage.removeItem("jwt");
+                        logoutUser(context.dispatch);
+                    }}
+                >
+                    <Text style={styles.logoutText}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+        </View >
     );
-  }
-
-  // Aggregate total sales for each date
-  const salesData = {};
-  orders.forEach((order) => {
-    const date = new Date(order.dateOrdered).toLocaleDateString();
-    if (!salesData[date]) {
-      salesData[date] = 0;
-    }
-    salesData[date] += order.totalPrice;
-  });
-
-  // Extract labels and data for the chart
-  const labels = Object.keys(salesData);
-  const data = labels.map((label) => salesData[label]);
-
-  return (
-    <View>
-      <Text>Total Sales by Date</Text>
-      <LineChart
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              data: data,
-            },
-          ],
-        }}
-        width={Dimensions.get("window").width}
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
-        yAxisInterval={1}
-        chartConfig={{
-          backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#fb8c00",
-          backgroundGradientTo: "#ffa726",
-          decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-          propsForDots: {
-            r: "6",
-            strokeWidth: "2",
-            stroke: "#ffa726",
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-    </View>
-  );
 };
 
 const styles = StyleSheet.create({
