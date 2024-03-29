@@ -139,11 +139,11 @@ const SingleProduct = ({ route }) => {
                 <View style={styles.controlContainer}>
                     <Text style={styles.label}>Quantity:</Text>
                     <View style={styles.quantitySelector}>
-                        <EasyButton primary small onPress={decreaseQuantity}>
+                        <EasyButton primary small onPress={decreaseQuantity} style={{ backgroundColor: "#664229" }}>
                             <Text style={styles.buttonText}>-</Text>
                         </EasyButton>
                         <Text style={styles.quantity}>{quantity}</Text>
-                        <EasyButton primary small onPress={increaseQuantity}>
+                        <EasyButton primary small onPress={increaseQuantity} style={{ backgroundColor: "#664229" }}>
                             <Text style={styles.buttonText}>+</Text>
                         </EasyButton>
                     </View>
@@ -201,8 +201,8 @@ const SingleProduct = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.addToCartContainer}>
-                    <Text style={styles.label}>Total Price: ${totalPrice}</Text>
-                    <EasyButton primary medium onPress={handleAddToCart}>
+                    <Text style={styles.label}>Total Price: ₱{totalPrice}</Text>
+                    <EasyButton primary medium onPress={handleAddToCart} style={{ backgroundColor: "#664229" }}>
                         <Text style={styles.buttonText}>Add to Cart</Text>
                     </EasyButton>
                 </View>

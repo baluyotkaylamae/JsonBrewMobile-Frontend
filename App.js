@@ -36,9 +36,8 @@ export default function App() {
           <NavigationContainer>
             {/* <Header /> */}
             {/* <Greeting /> */}
-            {/* <DrawerNavigator /> */}
-
-            <Main />
+            <DrawerNavigator />
+            {/* <Main /> */}
             
             <Toast />
           </NavigationContainer>

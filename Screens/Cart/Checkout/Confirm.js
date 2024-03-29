@@ -116,7 +116,7 @@ const Confirm = (props) => {
                                             </VStack>
                                             <Spacer />
                                             <Text fontSize="xs" _dark={{ color: "warmGray.50" }} color="coolGray.800" alignSelf="flex-start">
-                                                Total: {item.totalPrice}
+                                                Total: ₱{item.totalPrice}
                                             </Text>
                                         </HStack>
                                         <View style={{ borderBottomWidth: 1, borderBottomColor: "#ccc", marginVertical: 10 }} />
