@@ -25,23 +25,12 @@ const ProductCard = (props) => {
         }
     };
 
-    const handleAddToCart = () => {
-        dispatch(addToCart({
-            name: name,
-            price: price,
-            image: image,
-            description: description,
-            rating: rating,
-            quantity: 1, 
-            cupSize: 'Small', 
-            sugarLevel: 'Medium', 
-            addons: [], 
-            totalPrice: price 
-        }));
-    };
-    const handleOrderNow = () => {
-        navigation.navigate('Checkout');
-    };
+    // const handleAddToCart = () => {
+    //   navigation.navigate('Product Detail')
+    // };
+    // const handleOrderNow = () => {
+    //     navigation.navigate('Checkout');
+    // };
 
 
     return (
@@ -61,12 +50,12 @@ const ProductCard = (props) => {
             <Text style={styles.rating}>Rating: {productRating}</Text>
             <Text style={styles.price}>₱{price}</Text>
             <View style={styles.buttonContainer}>
-                     <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+                     {/* <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
                     <Text style={styles.buttonText}>Add to Cart</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={handleOrderNow}>
                     <Text style={styles.buttonText}>Order Now</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
