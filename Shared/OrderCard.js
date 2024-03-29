@@ -142,7 +142,7 @@ const OrderCard = ({ item, select }) => {
         </Text>
         <View style={styles.priceContainer}>
           <Text>Price: </Text>
-          <Text style={styles.price}>$ {item.totalPrice}</Text>
+          <Text style={styles.price}>₱ {item.totalPrice}</Text>
         </View>
         {!select &&
           <View>
