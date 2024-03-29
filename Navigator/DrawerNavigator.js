@@ -1,7 +1,11 @@
 import * as React from "react";
 import { createDrawerNavigator, DrawerContentScrollView } from "@react-navigation/drawer";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+<<<<<<< Updated upstream
 import { Pressable, VStack, Box, Text, Divider, Icon, NativeBaseProvider, Avatar } from "native-base";
+=======
+import { Pressable, VStack, Box, Text, Divider, Icon } from "native-base";
+>>>>>>> Stashed changes
 import Main from "./Main";
 import Login from "../Screens/User/Login";
 import Cart from "../Screens/Cart/Cart";
@@ -21,10 +25,17 @@ const getIcon = (screenName) => {
       return "account";
     case "Product List":
       return "archive";
+<<<<<<< Updated upstream
     case "Cart":
       return "cart-variant";
       case "Login":
         return "account-arrow-right";
+=======
+    case "Categories":
+      return "format-list-bulleted";
+    case "Cart":
+      return "cart-outline";
+>>>>>>> Stashed changes
     case "Admin":
       return "cog";
     default:
@@ -35,6 +46,7 @@ const getIcon = (screenName) => {
 function CustomDrawerContent(props) {
   const context = React.useContext(AuthGlobal);
   const [hoveredItem, setHoveredItem] = React.useState(null);
+<<<<<<< Updated upstream
   const [userProfile, setUserProfile] = React.useState(null);
 
   const fetchUserProfile = async () => {
@@ -143,16 +155,102 @@ function CustomDrawerContent(props) {
   );
 }
 
+=======
+
+  const handlePressIn = (name) => {
+    setHoveredItem(name);
+  };
+
+  const handlePressOut = () => {
+    setHoveredItem(null);
+  };
+
+  return (
+    <DrawerContentScrollView {...props} safeArea style={{ borderTopRightRadius: 20, borderBottomRightRadius: 20 }}>
+      <Box flex={1}>
+        <VStack space={3} alignItems="flex-start" px={5} py={3}>
+          <Box flexDirection="row" alignItems="center">
+            <Icon
+              mr={2}
+              color={"gray.500"}
+              size="sm"
+              as={<MaterialCommunityIcons name={getIcon("Users")} />}
+            />
+            <Pressable
+              onPress={() => props.navigation.navigate("User")}
+              onPressIn={() => handlePressIn("Users")}
+              onPressOut={handlePressOut}
+              style={({ pressed }) => ({
+                backgroundColor: pressed || hoveredItem === "Users" ? "#664229" : "transparent",
+                borderRadius: 8,
+                padding: 10,
+              })}
+            >
+              <Text
+                px={2}
+                py={3}
+                fontWeight="500"
+                fontSize="lg"
+                color={"gray.700"}
+              >
+                Users
+              </Text>
+            </Pressable>
+          </Box>
+          <Divider />
+          {props.state.routeNames.map((name, index) => (
+            <React.Fragment key={name}>
+              <Box flexDirection="row" alignItems="center">
+                <Icon
+                  mr={2}
+                  color={index === props.state.index ? "primary.500" : "gray.500"}
+                  size="sm"
+                  as={<MaterialCommunityIcons name={getIcon(name)} />}
+                />
+                <Pressable
+                  onPress={() => props.navigation.navigate(name)}
+                  onPressIn={() => handlePressIn(name)}
+                  onPressOut={handlePressOut}
+                  style={({ pressed }) => ({
+                    backgroundColor: pressed || hoveredItem === name ? "#664229" : "transparent",
+                    borderRadius: 8,
+                    padding: 10,
+                  })}
+                >
+                  <Text
+                    px={2}
+                    py={3}
+                    fontWeight="500"
+                    fontSize={name === "Products" || name === "Cart" || name === "Admin" ? "lg" : "md"} 
+                    color={index === props.state.index ? "primary.500" : "gray.700"}
+                  >
+                    {name}
+                  </Text>
+                </Pressable>
+              </Box>
+              {index < props.state.routeNames.length - 1 && <Divider />}
+            </React.Fragment>
+          ))}
+        </VStack>
+      </Box>
+    </DrawerContentScrollView>
+  );
+}
+
+>>>>>>> Stashed changes
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
+<<<<<<< Updated upstream
       screenOptions={{
         drawerStyle: {
           borderTopRightRadius: 20,
           borderBottomRightRadius: 20,
         },
       }}
+=======
+>>>>>>> Stashed changes
     >
       <Drawer.Screen name="Home" component={Main} />
       <Drawer.Screen name="Products" component={Main} initialParams={{ screen: 'Products' }} />
@@ -164,6 +262,7 @@ const DrawerNavigator = () => {
   );
 };
 
+<<<<<<< Updated upstream
 const App = () => {
   return (
     <NativeBaseProvider>
@@ -173,3 +272,6 @@ const App = () => {
 };
 
 export default App;
+=======
+export default DrawerNavigator;
+>>>>>>> Stashed changes
