@@ -70,9 +70,9 @@ const Chart = () => {
 
   // Configure chart appearance
   const chartConfig = {
-    backgroundColor: "#e26a00",
-    backgroundGradientFrom: "#fb8c00",
-    backgroundGradientTo: "#ffa726",
+    backgroundColor: "#FF66C4",
+    backgroundGradientFrom: "#664229",
+    backgroundGradientTo: "#CBA387",
     decimalPlaces: 0,
     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -85,13 +85,13 @@ const Chart = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.chartContainer}>
-          <Text>Total Sales by Date</Text>
+        <Text style={styles.title}>Total Sales by Date</Text>
           <LineChart
             data={{
               labels: labels,
               datasets: [{ data: data }],
             }}
-            width={Dimensions.get("window").width}
+            width={350}
             height={220}
             yAxisLabel="$"
             yAxisSuffix="k"
@@ -99,32 +99,37 @@ const Chart = () => {
             chartConfig={chartConfig}
             bezier
             style={{
-              marginVertical: 8,
-              borderRadius: 16,
+              marginVertical: 10,
+              borderRadius: 10,
             }}
           />
         </View>
         <View style={styles.chartContainer}>
-          <Text>Product Counts in Stocks</Text>
+        <Text style={styles.title}>Product Counts in Stocks</Text>
           <BarChart
             data={{
               labels: productLabels,
               datasets: [{ data: productData }],
             }}
-            width={Dimensions.get("window").width}
+            width={350}
             height={220}
             yAxisLabel="#"
             chartConfig={chartConfig}
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+            }}
           />
-        </View>
+          </View>
         <View style={styles.chartContainer}>
-          <Text>Number of Orders Each Day</Text>
+        <Text style={styles.title}>Number of Orders Each Day</Text>
           <LineChart
             data={{
               labels: labels,
               datasets: [{ data: orderCountChartData }],
             }}
-            width={Dimensions.get("window").width}
+            // width={Dimensions.get("window").width}
+            width={350}
             height={220}
             yAxisLabel="#"
             chartConfig={chartConfig}
@@ -151,6 +156,10 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     marginBottom: 20,
+  },
+  title: {
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
