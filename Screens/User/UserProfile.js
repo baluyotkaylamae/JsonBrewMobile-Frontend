@@ -19,6 +19,7 @@ const UserProfile = (props) => {
     const context = useContext(AuthGlobal)
     const [userProfile, setUserProfile] = useState('')
     const [orders, setOrders] = useState([])
+    const [image, setImage] = useState(null);
     const navigation = useNavigation()
 
     useFocusEffect(
@@ -35,7 +36,10 @@ const UserProfile = (props) => {
                         .get(`${baseURL}users/${context.stateUser.user.userId}`, {
                             headers: { Authorization: `Bearer ${res}` },
                         })
-                        .then((user) => setUserProfile(user.data))
+                        .then((user) => {
+                            setUserProfile(user.data);
+                            setImage(user.data.image); // Fetching the image
+                        })
                 })
                 .catch((error) => console.log(error))
             axios
@@ -58,16 +62,17 @@ const UserProfile = (props) => {
 
         }, [context.stateUser.isAuthenticated]))
 
-        const handleUserOrdersPress = () => {
-            navigation.navigate('My Orders', { orders });
-        };
-        
+
+    const handleUserOrdersPress = () => {
+        navigation.navigate('My Orders', { orders });
+    };
+
 
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
                 <Image
-                    source={{ uri: 'https://via.placeholder.com/139x139' }}
+                    source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
                     style={styles.profileImage}
                 />
                 <TouchableOpacity style={styles.UserOrdersButton} onPress={handleUserOrdersPress}>
