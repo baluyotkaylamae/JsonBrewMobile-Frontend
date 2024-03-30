@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from './Overlay';","map":{"version":3,"names":[],"sources":["C:\\JsonMobile\\frontend\\node_modules\\native-base\\lib\\module\\components\\primitives\\Overlay\\index.ts"],"sourcesContent":["export * from './Overlay';\n"],"mappings":"AAAA,cAAc,WAAd","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}

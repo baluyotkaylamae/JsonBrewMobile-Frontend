@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
-import { LineChart, BarChart } from "react-native-chart-kit";
+import { LineChart, BarChart, PieChart } from "react-native-chart-kit";
 import axios from "axios";
 import baseURL from "../../assets/common/baseurl";
+import ModalDropdown from "react-native-modal-dropdown";
 
 const Chart = () => {
   const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedChartType, setSelectedChartType] = useState({
+    totalSales: "Line",
+    productCounts: "Bar",
+    orderCount: "Line",
+  });
 
   useEffect(() => {
     axios
@@ -85,59 +91,264 @@ const Chart = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.chartContainer}>
-        <Text style={styles.title}>Total Sales by Date</Text>
-          <LineChart
-            data={{
-              labels: labels,
-              datasets: [{ data: data }],
-            }}
-            width={350}
-            height={220}
-            yAxisLabel="$"
-            yAxisSuffix="k"
-            yAxisInterval={1}
-            chartConfig={chartConfig}
-            bezier
-            style={{
-              marginVertical: 10,
-              borderRadius: 10,
-            }}
+          <Text style={styles.title}>Total Sales by Date</Text>
+          <ModalDropdown
+            options={["Line", "Bar", "Pie"]}
+            onSelect={(index, value) =>
+              setSelectedChartType((prevState) => ({
+                ...prevState,
+                totalSales: value,
+              }))
+            }
+            textStyle={styles.dropdownText}
+            dropdownStyle={styles.dropdownStyle}
           />
+          {selectedChartType.totalSales === "Line" && (
+            <LineChart
+              data={{
+                labels: labels,
+                datasets: [{ data: data }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="$"
+              yAxisSuffix="k"
+              yAxisInterval={1}
+              chartConfig={chartConfig}
+              bezier
+              style={{
+                marginVertical: 10,
+                borderRadius: 10,
+              }}
+            />
+          )}
+          {selectedChartType.totalSales === "Bar" && (
+            <BarChart
+              data={{
+                labels: labels,
+                datasets: [{ data: data }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="$"
+              yAxisSuffix="k"
+              yAxisInterval={1}
+              chartConfig={chartConfig}
+              style={{
+                marginVertical: 10,
+                borderRadius: 10,
+              }}
+            />
+          )}
+          {selectedChartType.totalSales === "Pie" && (
+            <>
+              <PieChart
+                data={labels.map((label, index) => ({
+                  name: label,
+                  population: data[index],
+                  color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+                    Math.random() * 256
+                  )}, ${Math.floor(Math.random() * 256)}, 1)`,
+                  legendFontColor: "#7F7F7F",
+                  legendFontSize: 15,
+                }))}
+                width={Dimensions.get("window").width - 16}
+                height={220}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                paddingLeft="15"
+                absolute
+              />
+              <ModalDropdown
+                options={["Line", "Bar", "Pie"]}
+                onSelect={(index, value) =>
+                  setSelectedChartType((prevState) => ({
+                    ...prevState,
+                    totalSales: value,
+                  }))
+                }
+                textStyle={styles.dropdownText}
+                dropdownStyle={styles.dropdownStyle}
+              />
+            </>
+          )}
+        </View>
+        {selectedChartType.totalSales === "Pie" && (
+          <View style={styles.chartContainer}>
+            <Text style={styles.title}>Pie Chart Options</Text>
+            <ModalDropdown
+              options={["Line", "Bar", "Pie"]}
+              onSelect={(index, value) =>
+                setSelectedChartType((prevState) => ({
+                  ...prevState,
+                  totalSales: value,
+                }))
+              }
+              textStyle={styles.dropdownText}
+              dropdownStyle={styles.dropdownStyle}
+            />
+          </View>
+        )}
+        <View style={styles.chartContainer}>
+          <Text style={styles.title}>Product Counts in Stocks</Text>
+          <ModalDropdown
+            options={["Line", "Bar", "Pie"]}
+            onSelect={(index, value) =>
+              setSelectedChartType((prevState) => ({
+                ...prevState,
+                productCounts: value,
+              }))
+            }
+            textStyle={styles.dropdownText}
+            dropdownStyle={styles.dropdownStyle}
+          />
+          {selectedChartType.productCounts === "Line" && (
+            <LineChart
+              data={{
+                labels: productLabels,
+                datasets: [{ data: productData }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="#"
+              chartConfig={chartConfig}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
+          )}
+          {selectedChartType.productCounts === "Bar" && (
+            <BarChart
+              data={{
+                labels: productLabels,
+                datasets: [{ data: productData }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="#"
+              chartConfig={chartConfig}
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
+          )}
+          {selectedChartType.productCounts === "Pie" && (
+            <>
+              <PieChart
+                data={productLabels.map((label, index) => ({
+                  name: label,
+                  population: productData[index],
+                  color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+                    Math.random() * 256
+                  )}, ${Math.floor(Math.random() * 256)}, 1)`,
+                  legendFontColor: "#7F7F7F",
+                  legendFontSize: 15,
+                }))}
+                width={Dimensions.get("window").width - 16}
+                height={220}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                paddingLeft="15"
+                absolute
+              />
+              <ModalDropdown
+                options={["Line", "Bar", "Pie"]}
+                onSelect={(index, value) =>
+                  setSelectedChartType((prevState) => ({
+                    ...prevState,
+                    productCounts: value,
+                  }))
+                }
+                textStyle={styles.dropdownText}
+                dropdownStyle={styles.dropdownStyle}
+              />
+            </>
+          )}
         </View>
         <View style={styles.chartContainer}>
-        <Text style={styles.title}>Product Counts in Stocks</Text>
-          <BarChart
-            data={{
-              labels: productLabels,
-              datasets: [{ data: productData }],
-            }}
-            width={350}
-            height={220}
-            yAxisLabel="#"
-            chartConfig={chartConfig}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
+          <Text style={styles.title}>Number of Orders Each Day</Text>
+          <ModalDropdown
+            options={["Line", "Bar", "Pie"]}
+            onSelect={(index, value) =>
+              setSelectedChartType((prevState) => ({
+                ...prevState,
+                orderCount: value,
+              }))
+            }
+            textStyle={styles.dropdownText}
+            dropdownStyle={styles.dropdownStyle}
           />
-          </View>
-        <View style={styles.chartContainer}>
-        <Text style={styles.title}>Number of Orders Each Day</Text>
-          <LineChart
-            data={{
-              labels: labels,
-              datasets: [{ data: orderCountChartData }],
-            }}
-            // width={Dimensions.get("window").width}
-            width={350}
-            height={220}
-            yAxisLabel="#"
-            chartConfig={chartConfig}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
+          {selectedChartType.orderCount === "Line" && (
+            <LineChart
+              data={{
+                labels: labels,
+                datasets: [{ data: orderCountChartData }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="#"
+              chartConfig={chartConfig}
+              bezier
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
+          )}
+          {selectedChartType.orderCount === "Bar" && (
+            <BarChart
+              data={{
+                labels: labels,
+                datasets: [{ data: orderCountChartData }],
+              }}
+              width={350}
+              height={220}
+              yAxisLabel="#"
+              chartConfig={chartConfig}
+              style={{
+                marginVertical: 8,
+                borderRadius: 16,
+              }}
+            />
+          )}
+          {selectedChartType.orderCount === "Pie" && (
+            <>
+              <PieChart
+                data={labels.map((label, index) => ({
+                  name: label,
+                  population: orderCountChartData[index],
+                  color: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+                    Math.random() * 256
+                  )}, ${Math.floor(Math.random() * 256)}, 1)`,
+                  legendFontColor: "#7F7F7F",
+                  legendFontSize: 15,
+                }))}
+                width={Dimensions.get("window").width - 16}
+                height={220}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                paddingLeft="15"
+                absolute
+              />
+              <ModalDropdown
+                options={["Line", "Bar", "Pie"]}
+                onSelect={(index, value) =>
+                  setSelectedChartType((prevState) => ({
+                    ...prevState,
+                    orderCount: value,
+                  }))
+                }
+                textStyle={styles.dropdownText}
+                dropdownStyle={styles.dropdownStyle}
+              />
+            </>
+          )}
         </View>
       </View>
     </ScrollView>
@@ -160,6 +371,19 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     textAlign: "center",
+    marginBottom: 5,
+  },
+  dropdownText: {
+    fontSize: 18,
+    padding: 10,
+    textAlign: "center",
+  },
+  dropdownStyle: {
+    width: 150,
+    height: 120,
+    borderRadius: 8,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
 });
 

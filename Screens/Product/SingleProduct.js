@@ -15,6 +15,7 @@ const SingleProduct = ({ route }) => {
     const [selectedSugarLevel, setSelectedSugarLevel] = useState("Medium"); // Set default sugar level
     const [selectedCupSize, setSelectedCupSize] = useState("Small"); // Set default cup size
     const [selectedAddons, setSelectedAddons] = useState([]);
+    
 
     useEffect(() => {
         let newAvailability, newText;

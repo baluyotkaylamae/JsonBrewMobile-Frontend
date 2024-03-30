@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { View } from './View';","map":{"version":3,"names":["View"],"sources":["C:\\JsonMobile\\frontend\\node_modules\\native-base\\lib\\module\\components\\basic\\View\\index.tsx"],"sourcesContent":["export { View } from './View';\n"],"mappings":"AAAA,SAASA,IAAT,QAAqB,QAArB","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}

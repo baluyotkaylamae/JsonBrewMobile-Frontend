@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     modalView: {
         width: '80%', 
         flexDirection: 'row', 
-        justifyContent: 'space-around', 
+        justifyContent: 'space-around', // Align items horizontally
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,

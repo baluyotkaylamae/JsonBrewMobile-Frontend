@@ -145,7 +145,7 @@ const Products = (props) => {
                     >
                         <Icon name="shopping-basket" size={18} color="white" />
                         <Text style={styles.buttonText}>Categories</Text>
-                    </EasyButton>
+                    </EasyButton>   
                 </View>
                 <View style={styles.row}>
                     <EasyButton
@@ -157,6 +157,17 @@ const Products = (props) => {
                         <Icon name="bar-chart" size={18} color="white" />
                         <Text style={styles.buttonText}>Charts</Text>
                     </EasyButton>
+
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("Users")}
+                        style={{ backgroundColor: "#664229" }}
+                    >
+                        <Icon name="leaf" size={18} color="white" />
+                        <Text style={styles.buttonText}>Users</Text>
+                    </EasyButton>
+
                 </View>
             </View>
             <Searchbar

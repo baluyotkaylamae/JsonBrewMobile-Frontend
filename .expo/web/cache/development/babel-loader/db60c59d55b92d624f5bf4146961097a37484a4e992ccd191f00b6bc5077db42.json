@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var Wrap = {};","map":{"version":3,"names":["Wrap"],"sources":["C:\\JsonMobile\\frontend\\node_modules\\native-base\\lib\\module\\theme\\v33x-theme\\components\\wrap.ts"],"sourcesContent":["// Wrap\nexport const Wrap = {};\n"],"mappings":"AACA,OAAO,IAAMA,IAAI,GAAG,EAAb","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}
