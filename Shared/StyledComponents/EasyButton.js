@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 const EasyButton = styled.TouchableOpacity`
     flex-direction: row;
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 10px;
     margin: 5px;
     justify-content: center;
@@ -56,6 +56,15 @@ const EasyButton = styled.TouchableOpacity`
         props.small &&
         css`
             width: 40px;
+        `
+    }
+
+    ${(props) =>
+        props.cart &&
+        css`
+            background: #866852;
+            width: 330px;
+            align-items: center;
         `
     }
 `;
