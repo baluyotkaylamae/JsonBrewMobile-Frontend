@@ -36,6 +36,7 @@ const UserOrders = () => {
         }, [context.stateUser.isAuthenticated])
     );
 
+
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.container}>
@@ -43,7 +44,11 @@ const UserOrders = () => {
                 <View style={styles.ordersContainer}>
                     {orders.length > 0 ? (
                         orders.map((order) => (
-                            <OrderCard key={order.id} item={order} select="false" />
+                            <OrderCard 
+                                key={order.id} 
+                                item={order} 
+                                select="false" 
+                            />
                         ))
                     ) : (
                         <View style={styles.noOrders}>

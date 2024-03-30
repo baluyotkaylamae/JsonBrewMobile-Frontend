@@ -5,7 +5,7 @@ import Login from "../Screens/User/Login";
 import Register from "../Screens/User/Register";
 import UserProfile from "../Screens/User/UserProfile";
 import UserOrders from "../Screens/User/UserOrders";
-
+import UserReviews from "../Screens/User/UserReviews";
 const Stack = createStackNavigator();
 
 const UserNavigator = (props) => {
@@ -38,6 +38,15 @@ const UserNavigator = (props) => {
             <Stack.Screen
                 name="My Orders" 
                 component={UserOrders} 
+                options={{
+                    headerShown: false
+                }}
+            />
+
+
+            <Stack.Screen
+                name="My Reviews" 
+                component={UserReviews} 
                 options={{
                     headerShown: false
                 }}
