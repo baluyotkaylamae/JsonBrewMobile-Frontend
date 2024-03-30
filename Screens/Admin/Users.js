@@ -12,7 +12,7 @@ import EasyButton from "../../Shared/StyledComponents/EasyButton";
 import baseURL from "../../assets/common/baseurl";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome'; 
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var { width } = Dimensions.get("window");
 
@@ -49,7 +49,7 @@ const UserItem = (props) => {
                     <Icon name="pencil" size={20} color="white" />
                 </EasyButton>
                 <Modal
-                    animationType="slide"
+                    animationType="fade"
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
@@ -58,19 +58,29 @@ const UserItem = (props) => {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Text>Select Role:</Text>
-                            <TouchableOpacity
-                                style={styles.roleButton}
-                                onPress={() => updateUserRole('user')}
-                            >
-                                <Text>User</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.roleButton}
-                                onPress={() => updateUserRole('admin')}
-                            >
-                                <Text>Admin</Text>
-                            </TouchableOpacity>
+                            <Text>{props.item.name}</Text>
+                            <Text>{props.item.email}</Text>
+                            <Text>Current Role: {props.item.isAdmin ? 'Admin' : 'User'}</Text>
+                            <View style={styles.selectRoleContainer}>
+                                <Text style={styles.selectRoleText}>Select Role:</Text>
+                                <View style={styles.roleButtonContainer}>
+                                    <View style={styles.roleButtonContainer}>
+                                        <TouchableOpacity
+                                            style={[styles.roleButton, { marginRight: 10 }]}
+                                            onPress={() => updateUserRole('user')}
+                                        >
+                                            <Text>User</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.roleButton}
+                                            onPress={() => updateUserRole('admin')}
+                                        >
+                                            <Text>Admin</Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -118,15 +128,13 @@ const Users = (props) => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
-            <FlatList
-                data={users}
-                renderItem={({ item }) => (
-                    <UserItem item={item} delete={deleteUser} />
-                )}
-                keyExtractor={(item) => item.id}
-            />
-        </View>
+        <FlatList
+            data={users}
+            renderItem={({ item }) => (
+                <UserItem item={item} delete={deleteUser} />
+            )}
+            keyExtractor={(item) => item._id} // Assuming _id is a unique identifier
+        />
     );
 };
 
@@ -152,7 +160,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalView: {
-        margin: 20,
+        margin: 30,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
@@ -172,6 +180,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#DDDDDD',
         borderRadius: 10,
     },
+    selectRoleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    roleButtonContainer: {
+        flexDirection: 'row',
+        marginLeft: 10,
+        marginRight: 10,
+    },
+
 });
 
 export default Users;
