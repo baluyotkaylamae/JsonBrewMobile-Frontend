@@ -97,26 +97,32 @@ const ProductContainer = () => {
 
     console.log("category", productsCtg)
 
-        return (
+    return (
         <NativeBaseProvider theme={theme}>
             <Center style={styles.pageBackground}>
-                <ScrollView>
-                    <VStack w="60%" space={5} alignSelf="center">
-                        <Input
-                            onFocus={openList}
-                            onChangeText={(text) => searchProduct(text)}
-                            placeholder="Search for a Product"
-                            width="100%"
-                            borderRadius={0}
-                            py={2}
-                            px={4}
-                            borderColor="#B99960"
-                            borderWidth={2}
-                            marginBottom={5}
-                            InputLeftElement={<Icon ml="2" size="4" color="#B99960" as={<Ionicons name="search" />} />}
-                            InputRightElement={focus === true ? <Icon ml="2" size="4" color="red.400" as={<Ionicons name="close" size="12" color="black" onPress={onBlur} />} /> : null}
-                        />
-                    </VStack>
+                <ScrollView
+                    bounces={true}
+                    showsVerticalScrollIndicator={false}
+                    style={{ backgroundColor: "white" }}
+                >
+                    <View style={styles.searchContainer}>
+                        <VStack w="100%" space={5} alignSelf="center">
+                            <Input
+                                onFocus={openList}
+                                onChangeText={(text) => searchProduct(text)}
+                                placeholder="Search for a Product"
+                                width="100%"
+                                borderRadius={0}
+                                py={2}
+                                px={4}
+                                borderColor="#B99960"
+                                borderWidth={8}
+                                marginBottom={5}
+                                InputLeftElement={<Icon ml="2" size="5" color="#B99960" as={<Ionicons name="search" />} />}
+                                InputRightElement={focus === true ? <Icon ml="2" size="4" color="red.400" as={<Ionicons name="close" size="12" color="black" onPress={onBlur} />} /> : null}
+                            />
+                        </VStack>
+                    </View>
                     {focus === true ? (
                         <SearchedProduct productsFiltered={productsFiltered} />
                     ) : (
@@ -176,6 +182,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    // searchContainer: {
+    //     width: '70%', // Adjust width as needed
+    //     alignSelf: 'center',
+    //     marginBottom: 10, // Adjust margin as needed
+    // },
 });
 
 export default ProductContainer;
