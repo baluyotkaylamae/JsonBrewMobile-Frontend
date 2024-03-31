@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import HomeNavigator from "./HomeNavigator";
 import Cart from "../Screens/Cart/Cart"; // Adjusted import statement
 import CartIcon from "../Shared/CartIcon";
+import { Ionicons } from '@expo/vector-icons';
 import CartNavigator from "./CartNavigator";
 import UserNavigator from "./UserNavigator";
 import AdminNavigator from "./AdminNavigator";
@@ -19,7 +20,7 @@ const Main = () => {
             initialRouteName="Homepage"
             screenOptions={{
                 tabBarHideOnKeyboard: true,
-                tabBarShowLabel: true,
+                tabBarShowLabel: false,
                 tabBarActiveTintColor: '#664229'
             }}
         >
@@ -27,7 +28,7 @@ const Main = () => {
                 name="Home"
                 component={HomeNavigator}
                 options={{
-                    tabBarShowLabel: true,
+                    tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => {
                         return <Icon
                             name="home"
