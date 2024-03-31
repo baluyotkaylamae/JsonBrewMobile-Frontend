@@ -1,34 +1,35 @@
 {
-    "expo": {
-      "name": "jsonfrontend",
-      "slug": "jsonfrontend",
-      "version": "1.0.0",
-      "orientation": "default",
-      "icon": "./assets/coffee.png",
-      "userInterfaceStyle": "light",
-      "splash": {
-        "image": "./assets/kohi.png",
-        "resizeMode": "contain",
+  "expo": {
+    "name": "jsonfrontend",
+    "slug": "jsonfrontend",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/coffee.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/kohi.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/kohi.png",
         "backgroundColor": "#ffffff"
       },
-      "assetBundlePatterns": [
-        "**/*"
-      ],
-      "ios": {
-        "supportsTablet": true
-      },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/kohi.png",
-          "backgroundColor": "#ffffff"
-        }
-      },
-      "web": {
-        "favicon": "./assets/kape-icon.png"
-      },
-      "plugins": [
-        "expo-build-properties"
-      ]
-    }
+      "package": "com.anonymous.jsonfrontend"
+    },
+    "web": {
+      "favicon": "./assets/kape-icon.png"
+    },
+    "plugins": [
+      "expo-build-properties"
+    ],
+    "scheme": "myGoogleApp"
   }
-  
+}

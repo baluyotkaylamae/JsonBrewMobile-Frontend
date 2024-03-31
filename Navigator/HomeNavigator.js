@@ -1,10 +1,11 @@
-import React from 'react'
-import { createStackNavigator } from "@react-navigation/stack"
+import React from 'react';
+import { createStackNavigator } from "@react-navigation/stack";
 
 import ProductContainer from "../Screens/Product/ProductContainer";
 import SingleProduct from '../Screens/Product/SingleProduct';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
+
 function MyStack() {
     return (
         <Stack.Navigator>
@@ -12,11 +13,13 @@ function MyStack() {
                 name='Home'
                 component={ProductContainer}
                 options={{
-                    headerShown: false,
-                    cardStyle: { marginTop: 5 },
+                    headerShown: false, 
+                    headerStyle: {
+                        borderBottomWidth: 0,
+                    },
                 }}
             />
-            <Stack.Screen 
+            <Stack.Screen
                 name='Product Detail'
                 component={SingleProduct}
                 options={{
@@ -24,7 +27,7 @@ function MyStack() {
                 }}
             />
         </Stack.Navigator>
-    )
+    );
 }
 
 export default function HomeNavigator() {

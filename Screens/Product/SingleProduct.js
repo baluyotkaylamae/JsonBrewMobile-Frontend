@@ -6,6 +6,8 @@ import TrafficLight from '../../Shared/StyledComponents/TrafficLight';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/Actions/cartActions';
 import Toast from 'react-native-toast-message';
+import Divider from "../../Shared/StyledComponents/Divider";
+
 
 const SingleProduct = ({ route }) => {
     const [item, setItem] = useState(route.params.item);
@@ -123,91 +125,114 @@ const SingleProduct = ({ route }) => {
                 <View style={styles.contentContainer}>
                     <Heading style={styles.contentHeader} size='xl'>{item.name}</Heading>
                     <Text style={styles.brandText}>{item.brand}</Text>
-                    {selectedCupSize && ( // Check if cup size is selected before rendering
-                        <Text style={styles.sizeText}>Size: <Text>{selectedCupSize}</Text></Text>
+                    {selectedCupSize && (
+                        <Text style={[styles.sizeText, { fontSize: 15 }]}>Size: <Text>{selectedCupSize}</Text></Text>
                     )}
-                </View>
-                <View style={styles.infoContainer}>
                     <View style={styles.availability}>
                         <Text style={styles.availabilityText}>
-                            Availability: {availabilityText}
+                            {availabilityText}
                         </Text>
                         {availability}
                     </View>
+                </View>
+                <View style={styles.infoContainer}>
                     <Text style={styles.description}>{item.description}</Text>
                 </View>
+                <View style={styles.quanlabelContainer}>
+                    <Text style={styles.description}>Quantity:</Text>
+                </View>
                 <View style={styles.controlContainer}>
-                    <Text style={styles.label}>Quantity:</Text>
                     <View style={styles.quantitySelector}>
                         <EasyButton primary small onPress={decreaseQuantity}>
                             <Text style={styles.buttonText}>-</Text>
                         </EasyButton>
-                        <Text style={styles.quantity}>{quantity}</Text>
+                        <View style={styles.quantityContainer}>
+                            <Text style={styles.quantity}>{quantity}</Text>
+                        </View>
                         <EasyButton primary small onPress={increaseQuantity}>
                             <Text style={styles.buttonText}>+</Text>
                         </EasyButton>
                     </View>
                 </View>
-                <View style={styles.controlContainer}>
-                    <Text style={styles.label}>Select Sugar Level:</Text>
-                    <View style={styles.optionsContainer}>
-                        {['Low', 'Medium', 'High'].map(level => (
-                            <TouchableOpacity
-                                key={level}
-                                style={[
-                                    styles.option,
-
-                                    selectedSugarLevel === level && styles.selectedOption
-                                ]}
-                                onPress={() => handleSugarLevelSelection(level)}
-                            >
-                                <Text style={styles.optionText}>{level}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
+                <Divider />
+                <View style={styles.sugarlabelContainer}>
+                    <Text style={styles.description}>Select Sugar Level:</Text>
+                </View>
+                <View style={[styles.boxchoicesContainer]}>
+                    {['Low', 'Medium', 'High'].map(level => (
+                        <TouchableOpacity
+                            key={level}
+                            style={[
+                                styles.option,
+                                selectedSugarLevel === level && styles.selectedOption,
+                                { width: 104, justifyContent: 'center' } // Align the text vertically center
+                            ]}
+                            onPress={() => handleSugarLevelSelection(level)}
+                        >
+                            <Text style={[styles.optionText, { textAlign: 'center' }]}>
+                                {level}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+                <Divider />
+                <View style={styles.cuplabelContainer}>
+                    <Text style={styles.description}>Select Cup Size:</Text>
                 </View>
                 <View style={styles.controlContainer}>
-                    <Text style={styles.label}>Select Cup Size:</Text>
                     <View style={styles.optionsContainer}>
                         {['Small', 'Medium', 'Large'].map(size => (
                             <TouchableOpacity
                                 key={size}
                                 style={[
                                     styles.option,
-                                    selectedCupSize === size && styles.selectedOption
+                                    selectedCupSize === size && styles.selectedOption,
+                                    { width: 104, justifyContent: 'center' } // Align the text vertically center
                                 ]}
                                 onPress={() => handleCupSizeSelection(size)}
                             >
-                                <Text style={styles.optionText}>{size}</Text>
+                                <Text style={[styles.optionText, { textAlign: 'center' }]}>
+                                    {size}
+                                </Text>
                             </TouchableOpacity>
                         ))}
                     </View>
                 </View>
+                <Divider />
+                <View style={styles.addonslabelContainer}>
+                    <Text style={styles.description}>Select Addons:</Text>
+                </View>
                 <View style={styles.controlContainer}>
-                    <Text style={styles.label}>Select Addons:</Text>
                     <View style={styles.optionsContainer}>
                         {['Milk', 'Honey', 'Cream'].map(addon => (
                             <TouchableOpacity
                                 key={addon}
                                 style={[
                                     styles.option,
-                                    selectedAddons.includes(addon) && styles.selectedOption
+                                    selectedAddons.includes(addon) && styles.selectedOption,
+                                    { width: 104, justifyContent: 'center' } // Align the text vertically center
                                 ]}
                                 onPress={() => handleAddonsSelection(addon)}
                             >
-                                <Text style={styles.optionText}>{addon}</Text>
+                                <Text style={[styles.optionText, { textAlign: 'center' }]}>
+                                    {addon}
+                                </Text>
                             </TouchableOpacity>
                         ))}
                     </View>
                 </View>
-                <View style={styles.addToCartContainer}>
-                    <Text style={styles.label}>Total Price: ${totalPrice}</Text>
-                    <EasyButton primary medium onPress={handleAddToCart}>
+
+            </ScrollView>
+            <View style={styles.addToCartContainer}>
+                <Text style={styles.label}><Text style={{ fontWeight: 'bold' }}>Amount:</Text>                                                  ${totalPrice}</Text>
+                <View style={styles.buttonContainer}>
+                    <EasyButton cart medium onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>Add to Cart</Text>
                     </EasyButton>
                 </View>
-            </ScrollView>
+            </View>
         </Center >
+
     );
 };
 
@@ -215,32 +240,37 @@ const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
         alignItems: 'center',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
-        backgroundColor: '#f7f3e9',
+        justifyContent: 'center',
+        paddingVertical: '5%', // Adjust percentage as needed
+        paddingHorizontal: '18%',
+        backgroundColor: '#FFFFFF',
     },
     imageContainer: {
         width: '100%',
         alignItems: 'center',
+        marginLeft: -85,
         marginBottom: 20,
     },
     image: {
-        width: '100%',
-        height: 300,
+        width: 400,
+        height: 270,
         // Ensure any additional styles needed for the Image component
     },
     contentContainer: {
         width: '100%',
-        alignItems: 'center',
+        alignItems: 'left',
+        marginTop: -15,
+        marginLeft: -100,
         marginBottom: 20,
     },
     contentHeader: {
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 3,
         color: '#4a3f35',
+        fontSize: 25,
     },
     brandText: {
-        fontSize: 16,
+        fontSize: 15,
         color: '#6b5b4d',
     },
     sizeText: {
@@ -248,6 +278,8 @@ const styles = StyleSheet.create({
         color: '#6b5b4d',
     },
     infoContainer: {
+        marginLeft: -375,
+        marginTop: -10,
         marginBottom: 20,
     },
     availability: {
@@ -264,13 +296,27 @@ const styles = StyleSheet.create({
         color: '#4a3f35',
         marginBottom: 20,
     },
+    quanlabelContainer: {
+        marginBottom: -17,
+        marginLeft: -360,
+    },
     controlContainer: {
+        marginLeft: -85,
         marginBottom: 20,
     },
     label: {
         marginBottom: 10,
         fontSize: 16,
         color: '#4a3f35',
+    },
+    quantityContainer: {
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 8,
+        minWidth: 240,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: '#ccc',
     },
     quantitySelector: {
         flexDirection: 'row',
@@ -280,6 +326,34 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         fontSize: 16,
         color: '#4a3f35',
+    },
+    sugarlabelContainer: {
+        marginTop: 17,
+        marginBottom: -25,
+        marginLeft: -300,
+    },
+    SugarContainer: {
+        marginLeft: -200,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    boxchoicesContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 20,
+        marginLeft: -80,
+        marginBottom: 25,
+    },
+    cuplabelContainer: {
+        marginTop: 17,
+        marginBottom: -15,
+        marginLeft: -320,
+    },
+    addonslabelContainer: {
+        marginTop: 17,
+        marginBottom: -15,
+        marginLeft: -320,
     },
     optionsContainer: {
         flexDirection: 'row',
@@ -300,9 +374,6 @@ const styles = StyleSheet.create({
     selectedOption: {
         backgroundColor: '#e0e0e0',
     },
-    buttonText: {
-        color: "#fff",
-    },
     sizeText: {
         fontSize: 16,
         color: '#6b5b4d',
@@ -311,6 +382,19 @@ const styles = StyleSheet.create({
     addToCartContainer: {
         alignItems: 'center',
         marginBottom: 20,
+        marginTop: 10,
+    },
+    buttonContainer: {
+        marginTop: -10,
+        marginBottom: 80,
+    },
+    Easybutton: {
+        width: '100%', // Set the width of the button
+        borderRadius: 30, // Set the border radius to make it rounded
+    },
+    buttonText: {
+        color: "#fff",
+        textAlign: 'center',
     },
 });
 

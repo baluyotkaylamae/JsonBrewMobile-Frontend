@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from '../build/providers/Google';","map":{"version":3,"names":[],"sources":["C:/JsonMobile/frontend/node_modules/expo-auth-session/providers/google.js"],"sourcesContent":["export * from '../build/providers/Google';\n"],"mappings":"AAAA,cAAc,2BAA2B","ignoreList":[]},"metadata":{},"sourceType":"module","externalDependencies":[]}

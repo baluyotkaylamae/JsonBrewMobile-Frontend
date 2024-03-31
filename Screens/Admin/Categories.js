@@ -12,6 +12,7 @@ import EasyButton from "../../Shared/StyledComponents/EasyButton";
 import baseURL from "../../assets/common/baseurl";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 var { width } = Dimensions.get("window");
 
@@ -19,22 +20,26 @@ const Item = (props) => {
     return (
         <View style={styles.item}>
             <Text>{props.item.name}</Text>
-            <EasyButton
-                danger
-                medium
-                onPress={() => props.delete(props.item._id)}
-                style={{ marginLeft: 10 }} // Add margin for better separation
-            >
-                <Text style={{ color: "white", fontWeight: "bold" }}>Delete</Text>
-            </EasyButton>
-            <EasyButton
-                primary
-                medium
-                onPress={() => props.update(props.item)}
-                style={{ marginLeft: 10 }} // Add margin for better separation
-            >
-                <Text style={{ color: "white", fontWeight: "bold" }}>Update</Text>
-            </EasyButton>
+            <View style={styles.iconContainer}>
+                {/* Delete icon */}
+                <EasyButton
+                    danger
+                    medium
+                    onPress={() => props.delete(props.item._id)}
+                    style={styles.icon}
+                >
+                    <Icon name="trash" size={20} color="white" />
+                </EasyButton>
+                {/* Update icon */}
+                <EasyButton
+                    primary
+                    medium
+                    onPress={() => props.update(props.item)}
+                    style={styles.icon}
+                >
+                    <Icon name="pencil" size={20} color="white" />
+                </EasyButton>
+            </View>
         </View>
     );
 };
@@ -222,12 +227,18 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     item: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         padding: 10,
         borderBottomWidth: 1,
-        borderBottomColor: "lightgray",
+        borderBottomColor: 'lightgray',
+    },
+    iconContainer: {
+        flexDirection: 'row',
+    },
+    icon: {
+        marginLeft: 10,
     },
     centeredView: {
         flex: 1,
@@ -236,7 +247,9 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     modalView: {
-        margin: 20,
+        width: '80%', 
+        flexDirection: 'row', 
+        justifyContent: 'space-around', // Align items horizontally
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,

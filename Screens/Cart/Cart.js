@@ -9,6 +9,7 @@ import { removeFromCart, clearCart } from '../../Redux/Actions/cartActions'
 var { height, width } = Dimensions.get("window");
 import EasyButton from "../../Shared/StyledComponents/EasyButton"
 import Checkout from "./Checkout/Checkout";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 const Cart = () => {
     const navigation = useNavigation();
@@ -135,7 +136,7 @@ const Cart = () => {
                         <Text fontSize="xs" color="coolGray.800" _dark={{
                             color: 'warmGray.50'
                         }} alignSelf="flex-start">
-                            $ {totalItemPrice.toFixed(2)}
+                            ₱ {totalItemPrice.toFixed(2)}
                         </Text>
                     </HStack>
                     {/* Quantity controls */}
@@ -196,7 +197,7 @@ const Cart = () => {
             <VStack style={styles.bottomContainer} w='100%' justifyContent='space-between'
             >
                 <HStack justifyContent="space-between">
-                    <Text style={styles.price}>$ {total.toFixed(2)}</Text>
+                    <Text style={styles.price}>₱ {total.toFixed(2)}</Text>
                 </HStack>
                 <HStack justifyContent="space-between">
 
@@ -207,7 +208,7 @@ const Cart = () => {
                         alignItems="center"
                         onPress={() => handleClearCart()}
                     >
-                        <Text style={{ color: 'white' }}>Clear</Text>
+                        <FontAwesomeIcon name="trash" size={20} color="white" />
                     </EasyButton>
                 </HStack>
                 <HStack justifyContent="space-between">
@@ -218,7 +219,7 @@ const Cart = () => {
                         medium
                         onPress={() => navigation.navigate('Checkout')}
                     >
-                        <Text style={{ color: 'white' }}>Checkout</Text>
+                        <FontAwesomeIcon name="shopping-cart" size={20} color="white" />
                     </EasyButton>
                 </HStack>
             </VStack >

@@ -7,28 +7,28 @@ import {
     StyleSheet,
     Dimensions,
     RefreshControl,
-
 } from "react-native";
-import { Input, VStack, Heading, Box } from "native-base"
-import Icon from "react-native-vector-icons/FontAwesome"
-import { useFocusEffect } from "@react-navigation/native"
+import { Input, VStack, Heading, Box } from "native-base";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useFocusEffect } from "@react-navigation/native";
 import { Searchbar } from 'react-native-paper';
-import ListItem from "./ListItem"
-
-import axios from "axios"
-import baseURL from "../../assets/common/baseurl"
-import AsyncStorage from '@react-native-async-storage/async-storage'
-var { height, width } = Dimensions.get("window")
+import ListItem from "./ListItem";
+import axios from "axios";
+import baseURL from "../../assets/common/baseurl";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from "@react-navigation/native";
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
-import { useNavigation } from "@react-navigation/native"
-const Products = (props) => {
 
+const { height, width } = Dimensions.get("window");
+
+const Products = (props) => {
     const [productList, setProductList] = useState([]);
     const [productFilter, setProductFilter] = useState([]);
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState();
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
+
     const ListHeader = () => {
         return (
             <View
@@ -49,18 +49,19 @@ const Products = (props) => {
                     <Text style={{ fontWeight: '600' }}>Price</Text>
                 </View>
             </View>
-        )
-    }
+        );
+    };
+
     const searchProduct = (text) => {
         if (text === "") {
-            setProductFilter(productList)
+            setProductFilter(productList);
         }
         setProductFilter(
             productList.filter((i) =>
                 i.name.toLowerCase().includes(text.toLowerCase())
             )
-        )
-    }
+        );
+    };
 
     const deleteProduct = (id) => {
         axios
@@ -68,11 +69,11 @@ const Products = (props) => {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
-                const products = productFilter.filter((item) => item.id !== id)
-                setProductFilter(products)
+                const products = productFilter.filter((item) => item.id !== id);
+                setProductFilter(products);
             })
             .catch((error) => console.log(error));
-    }
+    };
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -80,41 +81,40 @@ const Products = (props) => {
             axios
                 .get(`${baseURL}products`)
                 .then((res) => {
-                    // console.log(res.data)
                     setProductList(res.data);
                     setProductFilter(res.data);
                     setLoading(false);
-                })
+                });
             setRefreshing(false);
         }, 2000);
     }, []);
+
     useFocusEffect(
         useCallback(
             () => {
-                // Get Token
                 AsyncStorage.getItem("jwt")
                     .then((res) => {
-                        setToken(res)
+                        setToken(res);
                     })
-                    .catch((error) => console.log(error))
+                    .catch((error) => console.log(error));
                 axios
                     .get(`${baseURL}products`)
                     .then((res) => {
-                        console.log(res.data)
                         setProductList(res.data);
                         setProductFilter(res.data);
                         setLoading(false);
-                    })
+                    });
 
                 return () => {
                     setProductList();
                     setProductFilter();
                     setLoading(true);
-                }
+                };
             },
             [],
         )
-    )
+    );
+
     return (
         <Box flex={1}>
             <View style={styles.buttonContainer}>
@@ -123,6 +123,7 @@ const Products = (props) => {
                         secondary
                         medium
                         onPress={() => navigation.navigate("Orders")}
+                        style={{ backgroundColor: "#664229" }}
                     >
                         <Icon name="shopping-bag" size={18} color="white" />
                         <Text style={styles.buttonText}>Orders</Text>
@@ -131,75 +132,88 @@ const Products = (props) => {
                         secondary
                         medium
                         onPress={() => navigation.navigate("ProductForm")}
+                        style={{ backgroundColor: "#664229" }}
                     >
-                        <Icon name="plus" size={18} color="white" />
+                        <Icon name="leaf" size={18} color="white" />
                         <Text style={styles.buttonText}>Products</Text>
                     </EasyButton>
                     <EasyButton
                         secondary
                         medium
                         onPress={() => navigation.navigate("Categories")}
+                        style={{ backgroundColor: "#664229" }}
                     >
-                        <Icon name="plus" size={18} color="white" />
+                        <Icon name="shopping-basket" size={18} color="white" />
                         <Text style={styles.buttonText}>Categories</Text>
-                    </EasyButton>
+                    </EasyButton>   
                 </View>
                 <View style={styles.row}>
                     <EasyButton
                         secondary
                         medium
                         onPress={() => navigation.navigate("Charts")}
+                        style={{ backgroundColor: "#664229" }}
                     >
                         <Icon name="bar-chart" size={18} color="white" />
                         <Text style={styles.buttonText}>Charts</Text>
                     </EasyButton>
+
+                    <EasyButton
+                        secondary
+                        medium
+                        onPress={() => navigation.navigate("Users")}
+                        style={{ backgroundColor: "#664229" }}
+                    >
+                        <Icon name="leaf" size={18} color="white" />
+                        <Text style={styles.buttonText}>Users</Text>
+                    </EasyButton>
+
                 </View>
             </View>
-            <Searchbar width="80%"
+            <Searchbar
+                width="80%"
                 placeholder="Search"
                 onChangeText={(text) => searchProduct(text)}
-            //   value={searchQuery}
             />
             {loading ? (
                 <View style={styles.spinner}>
                     <ActivityIndicator size="large" color="red" />
                 </View>
-            ) : (<FlatList
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-                ListHeaderComponent={ListHeader}
-                data={productFilter}
-                renderItem={({ item, index }) => (
-                    <ListItem
-                        item={item}
-                        index={index}
-                        deleteProduct={deleteProduct}
-
-                    />
-                )}
-                keyExtractor={(item) => item.id}
-            />)}
-
-
+            ) : (
+                <FlatList
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    ListHeaderComponent={ListHeader}
+                    data={productFilter}
+                    renderItem={({ item, index }) => (
+                        <ListItem
+                            item={item}
+                            index={index}
+                            deleteProduct={deleteProduct}
+                        />
+                    )}
+                    keyExtractor={(item) => item.id}
+                />
+            )}
         </Box>
     );
-}
+};
 
 const styles = StyleSheet.create({
     listHeader: {
         flexDirection: 'row',
         padding: 5,
-        backgroundColor: 'gainsboro'
+        backgroundColor: 'gainsboro',
     },
     headerItem: {
         margin: 3,
-        width: width / 6
+        width: width / 6,
     },
     spinner: {
         height: height / 2,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     buttonContainer: {
         flexDirection: 'column',
@@ -211,8 +225,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        marginLeft: 5, 
+        marginLeft: 5,
     },
-})
+});
 
 export default Products;

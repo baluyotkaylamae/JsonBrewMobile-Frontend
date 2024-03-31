@@ -29,6 +29,7 @@ const Register = (props) => {
     const [mainImage, setMainImage] = useState('');
     const navigation = useNavigation()
 
+
     // const addPhoto = async () => {
     //     setLaunchCam(true)
     //     if (camera) {
@@ -233,6 +234,34 @@ const Register = (props) => {
                         <Text style={{ color: "blue" }}>Back to Login</Text>
                     </Button>
                 </View>
+
+                <View style={styles.container}>
+              {!userInfo ? (
+                <Button
+                  title="Sign in with Google"
+                  disabled={!request}
+                  onPress={() => {
+                    promptAsync();
+                  }}
+                />
+              ) : (
+                <View style={styles.card}>
+                  {userInfo?.picture && (
+                    <Image source={{ uri: userInfo?.picture }} style={styles.image} />
+                  )}
+                  <Text style={styles.text}>Email: {userInfo.email}</Text>
+                  <Text style={styles.text}>
+                    Verified: {userInfo.verified_email ? "yes" : "no"}
+                  </Text>
+                  <Text style={styles.text}>Name: {userInfo.name}</Text>
+                  {/* <Text style={styles.text}>{JSON.stringify(userInfo, null, 2)}</Text> */}
+                </View>
+              )}
+              <Button
+                title="remove local store"
+                onPress={async () => await AsyncStorage.removeItem("@user")}
+              />
+            </View>
             </FormContainer>
         </KeyboardAwareScrollView>
     );

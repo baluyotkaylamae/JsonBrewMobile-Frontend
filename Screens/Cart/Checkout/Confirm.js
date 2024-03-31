@@ -85,8 +85,8 @@ const Confirm = (props) => {
     return (
         <Center>
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.titleContainer}>
-                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>Confirm Order</Text>
+            <View style={[styles.titleContainer, { width: width * 0.9 }]}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold" }}>Order Confirmation</Text>
                     {props.route.params ? (
                         <View style={{ borderWidth: 1, borderColor: "orange" }}>
                             <Text style={styles.title}>Shipping to:</Text>
@@ -116,7 +116,7 @@ const Confirm = (props) => {
                                             </VStack>
                                             <Spacer />
                                             <Text fontSize="xs" _dark={{ color: "warmGray.50" }} color="coolGray.800" alignSelf="flex-start">
-                                                Total: {item.totalPrice}
+                                                Total: ₱{item.totalPrice}
                                             </Text>
                                         </HStack>
                                         <View style={{ borderBottomWidth: 1, borderBottomColor: "#ccc", marginVertical: 10 }} />
@@ -126,7 +126,7 @@ const Confirm = (props) => {
                         </View>
                     ) : null}
                     <View style={{ alignItems: "center", margin: 20 }}>
-                        <Button title={"Place order"} onPress={confirmOrder} />
+                        <Button title={"Place order"} onPress={confirmOrder} color="#664229" />
                     </View>
                 </View>
             </ScrollView>
