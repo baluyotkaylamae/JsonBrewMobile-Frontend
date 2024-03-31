@@ -97,55 +97,57 @@ const ProductContainer = () => {
 
     console.log("category", productsCtg)
 
-    return (
+        return (
         <NativeBaseProvider theme={theme}>
             <Center style={styles.pageBackground}>
                 <ScrollView>
-                    <View>
-                        {/* <Header /> */}
-                        <Banner />
-                        <Greeting />
-                        <VStack w="60%" space={5} alignSelf="center">
-                            <Input 
-                                onFocus={openList}
-                                onChangeText={(text) => searchProduct(text)}
-                                placeholder="Search for a Product"
-                                width="100%" 
-                                borderRadius={30} 
-                                py={1} 
-                                px={4} 
-                                borderColor="#B99960" 
-                                borderWidth={2}
-                                marginBottom={5}
-                                InputLeftElement={<Icon ml="2" size="4" color="#B99960" as={<Ionicons name="search" />} />}
-                                InputRightElement={focus === true ? <Icon ml="2" size="4" color="red.400" as={<Ionicons name="close" size="12" color="black" onPress={onBlur} />} /> : null}
-                            />
-                        </VStack>
-                    </View>
-                    <View style={{ backgroundColor: theme.colors.primary[500] }}>
-                        <CategoryFilter
-                            categories={categories}
-                            categoryFilter={changeCtg}
-                            productsCtg={productsCtg}
-                            active={active}
-                            setActive={setActive}
+                    <VStack w="60%" space={5} alignSelf="center">
+                        <Input
+                            onFocus={openList}
+                            onChangeText={(text) => searchProduct(text)}
+                            placeholder="Search for a Product"
+                            width="100%"
+                            borderRadius={0}
+                            py={2}
+                            px={4}
+                            borderColor="#B99960"
+                            borderWidth={2}
+                            marginBottom={5}
+                            InputLeftElement={<Icon ml="2" size="4" color="#B99960" as={<Ionicons name="search" />} />}
+                            InputRightElement={focus === true ? <Icon ml="2" size="4" color="red.400" as={<Ionicons name="close" size="12" color="black" onPress={onBlur} />} /> : null}
                         />
-                    </View>
-                    {productsCtg.length > 0 ? (
-                        <View style={styles.listContainer}>
-                            {productsCtg.map((item) => {
-                                return (
-                                    <ProductList
-                                        key={item._id}
-                                        item={item}
-                                    />
-                                );
-                            })}
-                        </View>
+                    </VStack>
+                    {focus === true ? (
+                        <SearchedProduct productsFiltered={productsFiltered} />
                     ) : (
-                        <View style={[styles.center, { height: height / 2 }]}>
-                            <Text>No products found</Text>
-                        </View>
+                        <>
+                            {/* <Header /> */}
+                            <Banner />
+                            <Greeting />
+                            <CategoryFilter
+                                categories={categories}
+                                categoryFilter={changeCtg}
+                                productsCtg={productsCtg}
+                                active={active}
+                                setActive={setActive}
+                            />
+                            {productsCtg.length > 0 ? (
+                                <View style={styles.listContainer}>
+                                    {productsCtg.map((item) => {
+                                        return (
+                                            <ProductList
+                                                key={item._id}
+                                                item={item}
+                                            />
+                                        );
+                                    })}
+                                </View>
+                            ) : (
+                                <View style={[styles.center, { height: height / 2 }]}>
+                                    <Text>No products found</Text>
+                                </View>
+                            )}
+                        </>
                     )}
                 </ScrollView>
             </Center>
@@ -155,7 +157,7 @@ const ProductContainer = () => {
 
 const styles = StyleSheet.create({
     pageBackground: {
-        backgroundColor: theme.colors.primary[500], 
+        backgroundColor: theme.colors.primary[500],
     },
     container: {
         flexWrap: "wrap",
