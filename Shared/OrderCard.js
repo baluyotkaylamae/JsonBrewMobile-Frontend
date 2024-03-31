@@ -84,7 +84,10 @@ const OrderCard = ({ item, select }) => {
             <Text style={styles.price}>₱ {item.totalPrice}</Text>
           </View>
         </View>
-        <Button title="Write a Review" onPress={handleWriteReview} />
+
+        {item.status === "1" && (
+          <Button title="Go To Review" onPress={handleWriteReview} />
+        )}
     </View>
   );
 }
