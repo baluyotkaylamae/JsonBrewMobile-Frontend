@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableHighlight, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import { Box, VStack, HStack, Button, Avatar, Spacer, } from 'native-base';
+import { Box, VStack, HStack, Button, Avatar, Spacer, Divider } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
+import Toast from "react-native-toast-message"
 import { useNavigation } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -85,82 +86,85 @@ const Cart = () => {
         const totalItemPrice = calculateTotalPrice(item);
 
         return (
-            <TouchableHighlight
-                _dark={{
-                    bg: 'coolGray.800'
-                }}
-                _light={{
-                    bg: 'white'
-                }}
-            >
-                <Box pl="4" pr="5" py="2" bg="white" keyExtractor={item => item.id}>
-                    <HStack alignItems="center" space={3}>
-                        <Avatar size="48px" source={{
-                            uri: item.image ?
-                                item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
-                        }} />
-                        <VStack>
-                            <Text color="coolGray.800" _dark={{
+            <>
+                <TouchableHighlight
+                    _dark={{
+                        bg: 'coolGray.800'
+                    }}
+                    _light={{
+                        bg: 'white'
+                    }}
+                >
+                    <Box pl="4" pr="5" py="2" bg="white" keyExtractor={item => item.id}>
+                        <HStack alignItems="center" space={3}>
+                            <Avatar size="90px" marginLeft={1} source={{
+                                uri: item.image ?
+                                    item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
+                            }} />
+                            <VStack style={{ marginLeft: 10 }}>
+                                <Text color="coolGray.800" _dark={{
+                                    color: 'warmGray.50'
+                                }} style={{ fontWeight: 'bold', fontSize: 18 }}>
+                                    {item.name}
+                                </Text>
+                                <Text color="coolGray.600" _dark={{
+                                    color: 'warmGray.200'
+                                }} style={{ fontSize: 12, marginLeft: 6 }}>
+                                    Quantity: {item.quantity}
+                                </Text>
+                                {item.cupSize && (
+                                    <Text color="coolGray.600" _dark={{
+                                        color: 'warmGray.200'
+                                    }} style={{ fontSize: 12, marginLeft: 6 }}>
+                                        Cup Size: {item.cupSize}
+                                    </Text>
+                                )}
+                                {item.sugarLevel && (
+                                    <Text color="coolGray.600" _dark={{
+                                        color: 'warmGray.200'
+                                    }} style={{ fontSize: 12, marginLeft: 6 }}>
+                                        Sugar Level: {item.sugarLevel}
+                                    </Text>
+                                )}
+                                {item.addons && (
+                                    <Text color="coolGray.600" _dark={{
+                                        color: 'warmGray.200'
+                                    }} style={{ fontSize: 12, marginLeft: 6 }}>
+                                        Addons: {item.addons.length > 0 ? item.addons.join(", ") : "None"}
+                                    </Text>
+                                )}
+                            </VStack>
+                            <Spacer />
+                            <Text fontSize="xs" color="coolGray.800" _dark={{
                                 color: 'warmGray.50'
-                            }} bold>
-                                {item.name}
+                            }} alignSelf="flex-start">
+                                ₱ {totalItemPrice.toFixed(2)}
                             </Text>
-                            <Text color="coolGray.600" _dark={{
-                                color: 'warmGray.200'
-                            }}>
-                                Quantity: {item.quantity}
-                            </Text>
-                            {item.cupSize && (
-                                <Text color="coolGray.600" _dark={{
-                                    color: 'warmGray.200'
-                                }}>
-                                    Cup Size: {item.cupSize}
-                                </Text>
-                            )}
-                            {item.sugarLevel && (
-                                <Text color="coolGray.600" _dark={{
-                                    color: 'warmGray.200'
-                                }}>
-                                    Sugar Level: {item.sugarLevel}
-                                </Text>
-                            )}
-                            {item.addons && (
-                                <Text color="coolGray.600" _dark={{
-                                    color: 'warmGray.200'
-                                }}>
-                                    Addons: {item.addons.join(", ")}
-                                </Text>
-                            )}
-                        </VStack>
-                        <Spacer />
-                        <Text fontSize="xs" color="coolGray.800" _dark={{
-                            color: 'warmGray.50'
-                        }} alignSelf="flex-start">
-                            ₱ {totalItemPrice.toFixed(2)}
-                        </Text>
-                    </HStack>
-                    {/* Quantity controls */}
-                    <HStack space={3} alignItems="center" mt={2}>
-                        <Button
-                            onPress={() => handleQuantityChange(index, 'decrement')}
-                            size="sm"
-                            bg="red.400"
-                            _pressed={{ bg: 'red.500' }}
-                        >
-                            <Icon name="minus" size={12} color="white" />
-                        </Button>
-                        <Text>{item.quantity}</Text>
-                        <Button
-                            onPress={() => handleQuantityChange(index, 'increment')}
-                            size="sm"
-                            bg="green.400"
-                            _pressed={{ bg: 'green.500' }}
-                        >
-                            <Icon name="plus" size={12} color="white" />
-                        </Button>
-                    </HStack>
-                </Box>
-            </TouchableHighlight>
+                        </HStack>
+                        {/* Quantity controls */}
+                        <HStack space={3} alignItems="center" mt={2}>
+                            <Button
+                                onPress={() => handleQuantityChange(index, 'decrement')}
+                                size="sm"
+                                bg="red.400"
+                                _pressed={{ bg: 'red.500' }}
+                            >
+                                <Icon name="minus" size={12} color="white" />
+                            </Button>
+                            <Text>{item.quantity}</Text>
+                            <Button
+                                onPress={() => handleQuantityChange(index, 'increment')}
+                                size="sm"
+                                bg="green.400"
+                                _pressed={{ bg: 'green.500' }}
+                            >
+                                <Icon name="plus" size={12} color="white" />
+                            </Button>
+                        </HStack>
+                    </Box>
+                </TouchableHighlight>
+                <Divider />
+            </>
         );
     };
 
@@ -194,11 +198,13 @@ const Cart = () => {
                     </Text>
                 </Box>
             )}
-            <VStack style={styles.bottomContainer} w='100%' justifyContent='space-between'
-            >
-                <HStack justifyContent="space-between">
-                    <Text style={styles.price}>₱ {total.toFixed(2)}</Text>
-                </HStack>
+            <VStack style={styles.bottomContainer} w='100%' justifyContent='space-between'>
+                <Box>
+                    <Text style={[styles.label, { fontWeight: 'bold' }]}>Total Amount:</Text>
+                    <HStack justifyContent="space-between" marginBottom={-3}>
+                        <Text style={styles.price}>₱ {total.toFixed(2)}</Text>
+                    </HStack>
+                </Box>
                 <HStack justifyContent="space-between">
 
                     {/* <Button alignItems="center" onPress={() => dispatch(clearCart())} >Clear</Button> */}
@@ -207,6 +213,7 @@ const Cart = () => {
                         medium
                         alignItems="center"
                         onPress={() => handleClearCart()}
+                        height={40} // Adjust the height here
                     >
                         <FontAwesomeIcon name="trash" size={20} color="white" />
                     </EasyButton>
@@ -228,8 +235,13 @@ const Cart = () => {
 }
 
 const styles = StyleSheet.create({
+    label: {
+        marginTop: 1,
+        textAlign: 'center',
+        marginBottom: -16,
+    },
     emptyContainer: {
-        height: height,
+        height: 450,
         alignItems: "center",
         justifyContent: "center",
     },

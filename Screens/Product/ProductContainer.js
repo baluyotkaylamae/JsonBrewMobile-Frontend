@@ -167,10 +167,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flexWrap: "wrap",
-        backgroundColor: "#B99960",
+        backgroundColor: "#f7ede2",
     },
     listContainer: {
-        height: height,
+        height: 870,
         width: width,
         flex: 1,
         flexDirection: "row",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Image, View, StyleSheet, Text, ScrollView, TouchableOpacity } from "react-native";
-import { Heading, Center } from 'native-base';
+import { Heading, Center, VStack } from 'native-base';
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
 import TrafficLight from '../../Shared/StyledComponents/TrafficLight';
 import { useDispatch } from 'react-redux';
@@ -223,14 +223,14 @@ const SingleProduct = ({ route }) => {
                 </View>
 
             </ScrollView>
-            <View style={styles.addToCartContainer}>
+            <VStack style={styles.addToCartContainer}>
                 <Text style={styles.label}><Text style={{ fontWeight: 'bold' }}>Amount:</Text>                                                  ${totalPrice}</Text>
                 <View style={styles.buttonContainer}>
                     <EasyButton cart medium onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>Add to Cart</Text>
                     </EasyButton>
                 </View>
-            </View>
+            </VStack>
         </Center >
 
     );
