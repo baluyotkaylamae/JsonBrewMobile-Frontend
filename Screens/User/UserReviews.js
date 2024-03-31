@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -36,10 +37,10 @@ const UserReviews = ({ route, navigation }) => {
                 }
             } else {
                 // Handle error response
-                console.error('Error fetching review data:', response.data.message);
+               // console.error('No review:', response.data.message);
             }
         } catch (error) {
-            console.error('Error fetching review data:', error);
+           // console.error('No review:', error);
         }
     };
 
@@ -82,7 +83,41 @@ const UserReviews = ({ route, navigation }) => {
             Alert.alert('Error', 'Failed to submit review. Please try again.');
         }
     };
+
+
+
+
+    const handleDeleteReview = async () => {
+        try {
+            const token = await AsyncStorage.getItem("jwt");
+            
+            // Send a DELETE request to the backend to delete the review
+            const response = await axios.delete(`${baseURL}reviews/${orderId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
     
+            if (response.data.success) {
+                // If review is deleted successfully
+                navigation.goBack();
+            } else {
+                // If review doesn't exist
+                Alert.alert('Notice', 'Review does not exist, cannot be deleted.');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                // Review doesn't exist
+                Alert.alert('Notice', 'Review does not exist, cannot be deleted.');
+            } else {
+                // Other errors
+                console.error('Error deleting review:', error);
+                Alert.alert('Error', 'Failed to delete review. Please try again.');
+            }
+        }
+    };
+    
+
+
+
 
     const validateRating = () => {
         const parsedRating = parseInt(rating);
@@ -112,7 +147,11 @@ const UserReviews = ({ route, navigation }) => {
                 onChangeText={text => setReview(text)}
             />
             {error ? <Text style={styles.error}>{error}</Text> : null}
-            <Button title={existingReviewId ? "Update Review" : "Submit Review"} onPress={handleSubmitReview} />
+            <View style={styles.buttonContainer}>
+        
+                <Button title="Delete Review" onPress={handleDeleteReview} color="red" />
+                <Button title={existingReviewId ? "Update Review" : "Submit Review"} onPress={handleSubmitReview} />
+            </View>
         </View>
     );
 };
@@ -144,6 +183,17 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 10,
     },
+       
+    buttonContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 20, 
+            paddingHorizontal: 10,
+
+    },
+       
 });
 
 export default UserReviews;
+
+
