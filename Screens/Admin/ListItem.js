@@ -4,10 +4,8 @@ import {
     StyleSheet,
     Text,
     Image,
-    TouchableHighLight,
     TouchableOpacity,
     Dimensions,
-    Button,
     Modal
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"
@@ -20,6 +18,12 @@ var { width } = Dimensions.get("window");
 const ListItem = ({ item, index, deleteProduct }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const navigation = useNavigation()
+    
+    const handleEdit = () => {
+        navigation.navigate("ProductForm", { item });
+        setModalVisible(false);
+    }
+
     return (
         <View>
             <Modal
@@ -33,34 +37,17 @@ const ListItem = ({ item, index, deleteProduct }) => {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <TouchableOpacity
-                            underlayColor="#E8E8E8"
                             onPress={() => {
                                 setModalVisible(false)
                             }}
-                            style={{
-                                alignSelf: "flex-end",
-                                position: "absolute",
-                                top: 5,
-                                right: 10
-                            }}
+                            style={styles.closeButton}
                         >
                             <Icon name="close" size={20} />
                         </TouchableOpacity>
-
-                        {/* <Button
-                            onPress={() => [navigation.navigate("ProductForm", { item }),
-                            setModalVisible(false)
-                            ]}
-                            title="Edit"
-                        >
-                            <Text style={styles.textStyle}>Edit</Text>
-                        </Button> */}
                         <EasyButton
                             medium
                             secondary
-                            onPress={() => [navigation.navigate("ProductForm", { item }),
-                            setModalVisible(false)
-                            ]}
+                            onPress={handleEdit}
                             title="Edit"
                         >
                             <Text style={styles.textStyle}>Edit</Text>
@@ -68,10 +55,11 @@ const ListItem = ({ item, index, deleteProduct }) => {
                         <EasyButton
                             medium
                             danger
-                            onPress={() => [
-                                deleteProduct(item._id),
-                                 setModalVisible(false)]}
-                            title="delete"
+                            onPress={() => {
+                                deleteProduct(item._id);
+                                setModalVisible(false);
+                            }}
+                            title="Delete"
                         >
                             <Text style={styles.textStyle}>Delete</Text>
                         </EasyButton>
@@ -80,19 +68,15 @@ const ListItem = ({ item, index, deleteProduct }) => {
                 </View>
             </Modal>
             <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate("Product Detail", { item })
-                }}
+                onPress={() => navigation.navigate("Product Detail", { item })}
                 onLongPress={() => setModalVisible(true)}
                 style={[styles.container, {
-                    backgroundColor: index % 2 == 0 ? "white" : "gainsboro"
+                    backgroundColor: index % 2 === 0 ? "white" : "gainsboro"
                 }]}
             >
                 <Image
                     source={{
-                        uri: item.image
-                            ? item.image
-                            : null
+                        uri: item.image ? item.image : null
                     }}
                     resizeMode="contain"
                     style={styles.image}
@@ -147,6 +131,12 @@ const styles = StyleSheet.create({
     textStyle: {
         color: "white",
         fontWeight: "bold"
+    },
+    closeButton: {
+        alignSelf: "flex-end",
+        position: "absolute",
+        top: 5,
+        right: 10
     }
 })
 

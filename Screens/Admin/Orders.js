@@ -3,7 +3,7 @@ import {View, Text, FlatList} from 'react-native'
 import axios from 'axios'
 import baseURL from "../../assets/common/baseurl";
 import { useFocusEffect } from '@react-navigation/native'
-import OrderCard from "../../Shared/OrderCard";
+import AdminOrderCard from "../../Shared/AdminOrderCard";
 const Orders = (props) => {
     const [orderList, setOrderList] = useState()
 
@@ -34,7 +34,7 @@ const Orders = (props) => {
                 renderItem={({item}) => ( 
                    
                     // <Text>{item.shippingAddress1}</Text>
-                    <OrderCard item={item} />
+                    <AdminOrderCard item={item} />
                     )
                 }
                 keyExtractor={(item) => item.id}    
