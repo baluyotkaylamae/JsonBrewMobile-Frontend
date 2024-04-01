@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableHighlight, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { Text, View, TouchableHighlight, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import { Box, VStack, HStack, Button, Avatar, Spacer, Divider } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux'
 import Toast from "react-native-toast-message"
@@ -11,6 +11,7 @@ var { height, width } = Dimensions.get("window");
 import EasyButton from "../../Shared/StyledComponents/EasyButton"
 import Checkout from "./Checkout/Checkout";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+
 
 const Cart = () => {
     const navigation = useNavigation();
@@ -97,10 +98,22 @@ const Cart = () => {
                 >
                     <Box pl="4" pr="5" py="2" bg="white" keyExtractor={item => item.id}>
                         <HStack alignItems="center" space={3}>
-                            <Avatar size="90px" marginLeft={1} source={{
-                                uri: item.image ?
-                                    item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
-                            }} />
+                       <ScrollView
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                contentContainerStyle={{ alignItems: 'center' }} // Center content horizontally
+                            >
+                                {item.images.map((image, i) => (
+                                    <Avatar
+                                        key={i}
+                                        size="90px"
+                                        marginLeft={1}
+                                        source={{
+                                            uri: image ? image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
+                                        }}
+                                    />
+                                ))}
+                            </ScrollView>
                             <VStack style={{ marginLeft: 10 }}>
                                 <Text color="coolGray.800" _dark={{
                                     color: 'warmGray.50'

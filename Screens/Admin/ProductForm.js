@@ -1,49 +1,42 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
     Image,
     StyleSheet,
     TouchableOpacity,
-    Platform
-} from "react-native"
-import { Item, Picker, Select, Box } from "native-base"
-import FormContainer from "../../Shared/Form/FormContainer"
-import Input from "../../Shared/Form/Input"
-import EasyButton from "../../Shared/StyledComponents/EasyButton"
-
-import Icon from "react-native-vector-icons/FontAwesome"
-import Toast from "react-native-toast-message"
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import baseURL from "../../assets/common/baseurl"
-import Error from "../../Shared/Error"
-import axios from "axios"
-import * as ImagePicker from "expo-image-picker"
-import { useFocusEffect, useNavigation } from "@react-navigation/native"
+    Platform,
+    ScrollView,
+} from "react-native";
+import { Select, Box } from "native-base";
+import FormContainer from "../../Shared/Form/FormContainer";
+import Input from "../../Shared/Form/Input";
+import EasyButton from "../../Shared/StyledComponents/EasyButton";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Toast from "react-native-toast-message";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import baseURL from "../../assets/common/baseurl";
+import Error from "../../Shared/Error";
+import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
 import mime from "mime";
 
-
 const ProductForm = (props) => {
-    // console.log(props.route.params)
-    const [pickerValue, setPickerValue] = useState('');
-    const [brand, setBrand] = useState('');
-    const [name, setName] = useState('');
+    const [pickerValue, setPickerValue] = useState("");
+    const [brand, setBrand] = useState("");
+    const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
-    const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
-    const [mainImage, setMainImage] = useState();
-    const [category, setCategory] = useState('');
+    const [description, setDescription] = useState("");
+    const [images, setImages] = useState([]);
+    const [category, setCategory] = useState("");
     const [categories, setCategories] = useState([]);
     const [token, setToken] = useState();
     const [error, setError] = useState();
     const [countInStock, setCountInStock] = useState();
-    const [rating, setRating] = useState(0);
-    const [isFeatured, setIsFeatured] = useState(false);
-    const [richDescription, setRichDescription] = useState();
-    const [numReviews, setNumReviews] = useState(0);
     const [item, setItem] = useState(null);
 
-    let navigation = useNavigation()
+    let navigation = useNavigation();
 
     useEffect(() => {
         if (!props.route.params) {
@@ -54,51 +47,49 @@ const ProductForm = (props) => {
             setName(props.route.params.item.name);
             setPrice(props.route.params.item.price.toString());
             setDescription(props.route.params.item.description);
-            setMainImage(props.route.params.item.image);
-            setImage(props.route.params.item.image);
             setCategory(props.route.params.item.category._id);
             setPickerValue(props.route.params.item.category._id);
             setCountInStock(props.route.params.item.countInStock.toString());
+            setImages(props.route.params.item.images || []);
         }
         AsyncStorage.getItem("jwt")
             .then((res) => {
-                setToken(res)
+                setToken(res);
             })
-            .catch((error) => console.log(error))
+            .catch((error) => console.log(error));
         axios
             .get(`${baseURL}categories`)
             .then((res) => setCategories(res.data))
             .catch((error) => alert("Error to load categories"));
         (async () => {
             if (Platform.OS !== "web") {
-                const {
-                    status,
-                } = await ImagePicker.requestCameraPermissionsAsync();
+                const { status } =
+                    await ImagePicker.requestCameraPermissionsAsync();
                 if (status !== "granted") {
-                    alert("Sorry, we need camera roll permissions to make this work!")
+                    alert(
+                        "Sorry, we need camera roll permissions to make this work!"
+                    );
                 }
             }
         })();
         return () => {
-            setCategories([])
-        }
-    }, [])
+            setCategories([]);
+        };
+    }, []);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1
+            quality: 1,
+            allowsMultipleSelection: true, // Allow multiple image selection
         });
 
-        if (!result.canceled) {
-            console.log(result.assets)
-            setMainImage(result.assets[0].uri);
-            setImage(result.assets[0].uri);
+        if (!result.cancelled) {
+            setImages(result.assets.map((asset) => asset.uri)); // Store URIs of selected images
         }
-    }
-    
+    };
 
     const addProduct = () => {
         if (
@@ -107,38 +98,36 @@ const ProductForm = (props) => {
             price === "" ||
             description === "" ||
             category === "" ||
-            countInStock === ""
+            countInStock === "" ||
+            images.length === 0
         ) {
-            setError("Please fill in the form correctly")
+            setError("Please fill in the form correctly");
+            return;
         }
 
         let formData = new FormData();
-        const newImageUri = "file:///" + image.split("file:/").join("");
-
         formData.append("name", name);
         formData.append("brand", brand);
         formData.append("price", price);
         formData.append("description", description);
         formData.append("category", category);
         formData.append("countInStock", countInStock);
-        formData.append("richDescription", richDescription);
-        formData.append("rating", rating);
-        formData.append("numReviews", numReviews);
-        formData.append("isFeatured", isFeatured);
-        formData.append("image", {
-            uri: newImageUri,
-            type: mime.getType(newImageUri),
-            name: newImageUri.split("/").pop()
+        images.forEach((uri) => {
+            formData.append("images", {
+                uri: uri,
+                type: mime.getType(uri),
+                name: uri.split("/").pop(),
+            });
         });
 
         const config = {
             headers: {
                 "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${token}`
-            }
-        }
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
         if (item !== null) {
-            console.log(item)
             axios
                 .put(`${baseURL}products/${item.id}`, formData, config)
                 .then((res) => {
@@ -146,12 +135,12 @@ const ProductForm = (props) => {
                         Toast.show({
                             topOffset: 60,
                             type: "success",
-                            text1: "Product successfuly updated",
-                            text2: ""
+                            text1: "Product successfully updated",
+                            text2: "",
                         });
                         setTimeout(() => {
                             navigation.navigate("Products");
-                        }, 500)
+                        }, 500);
                     }
                 })
                 .catch((error) => {
@@ -159,9 +148,9 @@ const ProductForm = (props) => {
                         topOffset: 60,
                         type: "error",
                         text1: "Something went wrong",
-                        text2: "Please try again"
-                    })
-                })
+                        text2: "Please try again",
+                    });
+                });
         } else {
             axios
                 .post(`${baseURL}products`, formData, config)
@@ -171,36 +160,41 @@ const ProductForm = (props) => {
                             topOffset: 60,
                             type: "success",
                             text1: "New Product added",
-                            text2: ""
+                            text2: "",
                         });
                         setTimeout(() => {
                             navigation.navigate("Products");
-                        }, 500)
+                        }, 500);
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
+                    console.log(error);
                     Toast.show({
                         topOffset: 60,
                         type: "error",
                         text1: "Something went wrong",
-                        text2: "Please try again"
-                    })
-                })
-
+                        text2: "Please try again",
+                    });
+                });
         }
+    };
 
-    }
     return (
         <FormContainer title="Add Product">
-            <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: mainImage }} />
-                <TouchableOpacity
-                    onPress={pickImage}
-                    style={styles.imagePicker}>
-                    <Icon style={{ color: "white" }} name="camera" />
-                </TouchableOpacity>
-            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={styles.imageContainer}>
+                    {images.map((uri, index) => (
+                        <Image
+                            key={index}
+                            style={styles.image}
+                            source={{ uri }}
+                        />
+                    ))}
+                </View>
+            </ScrollView>
+            <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+                <Icon style={{ color: "white" }} name="camera" />
+            </TouchableOpacity>
             <View style={styles.label}>
                 <Text style={{ textDecorationLine: "underline" }}>Brand</Text>
             </View>
@@ -233,7 +227,9 @@ const ProductForm = (props) => {
                 onChangeText={(text) => setPrice(text)}
             />
             <View style={styles.label}>
-                <Text style={{ textDecorationLine: "underline" }}>Count in Stock</Text>
+                <Text style={{ textDecorationLine: "underline" }}>
+                    Count in Stock
+                </Text>
             </View>
             <Input
                 placeholder="Stock"
@@ -244,7 +240,9 @@ const ProductForm = (props) => {
                 onChangeText={(text) => setCountInStock(text)}
             />
             <View style={styles.label}>
-                <Text style={{ textDecorationLine: "underline" }}>Description</Text>
+                <Text style={{ textDecorationLine: "underline" }}>
+                    Description
+                </Text>
             </View>
             <Input
                 placeholder="Description"
@@ -255,19 +253,23 @@ const ProductForm = (props) => {
             />
             <Box>
                 <Select
-                    minWidth="90%" placeholder="Select your Category"
+                    minWidth="90%"
+                    placeholder="Select your Category"
                     selectedValue={pickerValue}
-                    onValueChange={(e) => [setPickerValue(e), setCategory(e)]}
+                    onValueChange={(e) => [
+                        setPickerValue(e),
+                        setCategory(e),
+                    ]}
                 >
                     {categories.map((c, index) => {
                         return (
                             <Select.Item
                                 key={c.id}
                                 label={c.name}
-                                value={c.id} />
-                        )
+                                value={c.id}
+                            />
+                        );
                     })}
-
                 </Select>
             </Box>
 
@@ -277,54 +279,49 @@ const ProductForm = (props) => {
                     large
                     primary
                     onPress={() => addProduct()}
-                ><Text style={styles.buttonText}>Confirm</Text>
+                >
+                    <Text style={styles.buttonText}>Confirm</Text>
                 </EasyButton>
             </View>
         </FormContainer>
-    )
-}
-
+    );
+};
 
 const styles = StyleSheet.create({
     label: {
         width: "80%",
-        marginTop: 10
+        marginTop: 10,
     },
     buttonContainer: {
         width: "80%",
         marginBottom: 80,
         marginTop: 20,
-        alignItems: "center"
+        alignItems: "center",
     },
     buttonText: {
-        color: "white"
+        color: "white",
     },
     imageContainer: {
-        width: 200,
-        height: 200,
-        borderStyle: "solid",
-        borderWidth: 8,
-        padding: 0,
-        justifyContent: "center",
-        borderRadius: 100,
-        borderColor: "#E0E0E0",
-        elevation: 10
+        flexDirection: "row",
+        paddingHorizontal: 10,
+        marginBottom: 20,
     },
     image: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 100
+        width: 100,
+        height: 100,
+        borderRadius: 10,
+        marginRight: 10,
     },
     imagePicker: {
-        position: "absolute",
-        right: 5,
-        bottom: 5,
         backgroundColor: "grey",
-        padding: 8,
-        borderRadius: 100,
-        elevation: 20
-    }
-})
-
+        padding: 5, // Adjust padding to make it smaller
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        width: 50, // Adjust width
+        height: 50, // Adjust height
+        marginRight: 10,
+    },
+});
 
 export default ProductForm;

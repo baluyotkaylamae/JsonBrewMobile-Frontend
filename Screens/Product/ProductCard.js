@@ -4,11 +4,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/Actions/cartActions';
 import { useNavigation } from '@react-navigation/native'; 
+import Swiper from 'react-native-swiper';
 
 const { width } = Dimensions.get('window');
 
 const ProductCard = (props) => {
-    const { name, price, image, description, rating } = props;
+    const { name, price, images, description, rating } = props;
     const [isLiked, setIsLiked] = useState(false);
     const [productRating, setProductRating] = useState(rating);
     const dispatch = useDispatch();
@@ -35,12 +36,21 @@ const ProductCard = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image 
-                    style={styles.image}
-                    resizeMode="cover"
-                    source={{ uri: image ? image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png' }}
-                />
+              <View style={styles.imageContainer}>
+                <Swiper
+                    style={styles.swiper}
+                    autoplay={true}
+                    autoplayTimeout={2}
+                >
+                    {images.map((image, index) => (
+                        <Image
+                            key={index}
+                            style={styles.image}
+                            resizeMode="cover"
+                            source={{ uri: image ? image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png' }}
+                        />
+                    ))}
+                </Swiper>
                 <TouchableOpacity style={styles.heartIcon} onPress={toggleLike}>
                     <FontAwesome name={isLiked ? 'heart' : 'heart-o'} size={24} color={isLiked ? 'red' : 'black'} />
                 </TouchableOpacity>

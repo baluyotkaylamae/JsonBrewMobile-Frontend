@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/Actions/cartActions';
 import Toast from 'react-native-toast-message';
 import Divider from "../../Shared/StyledComponents/Divider";
+import Swiper from "react-native-swiper";
 
 
 const SingleProduct = ({ route }) => {
@@ -112,15 +113,23 @@ const SingleProduct = ({ route }) => {
     return (
         <Center flexGrow={1}>
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        source={{
-                            uri: item.image ? item.image : 'https://cdn.pixabay.com/photo/2012/04/01/17/29/box-23649_960_720.png'
-                        }}
-                        resizeMode="contain"
-                        style={styles.image}
-                        onError={() => console.log('Error loading image')}
-                    />
+            <View style={styles.imageContainer}>
+                    <Swiper
+                        style={styles.swiper}
+                        showButtons={false}
+                        autoplay={true}
+                        autoplayTimeout={2}
+                    >
+                        {item.images.map((image, index) => (
+                            <Image
+                                key={index}
+                                source={{ uri: image }}
+                                resizeMode="contain"
+                                style={styles.image}
+                                onError={() => console.log('Error loading image')}
+                            />
+                        ))}
+                    </Swiper>
                 </View>
                 <View style={styles.contentContainer}>
                     <Heading style={styles.contentHeader} size='xl'>{item.name}</Heading>
@@ -248,13 +257,13 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
         alignItems: 'center',
-        marginLeft: -85,
+        marginLeft: -60,
         marginBottom: 20,
     },
     image: {
-        width: 400,
-        height: 270,
-        // Ensure any additional styles needed for the Image component
+        flex: 1,
+        borderRadius: 10, // Add border radius for a rounded look
+        marginHorizontal: 10, // Add margin for spacing between images
     },
     contentContainer: {
         width: '100%',

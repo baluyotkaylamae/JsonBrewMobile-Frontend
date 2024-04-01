@@ -18,7 +18,7 @@ var { width } = Dimensions.get("window");
 const ListItem = ({ item, index, deleteProduct }) => {
     const [modalVisible, setModalVisible] = useState(false)
     const navigation = useNavigation()
-    
+
     const handleEdit = () => {
         navigation.navigate("ProductForm", { item });
         setModalVisible(false);
@@ -74,13 +74,15 @@ const ListItem = ({ item, index, deleteProduct }) => {
                     backgroundColor: index % 2 === 0 ? "white" : "gainsboro"
                 }]}
             >
-                <Image
-                    source={{
-                        uri: item.image ? item.image : null
-                    }}
-                    resizeMode="contain"
-                    style={styles.image}
-                />
+                {item.images && item.images.map((image, index) => (
+                    <Image
+                        key={index}
+                        source={{ uri: image }}
+                        resizeMode="contain"
+                        style={styles.image}
+                    />
+                ))}
+
                 <Text style={styles.item}>{item.brand}</Text>
                 <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail">{item.name ? item.name : null}</Text>
                 <Text style={styles.item} numberOfLines={1} ellipsizeMode="tail">{item.category ? item.category.name : null}</Text>
@@ -98,9 +100,9 @@ const styles = StyleSheet.create({
     },
     image: {
         borderRadius: 50,
-        width: width / 6,
+        width: width / 19,
         height: 20,
-        margin: 2
+        margin: 1
     },
     item: {
         flexWrap: "wrap",
