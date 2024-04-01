@@ -5,7 +5,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import Input from "../../Shared/Form/Input";
 import InputPrfl from "../../Shared/Form/InputPrfl";
 import UserOrders from "./UserOrders";
-
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -67,6 +67,9 @@ const UserProfile = (props) => {
         navigation.navigate('My Orders', { orders });
     };
 
+    const handleOrderFeedbackPress = () => {
+        navigation.navigate('Order Feedback');
+    };
 
     return (
         <View style={styles.container}>
@@ -75,9 +78,16 @@ const UserProfile = (props) => {
                     source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
                     style={styles.profileImage}
                 />
-                <TouchableOpacity style={styles.UserOrdersButton} onPress={handleUserOrdersPress}>
-                    <Text style={styles.UserOrdersButtonText}>My Orders</Text>
-                </TouchableOpacity>
+                <View style={styles.columnContainer}>
+                    <TouchableOpacity style={[styles.UserOrdersButton, { flexDirection: 'row', alignItems: 'center' }]} onPress={handleUserOrdersPress}>
+                        <FontAwesomeIcon name="shopping-cart" size={24} color="black" style={{ marginLeft: 17 }} />
+                        <Text style={[styles.UserOrdersButtonText, { marginLeft: 10 }]}>My Orders</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.UserOrdersButton, { flexDirection: 'row', alignItems: 'center' }]} onPress={handleOrderFeedbackPress}>
+                        <FontAwesomeIcon name="comment" size={24} color="black" style={{ marginLeft: 25 }} />
+                        <Text style={[styles.UserOrdersButtonText, { marginLeft: 10 }]}>Review</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             <View>
@@ -160,6 +170,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
+        backgroundColor: 'white',
+    },
+    columnContainer: {
+        flexDirection: 'column',
+        alignItems: 'center', // Optional: To center the items horizontally
     },
     inputContainer: {
         flexDirection: 'row',
@@ -181,19 +196,21 @@ const styles = StyleSheet.create({
         marginBottom: 35,
         width: 139,
         height: 139,
-        borderRadius: 139 / 2,
         backgroundColor: '#B99960',
     },
     UserOrdersButton: {
-        backgroundColor: '#B99960',
-        paddingHorizontal: 20,
+        // backgroundColor: '#B99960',
+        // paddingHorizontal: 20,
         paddingVertical: 10,
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 20,
         marginBottom: 20,
+        width: 150,
+        borderWidth: 1,
+        borderColor: '#664229',
     },
     UserOrdersButtonText: {
-        color: '#FFFFFF',
+        color: 'black',
         fontSize: 16,
         fontFamily: 'Poppins',
         fontWeight: '700',

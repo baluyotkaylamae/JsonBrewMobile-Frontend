@@ -1,6 +1,6 @@
 import InputUser from "../../Shared/Form/InputUser";
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import FormContainer from "../../Shared/Form/FormContainer";
 import { Button } from "native-base";
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import * as Google from "expo-auth-session/providers/google";
 import Header from "../../Shared/Header";
 import WelcomeLogin from "../../Shared/WelcomeLogin";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+// import bglog from "../../assets/bglog.png";
 
 const Login = (props) => {
   const context = useContext(AuthGlobal);

@@ -231,6 +231,7 @@ const SingleProduct = ({ route }) => {
                     </View>
                 </View>
 
+
             </ScrollView>
             <VStack style={styles.addToCartContainer}>
                 <Text style={styles.label}><Text style={{ fontWeight: 'bold' }}>Amount:</Text>                                                  ₱{totalPrice}</Text>

@@ -163,20 +163,20 @@ const ProductContainer = () => {
 
 const styles = StyleSheet.create({
     pageBackground: {
-        backgroundColor: theme.colors.primary[500],
+        backgroundColor: "#FFFFFF",
     },
     container: {
         flexWrap: "wrap",
-        backgroundColor: "#f7ede2",
+        backgroundColor: "#FFFFFF",
     },
     listContainer: {
-        height: 870,
+        height: "2500px",
         width: width,
         flex: 1,
         flexDirection: "row",
         alignItems: "flex-start",
         flexWrap: "wrap",
-        backgroundColor: "#B99960",
+        backgroundColor: "#FFFFFF",
     },
     center: {
         justifyContent: 'center',
