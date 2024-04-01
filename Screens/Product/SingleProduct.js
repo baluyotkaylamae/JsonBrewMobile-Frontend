@@ -233,7 +233,7 @@ const SingleProduct = ({ route }) => {
 
             </ScrollView>
             <VStack style={styles.addToCartContainer}>
-                <Text style={styles.label}><Text style={{ fontWeight: 'bold' }}>Amount:</Text>                                                  ${totalPrice}</Text>
+                <Text style={styles.label}><Text style={{ fontWeight: 'bold' }}>Amount:</Text>                                                  ₱{totalPrice}</Text>
                 <View style={styles.buttonContainer}>
                     <EasyButton cart medium onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>Add to Cart</Text>

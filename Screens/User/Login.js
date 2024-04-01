@@ -19,6 +19,8 @@ const Login = (props) => {
   const context = useContext(AuthGlobal);
   const navigation = useNavigation();
 
+
+  //google
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');

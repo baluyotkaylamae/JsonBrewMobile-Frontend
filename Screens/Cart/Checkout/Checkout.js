@@ -122,7 +122,7 @@ const Checkout = (props) => {
                 </Select>
 
                 <View style={{ width: '80%', alignItems: "center" }}>
-                    <Button title="Confirm" onPress={() => checkOut()} />
+                    <Button title="Confirm" onPress={() => checkOut()} color="#664229" />
                 </View>
             </FormContainer>
         </KeyboardAwareScrollView>

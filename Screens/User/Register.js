@@ -13,6 +13,8 @@ import { Camera } from 'expo-camera';
 import Icon from "react-native-vector-icons/FontAwesome"
 import mime from "mime";
 import * as ImagePicker from "expo-image-picker"
+import * as Google from "expo-auth-session/providers/google";
+
 var { height, width } = Dimensions.get("window")
 
 const Register = (props) => {
@@ -28,8 +30,15 @@ const Register = (props) => {
     const [image, setImage] = useState(null);
     const [mainImage, setMainImage] = useState('');
     const navigation = useNavigation()
+    const [userInfo, setUserInfo] = useState(null);
 
-
+//google
+    // const [request, response, promptAsync] = Google.useAuthRequest({
+    //     androidClientId: "271452028008-e7h9gm30q42bemt4umn54jhmb222ksq5.apps.googleusercontent.com",
+    //     iosClientId: "",
+    //     webClientId: "271452028008-44pgshqf63a08nq4l8okqo5pk2oho2mp.apps.googleusercontent.com",
+    //   });
+      
     // const addPhoto = async () => {
     //     setLaunchCam(true)
     //     if (camera) {
@@ -39,7 +48,6 @@ const Register = (props) => {
     //         setLaunchCam(false)
     //     }
     // }
-
     const takePhoto = async () => {
         setLaunchCam(true)
        
@@ -170,7 +178,7 @@ const Register = (props) => {
                         </View>
                         <Button
                             variant={"ghost"}
-                            onPress={() => takePhoto()}><Text> add photo</Text>
+                            onPress={() => takePhoto()}><Text> Add Photo </Text>
                         </Button>
                         <Button
                             variant={"ghost"}
@@ -180,7 +188,7 @@ const Register = (props) => {
                                         ? Camera.Constants.Type.front
                                         : Camera.Constants.Type.back
                                 );
-                            }}><Text>flip camera</Text>
+                            }}><Text>Flip Camera</Text>
                         </Button>
 
                     </Center> : null}
@@ -234,34 +242,6 @@ const Register = (props) => {
                         <Text style={{ color: "blue" }}>Back to Login</Text>
                     </Button>
                 </View>
-
-                <View style={styles.container}>
-              {!userInfo ? (
-                <Button
-                  title="Sign in with Google"
-                  disabled={!request}
-                  onPress={() => {
-                    promptAsync();
-                  }}
-                />
-              ) : (
-                <View style={styles.card}>
-                  {userInfo?.picture && (
-                    <Image source={{ uri: userInfo?.picture }} style={styles.image} />
-                  )}
-                  <Text style={styles.text}>Email: {userInfo.email}</Text>
-                  <Text style={styles.text}>
-                    Verified: {userInfo.verified_email ? "yes" : "no"}
-                  </Text>
-                  <Text style={styles.text}>Name: {userInfo.name}</Text>
-                  {/* <Text style={styles.text}>{JSON.stringify(userInfo, null, 2)}</Text> */}
-                </View>
-              )}
-              <Button
-                title="remove local store"
-                onPress={async () => await AsyncStorage.removeItem("@user")}
-              />
-            </View>
             </FormContainer>
         </KeyboardAwareScrollView>
     );
