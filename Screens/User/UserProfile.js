@@ -5,7 +5,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import Input from "../../Shared/Form/Input";
 import InputPrfl from "../../Shared/Form/InputPrfl";
 import UserOrders from "./UserOrders";
-
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -62,6 +62,7 @@ const UserProfile = (props) => {
 
         }, [context.stateUser.isAuthenticated]))
 
+
     const handleUserOrdersPress = () => {
         navigation.navigate('My Orders', { orders });
     };
@@ -70,95 +71,110 @@ const UserProfile = (props) => {
         navigation.navigate('Order Feedback');
     };
 
-
     return (
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            <View style={styles.container}>
-                <View style={styles.profileContainer}>
-                    <Image
-                        source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
-                        style={styles.profileImage}
-                    />
-                </View>
-
-                <TouchableOpacity style={styles.UserOrdersButton} onPress={handleUserOrdersPress}>
-                    <Text style={styles.UserOrdersButtonText}>My Orders</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.UserOrdersButton} onPress={handleOrderFeedbackPress}>
-                    <Text style={styles.UserOrdersButtonText}>Order Feedback</Text>
-                </TouchableOpacity>
-
-                <View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.infoLabel}>Name</Text>
-                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
-                            <InputPrfl
-                                placeholder="Enter your name"
-                                leftIcon={<View style={styles.nameIcon} />}
-                                onChangeText={(text) => { /* Handle text input */ }}
-                                value={userProfile ? userProfile.name : ''}
-                                inputStyle={styles.nameText}
-                            />
-                        </View>
-                    </View>
-
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.infoLabel}>Email</Text>
-                        <View style={styles.inputContainer}>
-                            <InputPrfl
-                                placeholder="Enter your email"
-                                leftIcon={<View style={styles.emailIcon} />}
-                                onChangeText={(text) => { /* Handle text input */ }}
-                                value={userProfile ? userProfile.email : ''}
-                                inputStyle={styles.emailText}
-                            />
-                        </View>
-                    </View>
-
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.infoLabel}>Phone Number</Text>
-                        <View style={styles.inputContainer}>
-                            <InputPrfl
-                                placeholder="Enter your number"
-                                leftIcon={<View style={styles.phoneIcon} />}
-                                onChangeText={(text) => { /* Handle text input */ }}
-                                value={userProfile ? userProfile.phone : ''}
-                                inputStyle={styles.phoneText}
-                            />
-                        </View>
-                    </View>
-                </View>
-
-                <View style={styles.actionContainer}>
-                    <TouchableOpacity style={styles.updateProfileButton}>
-                        <Text style={styles.updateProfileText}>Edit Profile</Text>
+        <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                <Image
+                    source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
+                    style={styles.profileImage}
+                />
+                <View style={styles.columnContainer}>
+                    <TouchableOpacity style={[styles.UserOrdersButton, { flexDirection: 'row', alignItems: 'center' }]} onPress={handleUserOrdersPress}>
+                        <FontAwesomeIcon name="shopping-cart" size={24} color="black" style={{ marginLeft: 17 }} />
+                        <Text style={[styles.UserOrdersButtonText, { marginLeft: 10 }]}>My Orders</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
-                        onPress={() => {
-                            AsyncStorage.removeItem("jwt");
-                            logoutUser(context.dispatch);
-                        }}
-                    >
-                        <Text style={styles.logoutText}>Logout</Text>
+                    <TouchableOpacity style={[styles.UserOrdersButton, { flexDirection: 'row', alignItems: 'center' }]} onPress={handleOrderFeedbackPress}>
+                        <FontAwesomeIcon name="comment" size={24} color="black" style={{ marginLeft: 25 }} />
+                        <Text style={[styles.UserOrdersButtonText, { marginLeft: 10 }]}>Review</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView>
+
+            <View>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Name</Text>
+                    <View style={[styles.inputContainer, { marginTop: 0 }]}>
+                        <InputPrfl
+                            placeholder="Enter your name"
+                            leftIcon={<View style={styles.nameIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.name : ''}
+                            inputStyle={styles.nameText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Email</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your email"
+                            leftIcon={<View style={styles.emailIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.email : ''}
+                            inputStyle={styles.emailText}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Phone Number</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your number"
+                            leftIcon={<View style={styles.phoneIcon} />}
+                            onChangeText={(text) => { /* Handle text input */ }}
+                            value={userProfile ? userProfile.phone : ''}
+                            inputStyle={styles.phoneText}
+                        />
+                    </View>
+                </View>
+
+                {/* <View style={styles.infoContainer}>
+                    <Text style={styles.infoLabel}>Password</Text>
+                    <View style={styles.inputContainer}>
+                        <InputPrfl
+                            placeholder="Enter your password"
+                            leftIcon={<View style={styles.lockIcon} />}
+                            onChangeText={(text) => {  }}
+                            value={''}
+                            inputStyle={styles.passwordText}
+                        />
+                    </View>
+                </View> */}
+            </View>
+
+            <View style={styles.actionContainer}>
+            </View>
+            <View style={styles.actionContainer}>
+                <TouchableOpacity style={styles.updateProfileButton}>
+                    <Text style={styles.updateProfileText}>Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
+                    onPress={() => {
+                        AsyncStorage.removeItem("jwt");
+                        logoutUser(context.dispatch);
+                    }}
+                >
+                    <Text style={styles.logoutText}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+        </View >
     );
 };
 
-
 const styles = StyleSheet.create({
-    scrollViewContent: {
-        flexGrow: 1,
-    },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         padding: 20,
+        backgroundColor: 'white',
+    },
+    columnContainer: {
+        flexDirection: 'column',
+        alignItems: 'center', // Optional: To center the items horizontally
     },
     inputContainer: {
         flexDirection: 'row',
@@ -180,19 +196,21 @@ const styles = StyleSheet.create({
         marginBottom: 35,
         width: 139,
         height: 139,
-        borderRadius: 139 / 2,
         backgroundColor: '#B99960',
     },
     UserOrdersButton: {
-        backgroundColor: '#B99960',
-        paddingHorizontal: 20,
+        // backgroundColor: '#B99960',
+        // paddingHorizontal: 20,
         paddingVertical: 10,
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 20,
         marginBottom: 20,
+        width: 150,
+        borderWidth: 1,
+        borderColor: '#664229',
     },
     UserOrdersButtonText: {
-        color: '#FFFFFF',
+        color: 'black',
         fontSize: 16,
         fontFamily: 'Poppins',
         fontWeight: '700',
