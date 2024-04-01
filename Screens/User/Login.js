@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import Header from "../../Shared/Header";
+import WelcomeLogin from "../../Shared/WelcomeLogin";
 
 const Login = (props) => {
   const context = useContext(AuthGlobal);
@@ -103,6 +105,8 @@ const Login = (props) => {
 
   return (
     <FormContainer>
+      <Header/>
+      <WelcomeLogin/>
       <Input
         placeholder={"Enter email"}
         name={"email"}
