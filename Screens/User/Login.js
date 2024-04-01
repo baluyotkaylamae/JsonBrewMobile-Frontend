@@ -109,6 +109,10 @@ const Login = (props) => {
     navigation.navigate("ForgetPassword");
   };
 
+  const handleCreateAccount = () => {
+    navigation.navigate("Register");
+  };
+
   return (
     <FormContainer>
       <Header />
@@ -144,7 +148,7 @@ const Login = (props) => {
       </View>
       <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
         <Text
-          onPress={() => navigation.navigate("Register")}
+          onPress={handleCreateAccount}
           style={[
             styles.registerButton,
             { color: "black", fontWeight: "bold", letterSpacing: 0, marginTop: -15 }
@@ -161,16 +165,23 @@ const Login = (props) => {
             <FontAwesomeIcon name="google" size={20} color="white" />
           </TouchableOpacity>
         ) : (
-          <View style={styles.card}>
-            {userInfo?.picture && (
-              <Image source={{ uri: userInfo?.picture }} style={styles.image} />
+          <View style={styles.container}>
+            {userInfo ? (
+              <View style={styles.card}>
+                {userInfo?.picture && (
+                  <Image source={{ uri: userInfo?.picture }} style={styles.image} />
+                )}
+                <Text style={styles.text}>Email: {userInfo.email || ''}</Text>
+                <Text style={styles.text}>
+                  Verified: {userInfo.verified_email ? "yes" : "no"}
+                </Text>
+                <Text style={styles.text}>Name: {userInfo.name || ''}</Text>
+              </View>
+            ) : (
+              <TouchableOpacity onPress={handleGoogleSignIn} style={styles.googleButtonContainer}>
+                <FontAwesomeIcon name="google" size={20} color="white" />
+              </TouchableOpacity>
             )}
-            <Text style={styles.text}>Email: {userInfo.email}</Text>
-            <Text style={styles.text}>
-              Verified: {userInfo.verified_email ? "yes" : "no"}
-            </Text>
-            <Text style={styles.text}>Name: {userInfo.name}</Text>
-            {/* <Text style={styles.text}>{JSON.stringify(userInfo, null, 2)}</Text> */}
           </View>
         )}
         {/* <TouchableOpacity onPress={handleRemoveLocalStore} style={styles.removeLocalStoreButtonContainer}>
