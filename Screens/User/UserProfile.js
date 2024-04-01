@@ -62,99 +62,98 @@ const UserProfile = (props) => {
 
         }, [context.stateUser.isAuthenticated]))
 
-
     const handleUserOrdersPress = () => {
         navigation.navigate('My Orders', { orders });
     };
 
+    const handleOrderFeedbackPress = () => {
+        navigation.navigate('Order Feedback');
+    };
+
 
     return (
-        <View style={styles.container}>
-            <View style={styles.profileContainer}>
-                <Image
-                    source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
-                    style={styles.profileImage}
-                />
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <View style={styles.container}>
+                <View style={styles.profileContainer}>
+                    <Image
+                        source={{ uri: image ? image : 'https://via.placeholder.com/139x139' }}
+                        style={styles.profileImage}
+                    />
+                </View>
+
                 <TouchableOpacity style={styles.UserOrdersButton} onPress={handleUserOrdersPress}>
                     <Text style={styles.UserOrdersButtonText}>My Orders</Text>
                 </TouchableOpacity>
-            </View>
 
-            <View>
-                <View style={styles.infoContainer}>
-                    <Text style={styles.infoLabel}>Name</Text>
-                    <View style={[styles.inputContainer, { marginTop: 0 }]}>
-                        <InputPrfl
-                            placeholder="Enter your name"
-                            leftIcon={<View style={styles.nameIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.name : ''}
-                            inputStyle={styles.nameText}
-                        />
-                    </View>
-                </View>
-
-                <View style={styles.infoContainer}>
-                    <Text style={styles.infoLabel}>Email</Text>
-                    <View style={styles.inputContainer}>
-                        <InputPrfl
-                            placeholder="Enter your email"
-                            leftIcon={<View style={styles.emailIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.email : ''}
-                            inputStyle={styles.emailText}
-                        />
-                    </View>
-                </View>
-
-                <View style={styles.infoContainer}>
-                    <Text style={styles.infoLabel}>Phone Number</Text>
-                    <View style={styles.inputContainer}>
-                        <InputPrfl
-                            placeholder="Enter your number"
-                            leftIcon={<View style={styles.phoneIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.phone : ''}
-                            inputStyle={styles.phoneText}
-                        />
-                    </View>
-                </View>
-
-                {/* <View style={styles.infoContainer}>
-                    <Text style={styles.infoLabel}>Password</Text>
-                    <View style={styles.inputContainer}>
-                        <InputPrfl
-                            placeholder="Enter your password"
-                            leftIcon={<View style={styles.lockIcon} />}
-                            onChangeText={(text) => {  }}
-                            value={''}
-                            inputStyle={styles.passwordText}
-                        />
-                    </View>
-                </View> */}
-            </View>
-
-            <View style={styles.actionContainer}>
-            </View>
-            <View style={styles.actionContainer}>
-                <TouchableOpacity style={styles.updateProfileButton}>
-                    <Text style={styles.updateProfileText}>Edit Profile</Text>
+                <TouchableOpacity style={styles.UserOrdersButton} onPress={handleOrderFeedbackPress}>
+                    <Text style={styles.UserOrdersButtonText}>Order Feedback</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
-                    onPress={() => {
-                        AsyncStorage.removeItem("jwt");
-                        logoutUser(context.dispatch);
-                    }}
-                >
-                    <Text style={styles.logoutText}>Logout</Text>
-                </TouchableOpacity>
+
+                <View>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoLabel}>Name</Text>
+                        <View style={[styles.inputContainer, { marginTop: 0 }]}>
+                            <InputPrfl
+                                placeholder="Enter your name"
+                                leftIcon={<View style={styles.nameIcon} />}
+                                onChangeText={(text) => { /* Handle text input */ }}
+                                value={userProfile ? userProfile.name : ''}
+                                inputStyle={styles.nameText}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoLabel}>Email</Text>
+                        <View style={styles.inputContainer}>
+                            <InputPrfl
+                                placeholder="Enter your email"
+                                leftIcon={<View style={styles.emailIcon} />}
+                                onChangeText={(text) => { /* Handle text input */ }}
+                                value={userProfile ? userProfile.email : ''}
+                                inputStyle={styles.emailText}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.infoLabel}>Phone Number</Text>
+                        <View style={styles.inputContainer}>
+                            <InputPrfl
+                                placeholder="Enter your number"
+                                leftIcon={<View style={styles.phoneIcon} />}
+                                onChangeText={(text) => { /* Handle text input */ }}
+                                value={userProfile ? userProfile.phone : ''}
+                                inputStyle={styles.phoneText}
+                            />
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.actionContainer}>
+                    <TouchableOpacity style={styles.updateProfileButton}>
+                        <Text style={styles.updateProfileText}>Edit Profile</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
+                        onPress={() => {
+                            AsyncStorage.removeItem("jwt");
+                            logoutUser(context.dispatch);
+                        }}
+                    >
+                        <Text style={styles.logoutText}>Logout</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View >
+        </ScrollView>
     );
 };
 
+
 const styles = StyleSheet.create({
+    scrollViewContent: {
+        flexGrow: 1,
+    },
     container: {
         flex: 1,
         alignItems: 'center',

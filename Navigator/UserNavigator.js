@@ -6,6 +6,7 @@ import Register from "../Screens/User/Register";
 import UserProfile from "../Screens/User/UserProfile";
 import UserOrders from "../Screens/User/UserOrders";
 import UserReviews from "../Screens/User/UserReviews";
+import OrderFeedback from "../Screens/OrderFeedback";
 const Stack = createStackNavigator();
 
 const UserNavigator = (props) => {
@@ -51,6 +52,17 @@ const UserNavigator = (props) => {
                     headerShown: false
                 }}
             />
+
+
+            
+            <Stack.Screen
+                name="Order Feedback" 
+                component={OrderFeedback} 
+                options={{
+                    headerShown: false
+                }}
+            />
+
         </Stack.Navigator>
     )
 
