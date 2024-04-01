@@ -16,7 +16,7 @@ const Greeting = () => {
 const styles = StyleSheet.create({
   greetingContainer: {
     paddingVertical: 0,
-    marginTop: 3,
+    marginTop: -13,
     // marginLeft: 20,
     marginBottom: 25,
     backgroundColor: '#fff',

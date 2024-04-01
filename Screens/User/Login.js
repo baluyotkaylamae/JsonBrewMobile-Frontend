@@ -1,4 +1,4 @@
-import Input from "../../Shared/Form/Input";
+import InputUser from "../../Shared/Form/InputUser";
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import FormContainer from "../../Shared/Form/FormContainer";
@@ -13,6 +13,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import Header from "../../Shared/Header";
 import WelcomeLogin from "../../Shared/WelcomeLogin";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 const Login = (props) => {
   const context = useContext(AuthGlobal);
@@ -103,53 +104,61 @@ const Login = (props) => {
     await AsyncStorage.removeItem("@user");
   };
 
+  const handleForgetPassword = () => {
+    // Navigate to forget password screen
+    navigation.navigate("ForgetPassword");
+  };
+
   return (
     <FormContainer>
-      <Header/>
-      <WelcomeLogin/>
-      <Input
-        placeholder={"Enter email"}
+      <Header />
+      <WelcomeLogin />
+      <InputUser
+        placeholder={"Email"}
         name={"email"}
         id={"email"}
         value={email}
         onChangeText={(text) => setEmail(text.toLowerCase())}
       />
-      <Input
-        placeholder={"Enter Password"}
+      <InputUser
+        placeholder={"Password"}
         name={"password"}
         id={"password"}
         secureTextEntry={true}
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
+      <TouchableOpacity onPress={handleForgetPassword}>
+        <Text style={styles.forgetPassword}>Forget Your Password?</Text>
+      </TouchableOpacity>
       <View style={styles.buttonGroup}>
         {error ? <Error message={error} /> : null}
+
         <EasyButton
-          large
+          login
           primary
           onPress={handleSubmit}
           style={styles.loginButton}
-        ><Text style={{ color: "white" }}>Login</Text>
+        ><Text style={{ color: "white", fontWeight: "bold", letterSpacing: 1 }}>Sign in</Text>
         </EasyButton>
       </View>
       <View style={[{ marginTop: 40 }, styles.buttonGroup]}>
-        <Text style={styles.middleText}>Don't Have an Account yet?</Text>
-        <EasyButton
-          large
-          secondary
+        <Text
           onPress={() => navigation.navigate("Register")}
-          style={styles.registerButton}
+          style={[
+            styles.registerButton,
+            { color: "black", fontWeight: "bold", letterSpacing: 0, marginTop: -15 }
+          ]}
         >
-          <Text style={{ color: "white" }}>Register</Text>
-        </EasyButton>
+          Create new account
+        </Text>
       </View>
 
-      <Text style={styles.middleText}> Sign in with Google: </Text>
-
+      <Text style={[styles.middleText, { color: "#664229", fontWeight: "bold" }]}>Or continue with</Text>
       <View style={styles.container}>
         {!userInfo ? (
           <TouchableOpacity onPress={handleGoogleSignIn} style={styles.googleButtonContainer}>
-            <Text style={styles.googleButtonText}>Sign in with Google</Text>
+            <FontAwesomeIcon name="google" size={20} color="white" />
           </TouchableOpacity>
         ) : (
           <View style={styles.card}>
@@ -164,11 +173,15 @@ const Login = (props) => {
             {/* <Text style={styles.text}>{JSON.stringify(userInfo, null, 2)}</Text> */}
           </View>
         )}
-        <TouchableOpacity onPress={handleRemoveLocalStore} style={styles.removeLocalStoreButtonContainer}>
+        {/* <TouchableOpacity onPress={handleRemoveLocalStore} style={styles.removeLocalStoreButtonContainer}>
           <Text style={styles.removeLocalStoreButtonText}>Remove Local Store</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
       </View>
+      <View style={styles.rectangle3}></View>
+      <View style={styles.rectangle4}></View>
+      <View style={styles.ellipse2}></View>
+      <View style={styles.ellipse1}></View>
     </FormContainer>
   )
 }
@@ -179,6 +192,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   middleText: {
+    marginTop: 35,
     marginBottom: 20,
     alignSelf: "center",
   },
@@ -186,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#664229",
   },
   registerButton: {
-    backgroundColor: "#B99960",
+    backgroundColor: "#FFFFFF",
   },
   container: {
     alignItems: 'center',
@@ -212,14 +226,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   googleButtonContainer: {
-    width: "50%",
-    backgroundColor: "#664229",
+    width: "20%",
+    backgroundColor: "red",
     paddingVertical: 12,
     paddingHorizontal: 24,
-    borderRadius: 4,
-    flexDirection: "row",
+    borderRadius: 10,
     alignItems: "center",
+    marginTop: -30,
     justifyContent: "center",
+    marginBottom: 30,
   },
   googleButtonText: {
     color: "#FFFFFF",
@@ -244,6 +259,47 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: 'center',
+  },
+  forgetPassword: {
+    color: "#664229",
+    marginTop: 5,
+    marginLeft: 170,
+  },
+  rectangle3: {
+    width: 372,
+    height: 372,
+    left: 169.40,
+    top: 930.70,
+    position: "absolute",
+    transform: "rotate(27.09deg)",
+    transformOrigin: "0 0",
+    border: "2px #F1F4FF solid",
+  },
+  rectangle4: {
+    width: 372,
+    height: 372,
+    left: 58.30,
+    top: 990,
+    position: "absolute",
+    border: "2px #F1F4FF solid",
+  },
+  ellipse2: {
+    width: 496,
+    height: 496,
+    left: 387.30,
+    top: 185,
+    position: "absolute",
+    borderRadius: "9999px",
+    border: "3px #F8F9FF solid",
+  },
+  ellipse1: {
+    width: 635,
+    height: 635,
+    left: 30,
+    top: 10,
+    position: "absolute",
+    background: "black",
+    borderRadius: "9999px",
   },
 });
 

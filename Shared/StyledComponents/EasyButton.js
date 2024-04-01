@@ -67,6 +67,19 @@ const EasyButton = styled.TouchableOpacity`
             align-items: center;
         `
     }
+
+    ${(props) =>
+        props.login &&
+        css`
+            background: #866852;
+            width: 325px;
+            align-items: center;
+            margin-top: 25px;
+            height: 50px;
+        `
+    }
+
+
 `;
 
 export default EasyButton
