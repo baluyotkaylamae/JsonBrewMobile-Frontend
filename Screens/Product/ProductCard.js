@@ -3,26 +3,26 @@ import { StyleSheet, View, Dimensions, Image, Text, TouchableOpacity } from 'rea
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../Redux/Actions/cartActions';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const ProductCard = (props) => {
     const { name, price, images, description, rating } = props;
     const [isLiked, setIsLiked] = useState(false);
     const [productRating, setProductRating] = useState(rating);
     const dispatch = useDispatch();
-    const navigation = useNavigation(); 
+    const navigation = useNavigation();
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
         if (!isLiked) {
-            setProductRating(productRating + 1); 
-           
+            setProductRating(productRating + 1);
+
         } else {
-            setProductRating(productRating - 1); 
-          
+            setProductRating(productRating - 1);
+
         }
     };
 
@@ -36,11 +36,23 @@ const ProductCard = (props) => {
 
     return (
         <View style={styles.container}>
-              <View style={styles.imageContainer}>
+            <Text style={styles.title}>{name.length > 15 ? name.substring(0, 15 - 3) + '...' : name}</Text>
+            <Text style={styles.description}>{description}</Text>
+            {/* <Text style={styles.rating}>Rating: {productRating}</Text> */}
+            <Text style={styles.price}>₱{price}</Text>
+            <View style={styles.buttonContainer}>
+                {/* <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+                    <Text style={styles.buttonText}>Add to Cart</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={handleOrderNow}>
+                    <Text style={styles.buttonText}>Order Now</Text>
+                </TouchableOpacity> */}
+            </View>
+            <View style={styles.imageContainer}>
                 <Swiper
                     style={styles.swiper}
                     autoplay={true}
-                    autoplayTimeout={2}
+                    autoplayTimeout={5}
                 >
                     {images.map((image, index) => (
                         <Image
@@ -55,51 +67,45 @@ const ProductCard = (props) => {
                     <FontAwesome name={isLiked ? 'heart' : 'heart-o'} size={24} color={isLiked ? 'red' : 'black'} />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.title}>{name.length > 15 ? name.substring(0, 15 - 3) + '...' : name}</Text>
-            <Text style={styles.description}>{description}</Text>
-            <Text style={styles.rating}>Rating: {productRating}</Text>
-            <Text style={styles.price}>₱{price}</Text>
-            <View style={styles.buttonContainer}>
-                     {/* <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
-                    <Text style={styles.buttonText}>Add to Cart</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.orderButton]} onPress={handleOrderNow}>
-                    <Text style={styles.buttonText}>Order Now</Text>
-                </TouchableOpacity> */}
-            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: width / 2 - 20,
+        width: width - 20,
+        height: 200,
         borderRadius: 10,
         marginTop: 15,
+        marginBottom: 10,
         marginLeft: 10,
         alignItems: 'center',
         backgroundColor: '#fff',
-        shadowColor: '#fff',
+        shadowColor: 'black',
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 1.25,
         shadowRadius: 3.84,
         elevation: 5,
         paddingBottom: 5,
     },
     imageContainer: {
         position: 'relative',
-        width: '100%',
-        height: 150,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        width: '45%',
+        height: 180,
+        marginLeft: 150,
+        marginTop: -145,
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     image: {
         width: '100%',
-        height: '100%',
-        borderRadius: 10,
+        height: '250%',
+        borderRadius: 0,
     },
     heartIcon: {
         position: 'absolute',
@@ -109,27 +115,31 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 16,
-        textAlign: 'left',
-        marginBottom: 5,
-        marginLeft: -80,
-        color: '#B99960',
+        fontSize: 14,
+        textAlign: 'center',
+        marginTop: 50,
+        marginBottom: -5,
+        marginLeft: -200,
+        color: 'black',
     },
     price: {
         fontSize: 18,
+        fontWeight: 'bold',
         color: '#BF360C',
         textAlign: 'right',
+        marginTop: 30,
         // marginRight: 5,
-        marginLeft: -60,
+        marginLeft: -200,
         marginBottom: 5,
     },
     description: {
-        fontSize: 14,
+        fontSize: 13,
         textAlign: 'left',
         // marginHorizontal: 5,
         marginBottom: 5,
-        marginLeft: -60,
-        color: '#616161',
+        marginTop: 10,
+        marginLeft: -200,
+        color: '#C4C4C4',
     },
     rating: {
         fontSize: 14,
