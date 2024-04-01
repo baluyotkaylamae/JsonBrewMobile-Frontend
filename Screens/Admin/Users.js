@@ -13,6 +13,7 @@ import baseURL from "../../assets/common/baseurl";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Toast } from 'react-native-toast-message';
 
 var { width } = Dimensions.get("window");
 
@@ -20,11 +21,27 @@ const UserItem = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedRole, setSelectedRole] = useState(props.item.role);
 
-    const updateUserRole = (role) => {
-        // Make API call to update user role
-        // Hide the modal
-        setModalVisible(false);
+    const updateUserRole = async (role) => {
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            };
+            const response = await axios.put(`${baseURL}users/${props.item._id}`, { isAdmin: role }, config);
+            setSelectedRole(role);
+            setModalVisible(false); 
+            console.log("Modal visibility after role selection:", modalVisible); 
+            showToast('Role updated successfully');
+    
+        } catch (error) {
+            showToast('Error updating role');
+            console.error('Error updating role:', error);
+        }
     };
+    
+    
+    
 
     return (
         <View style={styles.item}>
@@ -117,14 +134,28 @@ const Users = (props) => {
                 Authorization: `Bearer ${token}`,
             }
         };
-
         axios
             .delete(`${baseURL}users/${id}`, config)
             .then((res) => {
-                const newUsers = users.filter((item) => item.id !== id);
-                setUsers(newUsers);
+                axios.get(`${baseURL}users`)
+                    .then((res) => {
+                        setUsers(res.data);
+                        Toast.show({
+                            type: 'success',
+                            text1: 'Success',
+                            text2: 'User deleted successfully',
+                        });
+                    })
+                    .catch((error) => alert("Error loading users"));
             })
-            .catch((error) => alert("Error deleting user"));
+            .catch((error) => {
+                alert("Error deleting user");
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: 'Failed to delete user',
+                });
+            });
     };
 
     return (
