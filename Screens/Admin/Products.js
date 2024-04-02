@@ -183,6 +183,15 @@ const Products = (props) => {
                         <Text style={styles.buttonText}>Users</Text>
                     </View>
                 </View>
+                <EasyButton
+                    secondary
+                    medium
+                    onPress={() => navigation.navigate("TotalSales")}
+                    style={{ backgroundColor: "#664229" }}
+                >
+                    <Icon name="money" size={18} color="white" />
+                    <Text style={styles.buttonText}>Total Sales by Date</Text>
+                </EasyButton>
             </View>
             <View style={styles.rowContainer}>
             </View>
@@ -242,7 +251,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonContainer: {
-        paddingHorizontal: 0, // Adjust this value as needed
+        paddingHorizontal: 0, 
     },
     dashheaderContainer: {
         flexDirection: 'row',
@@ -254,8 +263,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'darkgrey',
-        textAlign: 'center', // Center the text horizontally
-        marginTop: 5, // Add margin top to separate text from icon
+        textAlign: 'center', 
+        marginTop: 5, 
     },
     row: {
         flexDirection: 'row',

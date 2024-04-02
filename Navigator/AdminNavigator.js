@@ -7,6 +7,7 @@ import ProductForm from "../Screens/Admin/ProductForm";
 import Categories from "../Screens/Admin/Categories";
 import Chart from "../Screens/Admin/Charts";
 import Users from "../Screens/Admin/Users";
+import TotalSales from "../Screens/Admin/TotalSales"; 
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,8 @@ const AdminNavigator = () => {
       <Stack.Screen name="Users" component={Users} />
       <Stack.Screen name="ProductForm" component={ProductForm} options={{ headerShown: false }} />
       <Stack.Screen name="Charts" component={Chart} />
+      <Stack.Screen name="TotalSales" component={TotalSales} />
+      
     </Stack.Navigator>
   );
 };
