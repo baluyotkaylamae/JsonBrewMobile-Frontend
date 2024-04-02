@@ -165,6 +165,7 @@ const Register = (props) => {
 
     return (
         <KeyboardAwareScrollView
+            style={{ height: '80%' }}
             viewIsInsideTabBar={true}
             extraHeight={200}
             enableOnAndroid={true}

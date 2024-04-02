@@ -20,28 +20,58 @@ var { width } = Dimensions.get("window");
 const UserItem = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedRole, setSelectedRole] = useState(props.item.role);
+    const [token, setToken] = useState("");
 
     const updateUserRole = async (role) => {
         try {
+            // Fetch token
+            const token = await AsyncStorage.getItem("jwt");
+    
+            if (!token) {
+                showToast('Token not found');
+                return;
+            }
+    
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
             };
-            const response = await axios.put(`${baseURL}users/${props.item._id}`, { isAdmin: role }, config);
-            setSelectedRole(role);
-            setModalVisible(false); 
-            console.log("Modal visibility after role selection:", modalVisible); 
-            showToast('Role updated successfully');
     
+            // Determine isAdmin value based on the selected role
+            const isAdmin = role === 'admin';
+    
+            // Make API request to update user role
+            const response = await axios.put(`${baseURL}users/${props.item._id}`, { isAdmin }, config);
+    
+            // Update local state and UI
+            setSelectedRole(role);
+            setModalVisible(false);
+            console.log("Modal visibility after role selection:", modalVisible);
+    
+            // Show success toast
+            Toast.show({
+                type: 'success',
+                text1: 'Role updated successfully',
+            });
         } catch (error) {
-            showToast('Error updating role');
             console.error('Error updating role:', error);
+    
+            // Extract error message from response if available, otherwise use a default message
+            const errorMessage = error.response?.data?.message || 'An error occurred while updating the role.';
+    
+            // Show error toast
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: errorMessage,
+            });
         }
     };
     
-    
-    
+
+
+
 
     return (
         <View style={styles.item}>
