@@ -127,7 +127,7 @@ const Products = (props) => {
                             secondary
                             primary
                             onPress={() => navigation.navigate("Orders")}
-                            style={{ backgroundColor: "#F7D9C4", borderRadius: 50 }}
+                            style={{ backgroundColor: "#FFA86B", borderRadius: 50 }}
                         >
                             <Icon name="shopping-bag" size={18} color="white" />
                         </EasyButton>
@@ -139,7 +139,7 @@ const Products = (props) => {
                             secondary
                             primary
                             onPress={() => navigation.navigate("ProductForm")}
-                            style={{ backgroundColor: "#FAEDCB", borderRadius: 50 }}
+                            style={{ backgroundColor: "#FFD976", borderRadius: 50 }}
                         >
                             <Icon name="leaf" size={18} color="white" />
                         </EasyButton>
@@ -151,7 +151,7 @@ const Products = (props) => {
                             secondary
                             primary
                             onPress={() => navigation.navigate("Categories")}
-                            style={{ backgroundColor: "#C9E4DE", borderRadius: 50 }}
+                            style={{ backgroundColor: "#7ADBC5", borderRadius: 50 }}
                         >
                             <Icon name="shopping-basket" size={18} color="white" />
                         </EasyButton>
@@ -163,7 +163,7 @@ const Products = (props) => {
                             secondary
                             primary
                             onPress={() => navigation.navigate("Charts")}
-                            style={{ backgroundColor: "#C6DEF1", borderRadius: 50 }}
+                            style={{ backgroundColor: "#67ABE1", borderRadius: 50 }}
                         >
                             <Icon name="bar-chart" size={18} color="white" />
                         </EasyButton>
@@ -175,7 +175,7 @@ const Products = (props) => {
                             secondary
                             primary
                             onPress={() => navigation.navigate("Users")}
-                            style={{ backgroundColor: "#DBCDF0", borderRadius: 50 }}
+                            style={{ backgroundColor: "#9D6DE4", borderRadius: 50 }}
                         >
                             <Icon name="leaf" size={18} color="white" />
                         </EasyButton>
