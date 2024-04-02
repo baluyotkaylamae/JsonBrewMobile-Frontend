@@ -65,6 +65,13 @@ const Confirm = (props) => {
                     text2: '',
                 });
 
+                Toast.show({
+                    topOffset: 60,
+                    type: 'info',
+                    text1: 'Email Sent',
+                    text2: 'An email for your order has been sent!',
+                });
+
                 setTimeout(() => {
                     dispatch(clearCart());
                     navigation.navigate('Cart');

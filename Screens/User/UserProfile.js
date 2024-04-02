@@ -20,6 +20,7 @@ const UserProfile = (props) => {
     const [userProfile, setUserProfile] = useState('')
     const [orders, setOrders] = useState([])
     const [image, setImage] = useState(null);
+    const [editing, setEditing] = useState(false); // State to control editing mode
     const navigation = useNavigation()
 
     useFocusEffect(
@@ -62,13 +63,51 @@ const UserProfile = (props) => {
 
         }, [context.stateUser.isAuthenticated]))
 
-
     const handleUserOrdersPress = () => {
         navigation.navigate('My Orders', { orders });
     };
 
     const handleOrderFeedbackPress = () => {
         navigation.navigate('Order Feedback');
+    };
+
+    const handleEditProfile = () => {
+        setEditing(true); // Enable editing mode
+    };
+
+    const handleSaveProfile = () => {
+        AsyncStorage.getItem("jwt")
+            .then((token) => {
+                axios
+                    .put(`${baseURL}users/${context.stateUser.user.userId}`, userProfile, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                    .then((response) => {
+                        console.log("Profile updated successfully:", response.data);
+                        setEditing(false); 
+                    })
+                    .catch((error) => {
+                        console.error("Error updating profile:", error);
+                        
+                    });
+            })
+            .catch((error) => {
+                console.error("Error retrieving JWT token:", error);
+                
+            });
+    };
+    
+
+    const handleChangeName = (text) => {
+        setUserProfile({ ...userProfile, name: text });
+    };
+
+    const handleChangeEmail = (text) => {
+        setUserProfile({ ...userProfile, email: text });
+    };
+
+    const handleChangePhone = (text) => {
+        setUserProfile({ ...userProfile, phone: text });
     };
 
     return (
@@ -97,9 +136,10 @@ const UserProfile = (props) => {
                         <InputPrfl
                             placeholder="Enter your name"
                             leftIcon={<View style={styles.nameIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.name : ''}
+                            onChangeText={handleChangeName}
+                            value={editing ? userProfile.name : userProfile ? userProfile.name : ''}
                             inputStyle={styles.nameText}
+                            editable={editing} // Enable/disable editing based on the editing state
                         />
                     </View>
                 </View>
@@ -110,9 +150,10 @@ const UserProfile = (props) => {
                         <InputPrfl
                             placeholder="Enter your email"
                             leftIcon={<View style={styles.emailIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.email : ''}
+                            onChangeText={handleChangeEmail}
+                            value={editing ? userProfile.email : userProfile ? userProfile.email : ''}
                             inputStyle={styles.emailText}
+                            editable={editing} // Enable/disable editing based on the editing state
                         />
                     </View>
                 </View>
@@ -123,33 +164,25 @@ const UserProfile = (props) => {
                         <InputPrfl
                             placeholder="Enter your number"
                             leftIcon={<View style={styles.phoneIcon} />}
-                            onChangeText={(text) => { /* Handle text input */ }}
-                            value={userProfile ? userProfile.phone : ''}
+                            onChangeText={handleChangePhone}
+                            value={editing ? userProfile.phone : userProfile ? userProfile.phone : ''}
                             inputStyle={styles.phoneText}
+                            editable={editing} // Enable/disable editing based on the editing state
                         />
                     </View>
                 </View>
-
-                {/* <View style={styles.infoContainer}>
-                    <Text style={styles.infoLabel}>Password</Text>
-                    <View style={styles.inputContainer}>
-                        <InputPrfl
-                            placeholder="Enter your password"
-                            leftIcon={<View style={styles.lockIcon} />}
-                            onChangeText={(text) => {  }}
-                            value={''}
-                            inputStyle={styles.passwordText}
-                        />
-                    </View>
-                </View> */}
             </View>
 
             <View style={styles.actionContainer}>
-            </View>
-            <View style={styles.actionContainer}>
-                <TouchableOpacity style={styles.updateProfileButton}>
-                    <Text style={styles.updateProfileText}>Edit Profile</Text>
-                </TouchableOpacity>
+                {editing ? (
+                    <TouchableOpacity style={styles.updateProfileButton} onPress={handleSaveProfile}>
+                        <Text style={styles.updateProfileText}>Save Profile</Text>
+                    </TouchableOpacity>
+                ) : (
+                        <TouchableOpacity style={styles.updateProfileButton} onPress={handleEditProfile}>
+                            <Text style={styles.updateProfileText}>Edit Profile</Text>
+                        </TouchableOpacity>
+                    )}
                 <TouchableOpacity
                     style={[styles.logoutContainer, { width: 100, borderWidth: 1, borderColor: '#664229', borderRadius: 12 }]}
                     onPress={() => {
