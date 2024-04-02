@@ -301,6 +301,7 @@ const styles = StyleSheet.create({
     availabilityText: {
         marginRight: 10,
         color: '#6b5b4d',
+        marginTop: 6,
     },
     description: {
         textAlign: 'center',
@@ -309,11 +310,13 @@ const styles = StyleSheet.create({
     },
     quanlabelContainer: {
         marginBottom: -17,
-        marginLeft: -360,
+        marginLeft: -310, 
     },
     controlContainer: {
-        marginLeft: -85,
+        marginLeft: 20, // Adjusted marginLeft for better positioning
         marginBottom: 20,
+        flexDirection: 'row', // Arrange controls horizontally
+        justifyContent: 'flex-end', // Align controls to the right
     },
     label: {
         marginBottom: 10,
