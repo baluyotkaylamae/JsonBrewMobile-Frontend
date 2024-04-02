@@ -118,7 +118,7 @@ const SingleProduct = ({ route }) => {
                         style={styles.swiper}
                         showButtons={false}
                         autoplay={true}
-                        autoplayTimeout={2}
+                        autoplayTimeout={10}
                     >
                         {item.images.map((image, index) => (
                             <Image
@@ -258,8 +258,9 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
         alignItems: 'center',
-        marginLeft: -60,
+        marginLeft: -30,
         marginBottom: 20,
+        marginTop: -100,
     },
     image: {
         flex: 1,
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
         color: '#6b5b4d',
     },
     infoContainer: {
-        marginLeft: -375,
+        marginLeft: -260,
         marginTop: -10,
         marginBottom: 20,
     },
