@@ -63,7 +63,6 @@ const ListItem = ({ item, index, deleteProduct }) => {
                         >
                             <Text style={styles.textStyle}>Delete</Text>
                         </EasyButton>
-
                     </View>
                 </View>
             </Modal>
@@ -71,7 +70,7 @@ const ListItem = ({ item, index, deleteProduct }) => {
                 onPress={() => navigation.navigate("Product Detail", { item })}
                 onLongPress={() => setModalVisible(true)}
                 style={[styles.container, {
-                    backgroundColor: index % 2 === 0 ? "white" : "gainsboro"
+                    backgroundColor: index % 2 === 0 ? "white" : "#F7EDE2"
                 }]}
             >
                 {item.images && item.images.map((image, index) => (
@@ -96,7 +95,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         padding: 5,
-        width: width
+        width: width,
+        borderBottomWidth: 1, // Add this line
+        borderBottomColor: 'gray', // Add this line
     },
     image: {
         borderRadius: 50,

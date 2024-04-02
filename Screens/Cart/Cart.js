@@ -90,7 +90,7 @@ const Cart = () => {
             <>
                 <TouchableHighlight
                     _dark={{
-                        bg: 'coolGray.800'
+                        bg: 'white'
                     }}
                     _light={{
                         bg: 'white'
@@ -213,7 +213,7 @@ const Cart = () => {
             )}
             <VStack style={styles.bottomContainer} w='100%' justifyContent='space-between'>
                 <Box>
-                    <Text style={[styles.label, { fontWeight: 'bold' }]}>Total Amount:</Text>
+                    <Text style={[styles.label, { fontWeight: 'bold', marginLeft: 6 }]}>Total Amount:</Text>
                     <HStack justifyContent="space-between" marginBottom={-3}>
                         <Text style={styles.price}>₱ {total.toFixed(2)}</Text>
                     </HStack>

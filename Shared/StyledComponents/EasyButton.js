@@ -79,6 +79,17 @@ const EasyButton = styled.TouchableOpacity`
         `
     }
 
+    ${(props) =>
+        props.dashboard &&
+        css`
+            border-radius: 60px;
+            padding: 20px;
+            margin: 1px;
+            justify-content: center;
+            background: transparent;
+        `
+    }
+
 
 `;
 
