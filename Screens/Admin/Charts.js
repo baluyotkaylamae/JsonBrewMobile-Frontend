@@ -190,6 +190,8 @@ const Chart = () => {
             />
           </View>
         )}
+
+        
         <View style={styles.chartContainer}>
           <Text style={styles.title}>Product Counts in Stocks</Text>
           <ModalDropdown

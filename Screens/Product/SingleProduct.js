@@ -111,7 +111,7 @@ const SingleProduct = ({ route }) => {
     const totalPrice = ((item.price + (selectedCupSize === "Medium" ? 10 : (selectedCupSize === "Large" ? 20 : 0)) + (selectedSugarLevel !== "Medium" ? 5 : 0) + (selectedAddons.length * 5)) * quantity).toFixed(2);
 
     return (
-        <Center flexGrow={1}>
+        <Center style={{backgroundColor: 'white' }}>
             <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.imageContainer}>
                     <Swiper
@@ -393,6 +393,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         marginTop: 10,
+        backgroundColor: '#FFFFFF',
     },
     buttonContainer: {
         marginTop: -10,

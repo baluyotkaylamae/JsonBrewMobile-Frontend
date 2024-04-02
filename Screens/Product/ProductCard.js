@@ -6,6 +6,7 @@ import { addToCart } from '../../Redux/Actions/cartActions';
 import { useNavigation } from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
 
+
 const { width, height } = Dimensions.get('window');
 
 const ProductCard = (props) => {
@@ -39,6 +40,7 @@ const ProductCard = (props) => {
             <Text style={styles.title}>{name.length > 15 ? name.substring(0, 15 - 3) + '...' : name}</Text>
             <Text style={styles.description}>{description}</Text>
             {/* <Text style={styles.rating}>Rating: {productRating}</Text> */}
+            {/* <Divider/> */}
             <Text style={styles.price}>₱{price}</Text>
             <View style={styles.buttonContainer}>
                 {/* <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
@@ -50,9 +52,10 @@ const ProductCard = (props) => {
             </View>
             <View style={styles.imageContainer}>
                 <Swiper
-                    style={styles.swiper}
-                    autoplay={true}
-                    autoplayTimeout={5}
+                       style={styles.swiper}
+                       autoplay={true}
+                       autoplayTimeout={30}
+                       showsPagination={false}
                 >
                     {images.map((image, index) => (
                         <Image
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '250%',
+        height: '100%',
         borderRadius: 0,
     },
     heartIcon: {
@@ -114,8 +117,8 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     title: {
-        fontWeight: 'bold',
-        fontSize: 14,
+        fontWeight: '800',
+        fontSize: 15,
         textAlign: 'center',
         marginTop: 50,
         marginBottom: -5,

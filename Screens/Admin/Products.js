@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
 // import EasyButton from "../../Shared/EasyButton";
+import TotalSales from "./TotalSales.js";
 
 const { height, width } = Dimensions.get("window");
 
@@ -185,6 +186,7 @@ const Products = (props) => {
             </View>
             <View style={styles.rowContainer}>
             </View>
+            {/* <TotalSales /> */}
             <Searchbar
                 width="50%"
                 placeholder="Search"
