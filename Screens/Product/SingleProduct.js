@@ -313,10 +313,8 @@ const styles = StyleSheet.create({
         marginLeft: -310, 
     },
     controlContainer: {
-        marginLeft: 20, // Adjusted marginLeft for better positioning
+        marginLeft: -58, // Adjusted marginLeft for better positioning
         marginBottom: 20,
-        flexDirection: 'row', // Arrange controls horizontally
-        justifyContent: 'flex-end', // Align controls to the right
     },
     label: {
         marginBottom: 10,
@@ -344,7 +342,7 @@ const styles = StyleSheet.create({
     sugarlabelContainer: {
         marginTop: 17,
         marginBottom: -25,
-        marginLeft: -300,
+        marginLeft: -250,
     },
     SugarContainer: {
         marginLeft: -200,
@@ -356,22 +354,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 20,
-        marginLeft: -80,
+        marginLeft: -50,
         marginBottom: 25,
     },
     cuplabelContainer: {
         marginTop: 17,
         marginBottom: -15,
-        marginLeft: -320,
+        marginLeft: -270,
     },
     addonslabelContainer: {
         marginTop: 17,
         marginBottom: -15,
-        marginLeft: -320,
+        marginLeft: -280,
     },
     optionsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginLeft: 10,
     },
     option: {
         marginRight: 10,
