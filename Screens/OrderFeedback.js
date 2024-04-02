@@ -17,21 +17,29 @@ const OrderFeedback = ({ orderId }) => {
             const response = await axios.get(`${baseURL}reviews/all`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log('Response data:', response.data); // Add this line
+    
             const data = response.data;
             if (data.success) {
-                // Sort the reviews by date timestamp in descending order (newest first)
-                const sortedReviews = data.reviews.sort((a, b) => new Date(b.date) - new Date(a.date));
-                // Reverse the order to display newest reviews at the top
-                const reversedReviews = sortedReviews.reverse();
-                setReviews(reversedReviews);
+                const reviewsData = data.reviews.map(review => ({
+                    _id: review._id,
+                    rating: review.rating,
+                    comment: review.comment,
+                    userName: review.userName,
+                    date: review.date,
+                    products: review.products
+                }));
+                setReviews(reviewsData);
             } else {
                 console.error('Error fetching order reviews:', data.message);
             }
         } catch (error) {
             console.error('Error fetching order reviews:', error);
+            setReviews([]);
         }
     };
-
+    
+    
     const renderItem = ({ item }) => {
         // Convert rating number to a star representation
         const renderStars = () => {
@@ -59,14 +67,17 @@ const OrderFeedback = ({ orderId }) => {
                     <Text style={styles.userNames}>{item.userName}</Text>
                 </View>
                 <Text style={styles.reviewDate}>{reviewDate}</Text>
-
+    
                 <View style={styles.ratingContainer}>
-                        {renderStars()}
-                    </View>
-               
+                    {renderStars()}
+                </View>
+    
                 <View style={styles.reviewDetails}>
-                <Text style={styles.orderId}>Order ID: {item.order._id}</Text>
                     <Text style={styles.comment}>{item.comment}</Text>
+                    <Text style={styles.productNames}>Bought: </Text>
+                    {item.products.map((productName, index) => (
+                        <Text key={index} style={styles.productName}>{productName}</Text>
+                    ))}
                 </View>
             </View>
         );
@@ -99,8 +110,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         textAlign: 'center',
         textTransform: 'uppercase'
-
-
     },
     reviewItem: {
         marginBottom: 10,
@@ -141,9 +150,19 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 10,
     },
-    orderId:
-    {
+    productName: {
+        fontSize: 16,
+        marginTop: 5,
         textAlign: 'center',
+    },
+    productNames: {
+        fontSize: 16,
+        marginTop: 5,
+        textAlign: 'center',
+    },
+    errorMessage: {
+        fontSize: 12,
+        textAlign: 'center', 
     }
 });
 
