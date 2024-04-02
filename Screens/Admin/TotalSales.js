@@ -3,7 +3,6 @@ import { View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 
 const TotalSales = ({ salesData }) => {
-  // Extract labels and data for the chart
   const labels = Object.keys(salesData);
   const data = labels.map((label) => salesData[label]);
 

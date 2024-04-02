@@ -9,8 +9,10 @@ import AuthGlobal from '../../Context/Store/AuthGlobal';
 import { loginUser } from '../../Context/Actions/Auth.actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EasyButton from "../../Shared/StyledComponents/EasyButton";
+
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+
 import Header from "../../Shared/Header";
 import WelcomeLogin from "../../Shared/WelcomeLogin";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
