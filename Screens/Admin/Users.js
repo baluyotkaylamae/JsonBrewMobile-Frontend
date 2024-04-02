@@ -13,7 +13,7 @@ import baseURL from "../../assets/common/baseurl";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Toast } from 'react-native-toast-message';
+import { Toast } from 'react-native-toast-message'; // Import Toast component
 
 var { width } = Dimensions.get("window");
 
@@ -24,11 +24,10 @@ const UserItem = (props) => {
 
     const updateUserRole = async (role) => {
         try {
-            // Fetch token
             const token = await AsyncStorage.getItem("jwt");
     
             if (!token) {
-                showToast('Token not found');
+                console.log('Token not found');
                 return;
             }
     
@@ -38,40 +37,19 @@ const UserItem = (props) => {
                 }
             };
     
-            // Determine isAdmin value based on the selected role
             const isAdmin = role === 'admin';
     
-            // Make API request to update user role
             const response = await axios.put(`${baseURL}users/${props.item._id}`, { isAdmin }, config);
     
             // Update local state and UI
             setSelectedRole(role);
             setModalVisible(false);
             console.log("Modal visibility after role selection:", modalVisible);
-    
-            // Show success toast
-            Toast.show({
-                type: 'success',
-                text1: 'Role updated successfully',
-            });
         } catch (error) {
             console.error('Error updating role:', error);
-    
-            // Extract error message from response if available, otherwise use a default message
-            const errorMessage = error.response?.data?.message || 'An error occurred while updating the role.';
-    
-            // Show error toast
-            Toast.show({
-                type: 'error',
-                text1: 'Error',
-                text2: errorMessage,
-            });
         }
     };
     
-
-
-
 
     return (
         <View style={styles.item}>
