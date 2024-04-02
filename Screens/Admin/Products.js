@@ -8,7 +8,7 @@ import {
     Dimensions,
     RefreshControl,
 } from "react-native";
-import { Input, VStack, Heading, Box } from "native-base";
+import { Input, VStack, Heading, Box, ScrollView } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFocusEffect } from "@react-navigation/native";
 import { Searchbar } from 'react-native-paper';
@@ -119,71 +119,72 @@ const Products = (props) => {
     );
 
     return (
-        <Box flex={1} bg="white">
-            <View style={styles.buttonContainer}>
-                <View style={styles.row}>
-                    <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
-                        <EasyButton
-                            dashboard
-                            secondary
-                            primary
-                            onPress={() => navigation.navigate("Orders")}
-                            style={{ backgroundColor: "#FFA86B", borderRadius: 50 }}
-                        >
-                            <Icon name="shopping-bag" size={18} color="white" />
-                        </EasyButton>
-                        <Text style={styles.buttonText}>Orders</Text>
+        <ScrollView>
+            <Box flex={1} bg="white">
+                <View style={styles.buttonContainer}>
+                    <View style={styles.row}>
+                        <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
+                            <EasyButton
+                                dashboard
+                                secondary
+                                primary
+                                onPress={() => navigation.navigate("Orders")}
+                                style={{ backgroundColor: "#FFA86B", borderRadius: 50 }}
+                            >
+                                <Icon name="shopping-bag" size={18} color="white" />
+                            </EasyButton>
+                            <Text style={styles.buttonText}>Orders</Text>
+                        </View>
+                        <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
+                            <EasyButton
+                                dashboard
+                                secondary
+                                primary
+                                onPress={() => navigation.navigate("ProductForm")}
+                                style={{ backgroundColor: "#FFD976", borderRadius: 50 }}
+                            >
+                                <Icon name="leaf" size={18} color="white" />
+                            </EasyButton>
+                            <Text style={styles.buttonText}>Products</Text>
+                        </View>
+                        <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
+                            <EasyButton
+                                dashboard
+                                secondary
+                                primary
+                                onPress={() => navigation.navigate("Categories")}
+                                style={{ backgroundColor: "#7ADBC5", borderRadius: 50 }}
+                            >
+                                <Icon name="shopping-basket" size={18} color="white" />
+                            </EasyButton>
+                            <Text style={styles.buttonText}>Categories</Text>
+                        </View>
+                        <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
+                            <EasyButton
+                                dashboard
+                                secondary
+                                primary
+                                onPress={() => navigation.navigate("Charts")}
+                                style={{ backgroundColor: "#67ABE1", borderRadius: 50 }}
+                            >
+                                <Icon name="bar-chart" size={18} color="white" />
+                            </EasyButton>
+                            <Text style={styles.buttonText}>Charts</Text>
+                        </View>
+                        <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
+                            <EasyButton
+                                dashboard
+                                secondary
+                                primary
+                                onPress={() => navigation.navigate("Users")}
+                                style={{ backgroundColor: "#9D6DE4", borderRadius: 50 }}
+                            >
+                                <Icon name="user" size={18} color="white" />
+                            </EasyButton>
+                            <Text style={styles.buttonText}>Users</Text>
+                        </View>
                     </View>
-                    <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
-                        <EasyButton
-                            dashboard
-                            secondary
-                            primary
-                            onPress={() => navigation.navigate("ProductForm")}
-                            style={{ backgroundColor: "#FFD976", borderRadius: 50 }}
-                        >
-                            <Icon name="leaf" size={18} color="white" />
-                        </EasyButton>
-                        <Text style={styles.buttonText}>Products</Text>
-                    </View>
-                    <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
-                        <EasyButton
-                            dashboard
-                            secondary
-                            primary
-                            onPress={() => navigation.navigate("Categories")}
-                            style={{ backgroundColor: "#7ADBC5", borderRadius: 50 }}
-                        >
-                            <Icon name="shopping-basket" size={18} color="white" />
-                        </EasyButton>
-                        <Text style={styles.buttonText}>Categories</Text>
-                    </View>
-                    <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
-                        <EasyButton
-                            dashboard
-                            secondary
-                            primary
-                            onPress={() => navigation.navigate("Charts")}
-                            style={{ backgroundColor: "#67ABE1", borderRadius: 50 }}
-                        >
-                            <Icon name="bar-chart" size={18} color="white" />
-                        </EasyButton>
-                        <Text style={styles.buttonText}>Charts</Text>
-                    </View>
-                    <View style={[styles.dashheaderContainer, { flexDirection: 'column', alignItems: 'center' }]}>
-                        <EasyButton
-                            dashboard
-                            secondary
-                            primary
-                            onPress={() => navigation.navigate("Users")}
-                            style={{ backgroundColor: "#9D6DE4", borderRadius: 50 }}
-                        >
-                            <Icon name="leaf" size={18} color="white" />
-                        </EasyButton>
-                        <Text style={styles.buttonText}>Users</Text>
-                    </View>
-                </View>
-                <EasyButton
+                    {/* <EasyButton
                     secondary
                     medium
                     onPress={() => navigation.navigate("TotalSales")}
@@ -191,47 +192,48 @@ const Products = (props) => {
                 >
                     <Icon name="money" size={18} color="white" />
                     <Text style={styles.buttonText}>Total Sales by Date</Text>
-                </EasyButton>
-            </View>
-            <View style={styles.rowContainer}>
-            </View>
-            {/* <TotalSales /> */}
-            <Searchbar
-                width="50%"
-                placeholder="Search"
-                onChangeText={(text) => searchProduct(text)}
-                style={{
-                    backgroundColor: 'white',
-                    borderColor: '#664229',
-                    borderWidth: 1,
-                    borderRadius: 10, // adjust as needed
-                    marginLeft: 30,
-                    marginRight: 30,
-                    marginBottom: 30,
-                }}
-            />
-            {loading ? (
-                <View style={styles.spinner}>
-                    <ActivityIndicator size="large" color="red" />
+                </EasyButton> */}
                 </View>
-            ) : (
-                <FlatList
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                    }
-                    ListHeaderComponent={ListHeader}
-                    data={productFilter}
-                    renderItem={({ item, index }) => (
-                        <ListItem
-                            item={item}
-                            index={index}
-                            deleteProduct={deleteProduct}
-                        />
-                    )}
-                    keyExtractor={(item) => item.id}
+                <View style={styles.rowContainer}>
+                </View>
+                <TotalSales />
+                <Searchbar
+                    width="50%"
+                    placeholder="Search"
+                    onChangeText={(text) => searchProduct(text)}
+                    style={{
+                        backgroundColor: 'white',
+                        borderColor: '#664229',
+                        borderWidth: 1,
+                        borderRadius: 10, // adjust as needed
+                        marginLeft: 30,
+                        marginRight: 30,
+                        marginBottom: 30,
+                    }}
                 />
-            )}
-        </Box>
+                {loading ? (
+                    <View style={styles.spinner}>
+                        <ActivityIndicator size="large" color="red" />
+                    </View>
+                ) : (
+                    <FlatList
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                        ListHeaderComponent={ListHeader}
+                        data={productFilter}
+                        renderItem={({ item, index }) => (
+                            <ListItem
+                                item={item}
+                                index={index}
+                                deleteProduct={deleteProduct}
+                            />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
+                )}
+            </Box>
+        </ScrollView>
     );
 };
 
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonContainer: {
-        paddingHorizontal: 0, 
+        paddingHorizontal: 0,
     },
     dashheaderContainer: {
         flexDirection: 'row',
@@ -263,8 +265,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'darkgrey',
-        textAlign: 'center', 
-        marginTop: 5, 
+        textAlign: 'center',
+        marginTop: 5,
     },
     row: {
         flexDirection: 'row',
